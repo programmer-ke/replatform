@@ -15,12 +15,11 @@ create email accounts.
 
 ## Steps
 - Generate your ssh key and copy it to the server
-  - Recommended to add a passphrase to key
+  - It is recommended to add a passphrase to the key
   - Copy with `ssh-copy-id <default_user>@<ip_address>`
-- 
 
 ## Guiding Principles
-- Simplicity is a feature so that it is easy for non-tech people
+- Simplicity is a feature; easy for non-tech persons
   - use root user rather than separate user with sudo and passwd
   - run ansible from within server, removes the need of having to
     install own computer
