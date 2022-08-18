@@ -41,11 +41,9 @@ create email accounts.
 - Finally, for each of the domains, add an MX record for its root
   domain e.g `example.com` pointing to the subdomain
   `myplatform.xxx.yyy` created in the step above as the mail server.
-  mail server. Generally, this means that the server
-  `myplatform.xxx.yy` is responsible for handling mail for the domain
-  `example.com`.  Priority can be set to any number, usually 10 by
-  default.
-
+  Generally, this means that the server `myplatform.xxx.yy` is
+  responsible for handling mail for the domain `example.com`.
+  Priority can be set to any number, usually 10 by default.
 
 ## Guiding Principles
 - Simplicity is a feature; easy for non-tech persons
