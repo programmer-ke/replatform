@@ -20,12 +20,12 @@ create email accounts.
 
 - For each domain to host on the server add the following (I'll use
   example.com for example purposes)
-  - An A record for the mail subdomain i.e `web.example.com` pointing
+  - An A record for any subdomains i.e `*.example.com` pointing
     to the server's ipv4 address
   - An A record for the root domain e.g. `example.com` pointing to the
     server's ipv4 address
   - If the server has an ipv6 address, add AAAA records equivalent to
-    the two above i.e. additional records for `web.example.com` and
+    the two above i.e. additional records for `*.example.com` and
     `example.com` pointing to the ipv6 address
   - Add an MX record for the root domain `example.com` specifying
     `mail.example.com` as the mail server. Priority can be set to

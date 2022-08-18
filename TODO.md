@@ -8,7 +8,7 @@
   - https://wiki.debian.org/Hostname
 
 ### In Progress
-
+- [ ] As a site owner, I can find instructions for DNS setup
 
 ### Done
 
