@@ -16,7 +16,7 @@ create email accounts.
 ## Steps
 - Generate your ssh key and copy it to the server
   - It is recommended to add a passphrase to the key
-  - Copy with `ssh-copy-id <default_user>@<ip_address>`
+  - Copy with `ssh-copy-id root@<ip_address>`
 
 - For each domain to host on the server add the following (I'll use
   example.com for illustration purposes)
