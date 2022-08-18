@@ -19,7 +19,7 @@ create email accounts.
   - Copy with `ssh-copy-id <default_user>@<ip_address>`
 
 - For each domain to host on the server add the following (I'll use
-  example.com for example purposes)
+  example.com for illustration purposes)
   - An A record for any subdomains i.e `*.example.com` pointing
     to the server's ipv4 address
   - An A record for the root domain e.g. `example.com` pointing to the
@@ -27,16 +27,23 @@ create email accounts.
   - If the server has an ipv6 address, add AAAA records equivalent to
     the two above i.e. additional records for `*.example.com` and
     `example.com` pointing to the ipv6 address
-  - Add an MX record for the root domain `example.com` specifying
-    `mail.example.com` as the mail server. Priority can be set to
-	any number, usually 10 by default.
 
-- We need to add an entry that will be associated with our reverse DNS
-  record. This will also be used as the hostname associated with the
-  server. Add an A (and an AAAA for ipv6) record for
-  `myplatform.example.com` under one of the domains you'll be hosting
-  on the server.
+- We now need a domain name that will be used as an entry for our MX
+  records for each of the domains we're hosting on the server.  Select
+  one of the domains above as your primary domain, and add an A record
+  (plus AAAA record for ipv6 if you have one) for the subdomain
+  `myplatform` pointing to the server's address. So if you selected
+  `xxx.yy` as the primary domain , you'll add an A (and AAAA entry)
+  for subdomain `myplatform.xxx.yy`. You can name it something other
+  than `myplatform` as long as you keep it consistent throughout the
+  whole process.
   
+- Finally, for each of the domains, add an MX record for its root
+  domain e.g `example.com` pointing to the subdomain
+  `myplatform.xxx.yyy` created in the step above as the mail server.
+  mail server. Priority can be set to any number, usually 10 by
+  default.
+
 
 ## Guiding Principles
 - Simplicity is a feature; easy for non-tech persons
