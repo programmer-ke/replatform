@@ -14,10 +14,8 @@ create email accounts.
 - You have root access to a Debian 11 linux server.
 
 ## Steps
-- Generate your ssh key and copy it to the server
-  - It is recommended to add a passphrase to the key
-  - Copy with `ssh-copy-id root@<ip_address>`
 
+### DNS Setup
 - For each domain to host on the server add the following (I'll use
   example.com for illustration purposes)
   - An A record for any subdomains i.e `*.example.com` pointing
@@ -44,6 +42,34 @@ create email accounts.
   Generally, this means that the server `myplatform.xxx.yy` is
   responsible for handling mail for the domain `example.com`.
   Priority can be set to any number, usually 10 by default.
+
+# On the server
+
+- Generate your ssh key and copy it to the server
+  - It is recommended to add a passphrase to the key
+  - Copy with `ssh-copy-id root@<ip_address>`
+
+- Check that you can ssh into the server without being promted for the
+  password using `ssh root@<ip_address>`.
+
+- Make sure the server is up-to-date by running the following commands
+  - `apt update`
+  - `apt full-upgrade`
+
+- Reboot the server and then SSH back in again to make sure you are
+  modifying the server from a clean slate. Type in `reboot` and after
+  a few seconds, ssh back in.
+
+- Install `git` and `ansible` packages with the following command
+  - `apt get install git ansible`
+
+- SSH into the server and clone this repo
+
+- Inside the repo, modify the vars file and set the servers hostname
+  to `myplatform.xxx.yy` or whatever name you chose as your
+  hostname.
+
+- 
 
 ## Guiding Principles
 - Simplicity is a feature; easy for non-tech persons

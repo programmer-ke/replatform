@@ -3,11 +3,13 @@
 - [ ] As a site owner, you can enable automated security updates
 - [ ] As a site owner, you can install webserver packages
 - [ ] As a site owner, you can install email server packages
-- [ ] As a site owner, I can explicitely set the hostname
-  - https://wiki.archlinux.org/title/Network_configuration#Set_the_hostname
-  - https://wiki.debian.org/Hostname
+- [ ] As a site owner, I can successfully set up with ipv6 in addition
+  to ipv4
 
 ### In Progress
+- [ ] As a site owner, I can explicitly set the hostname
+  - https://wiki.archlinux.org/title/Network_configuration#Set_the_hostname
+  - https://wiki.debian.org/Hostname
 
 ### Done
 
