@@ -5,6 +5,13 @@
   vars_files:
     - vars.yml
 
+  pre_tasks:
+    - name: Update packages
+      apt:
+        update_cache: yes
+        cache_valid_time: 21600 # 6hrs
+        upgrade: safe
+
   tasks:
     - name: Rename hostname in /etc/hostname
       hostname:

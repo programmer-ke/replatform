@@ -6,10 +6,10 @@
   to ipv4
 
 ### In Progress
-- [ ] As a site owner, I can update the system packages with each run
 
 ### Done
 
+- [x] As a site owner, I can update the system packages with each run
 - [x] As a site owner, I can explicitly set the hostname
   - https://wiki.archlinux.org/title/Network_configuration#Set_the_hostname
   - https://wiki.debian.org/Hostname
