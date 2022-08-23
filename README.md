@@ -68,8 +68,10 @@ create email accounts.
 - Inside the repo, modify the vars file and set the servers hostname
   to `myplatform.xxx.yy` or whatever name you chose as your
   hostname.
-
-- 
+- Set values for `ipv4_address` and `ipv6_address` (if you have one)
+  
+- Run the following command to setup the server via ansible
+  `ansible-playbook site.yml`
 
 ## Guiding Principles
 - Simplicity is a feature; easy for non-tech persons
