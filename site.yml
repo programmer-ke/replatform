@@ -50,6 +50,8 @@
     # - https://gitea.auro.re/Aurore/ansible/commit/d59cb41d5e99650f5de6b8476572f5ba124cc8b8
     # - https://github.com/geerlingguy/ansible-role-security/blob/master/templates/50unattended-upgrades.j2
     # - https://blog.codelitt.com/my-first-10-minutes-on-a-server-primer-for-securing-ubuntu/
+    # - https://www.cyberciti.biz/faq/how-to-keep-debian-linux-patched-with-latest-security-updates-automatically/
+    # - https://www.vultr.com/docs/how-to-set-up-unattended-upgrades-on-debian-9-stretch/
 
   handlers:
     - name: restart networking
