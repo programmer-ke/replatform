@@ -6,13 +6,16 @@
     - vars.yml
 
   pre_tasks:
-    - name: Update packages
+    - name: Safe upgrade of all packages
       apt:
         update_cache: yes
         cache_valid_time: 21600 # 6hrs
-        upgrade: safe
+        upgrade: safe  # does not remove any packages
 
   tasks:
+    # todo: separate out tasks per section
+
+    # host name section 
     - name: Rename hostname in /etc/hostname
       hostname:
         name: "{{ server_hostname }}"
@@ -34,6 +37,19 @@
         state: present
       when: (ipv6_address is defined) and (ipv6_address|length > 0)
       notify: restart networking
+
+    # automated security upgrades section
+    - name: Check that we have required packages for auto-upgrades
+      apt:
+        state: present
+        name:
+          - unattended-upgrades
+          - apt-listchanges
+    # todo: configure unattended upgrades
+    # - https://blog.confirm.ch/unattended-upgrades-in-debian/
+    # - https://gitea.auro.re/Aurore/ansible/commit/d59cb41d5e99650f5de6b8476572f5ba124cc8b8
+    # - https://github.com/geerlingguy/ansible-role-security/blob/master/templates/50unattended-upgrades.j2
+    # - https://blog.codelitt.com/my-first-10-minutes-on-a-server-primer-for-securing-ubuntu/
 
   handlers:
     - name: restart networking

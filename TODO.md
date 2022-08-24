@@ -1,11 +1,11 @@
 ### Todo
-- [ ] As a site owner, I can enable automated security updates
 - [ ] As a site owner, I can install webserver packages
 - [ ] As a site owner, I can install email server packages
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
 
 ### In Progress
+- [ ] As a site owner, I can enable automated security updates
 
 ### Done
 
