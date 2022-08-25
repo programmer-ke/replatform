@@ -5,6 +5,8 @@
   to ipv4
 - [ ] As a site owner, I can lock down SSH access
 - [ ] As a site owner, I am notified of automated upgrades
+- [ ] As a site owner, I can perform a full upgrade every time I run
+  the playbook
 
 ### In Progress
 
