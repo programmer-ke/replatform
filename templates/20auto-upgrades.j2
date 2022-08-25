@@ -1,0 +1,6 @@
+// update system cache and upgrade if necessary once daily
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+
+// Clear apt cache once every week
+APT::Periodic::AutocleanInterval "7";
