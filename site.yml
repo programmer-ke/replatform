@@ -20,68 +20,17 @@
         upgrade: dist
 
   tasks:
-    # todo: separate out tasks per section
 
-    # host name section 
-    - name: Rename hostname in /etc/hostname
-      hostname:
-        name: "{{ server_hostname }}"
-      notify: restart networking
-
-    - name: Rename ipv4 hostname in /etc/hosts
-      lineinfile:
-        dest: /etc/hosts
-        regexp: "^{{ ipv4_address }}"
-        line: "{{ ipv4_address }} {{ server_hostname }}"
-        state: present
-      notify: restart networking
-
-    - name: Rename ipv6 hostname in /etc/hosts
-      lineinfile:
-        dest: /etc/hosts
-        regexp: "^{{ ipv6_address }}"
-        line: "{{ ipv6_address }} {{ server_hostname }}"
-        state: present
-      when: (ipv6_address is defined) and (ipv6_address|length > 0)
-      notify: restart networking
-
-    # automated security upgrades section
-    - name: Check that we have required packages for auto-upgrades
-      apt:
-        state: present
-        name:
-          - unattended-upgrades
-          - apt-listchanges
-
-    - name: Configure auto-upgrades for security
-      template:
-        src: "templates/{{ item }}.j2"
-        dest: "/etc/apt/apt.conf.d/{{ item }}"
-        owner: root
-        mode: u=rw,g=r,o=r
-        backup: yes
-      loop:
-        - 50unattended-upgrades
-        - 20auto-upgrades
-
-    # Should be last task
-    - name: Check if a reboot is required and notify user
-      stat: path="/var/run/reboot-required"
-      register: reboot_required_file
-
-    - name: Notify user that a reboot is required
-      debug:
-        msg: "A recent update requires a reboot of the server for the
-          updates to be applied.
-          
-          Run the command `reboot`
-
-          After the reboot, feel free to run the playbook again to check
-          that works as expected"
-      when: reboot_required_file.stat.exists == true
+    - include_tasks: ssh.yml
+    - include_tasks: hostname.yml
+    - include_tasks: unattended_upgrades.yml
+    - include_tasks: reboot_required_check.yml
 
   handlers:
     - name: restart networking
       service:
         name: networking
         state: restarted
+
+    - name: restart ssh
+      service: name=ssh state=restarted

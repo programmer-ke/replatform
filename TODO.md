@@ -3,14 +3,14 @@
 - [ ] As a site owner, I can install email server packages
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
-- [ ] As a site owner, I can lock down SSH access
 - [ ] As a site owner, I am notified of automated upgrades
+  - Configure notification email for unattended-upgrades
 
 ### In Progress
 
-
 ### Done
 
+- [x] As a site owner, I can lock down SSH access
 - [x] As a site owner, I can perform a full upgrade every time I run
   the playbook
   - https://www.jeffgeerling.com/blog/2022/ansible-playbook-upgrade-ubuntudebian-servers-and-reboot-if-needed
