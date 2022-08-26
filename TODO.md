@@ -5,13 +5,17 @@
   to ipv4
 - [ ] As a site owner, I can lock down SSH access
 - [ ] As a site owner, I am notified of automated upgrades
-- [ ] As a site owner, I can perform a full upgrade every time I run
-  the playbook
 
 ### In Progress
 
+
 ### Done
 
+- [x] As a site owner, I can perform a full upgrade every time I run
+  the playbook
+  - https://www.jeffgeerling.com/blog/2022/ansible-playbook-upgrade-ubuntudebian-servers-and-reboot-if-needed
+  - Do a full upgrade as first task in playbook
+  - Ask user to reboot if necessary at the end of the playbook
 - [x] As a site owner, I can enable automated security updates
 - [x] As a site owner, I can update the system packages with each run
 - [x] As a site owner, I can explicitly set the hostname
