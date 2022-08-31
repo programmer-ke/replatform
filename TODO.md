@@ -5,11 +5,16 @@
   to ipv4
 - [ ] As a site owner, I am notified of automated upgrades
   - Configure notification email for unattended-upgrades
+- [ ] As a site owner, I know how to properly configure rDNS
+  - https://serverfault.com/q/24943/980378
+  - https://serverfault.com/q/815054/980378
+
 
 ### In Progress
-
 ### Done
 
+- [x] As a site owner, I should be able to restart networking after
+  hostname changes before running subsequent tasks
 - [x] As a site owner, I can lock down SSH access
 - [x] As a site owner, I can perform a full upgrade every time I run
   the playbook

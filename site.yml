@@ -7,6 +7,8 @@
 
   pre_tasks:
 
+    - include_tasks: hostname.yml
+
     - name: Remove dependencies that are no longer required from a
         previous update
       apt:
@@ -22,7 +24,6 @@
   tasks:
 
     - include_tasks: ssh.yml
-    - include_tasks: hostname.yml
     - include_tasks: unattended_upgrades.yml
     - include_tasks: reboot_required_check.yml
 
