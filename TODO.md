@@ -1,5 +1,8 @@
 ### Todo
-- [ ] As a site owner, I can install webserver packages
+- [ ] As a web user, I can only access https versions of websites for
+  each domains listed
+  - https://www.howtoforge.com/tutorial/install-letsencrypt-and-secure-nginx-in-debian-9/
+  - https://github.com/geerlingguy/ansible-role-certbot
 - [ ] As a site owner, I can install email server packages
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
@@ -11,6 +14,10 @@
 
 
 ### In Progress
+
+- [ ] As a web user, I can access http only versions of websites
+  for each listed domain
+
 ### Done
 
 - [x] As a site owner, I should be able to restart networking after
