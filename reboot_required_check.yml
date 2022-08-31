@@ -1,0 +1,15 @@
+---
+- name: Check if a reboot is required and notify user
+  stat: path="/var/run/reboot-required"
+  register: reboot_required_file
+
+- name: Notify user that a reboot is required
+  debug:
+    msg: "A recent update requires a reboot of the server for the
+      updates to be applied.
+
+      Run the command `reboot`
+
+      After the reboot, feel free to run the playbook again to check
+      that works as expected"
+  when: reboot_required_file.stat.exists == true

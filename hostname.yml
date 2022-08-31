@@ -1,0 +1,22 @@
+---
+- name: Rename hostname in /etc/hostname
+  hostname:
+    name: "{{ server_hostname }}"
+  notify: restart networking
+
+- name: Rename ipv4 hostname in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "^{{ ipv4_address }}"
+    line: "{{ ipv4_address }} {{ server_hostname }}"
+    state: present
+  notify: restart networking
+
+- name: Rename ipv6 hostname in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "^{{ ipv6_address }}"
+    line: "{{ ipv6_address }} {{ server_hostname }}"
+    state: present
+  when: (ipv6_address is defined) and (ipv6_address|length > 0)
+  notify: restart networking

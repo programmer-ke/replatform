@@ -1,0 +1,37 @@
+---
+- name: Ensure the ssh daemon is running, and starts at boot
+  service: name=ssh state=started enabled=yes
+
+- name: Update SSH configuration to be more secure.
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    validate: 'sshd -T -f %s'
+    mode: 0644
+    backup: yes
+  with_items:
+    - regexp: "^PasswordAuthentication" # Only key based auth
+      line: "PasswordAuthentication no"
+
+    - regexp: "^PermitRootLogin"  # We're using root for login
+      line: "PermitRootLogin yes"
+
+    - regexp: "^UseDNS"  # No need for reverse-dns checks on clients
+      line: "UseDNS no"
+
+    - regexp: "^PermitEmptyPasswords"  # No empty passwords
+      line: "PermitEmptyPasswords no"
+
+    - regexp: "^ChallengeResponseAuthentication"  # not prompting for passwords/codes
+      line: "ChallengeResponseAuthentication no"
+
+    - regexp: "^GSSAPIAuthentication" # not using kerberos
+      line: "GSSAPIAuthentication no"
+
+    - regexp: "^X11Forwarding"
+      # Set to no, unless you want graphical access and your server
+      # supports it
+      line: "X11Forwarding no"
+  notify: restart ssh
