@@ -11,12 +11,14 @@
 - [ ] As a site owner, I know how to properly configure rDNS
   - https://serverfault.com/q/24943/980378
   - https://serverfault.com/q/815054/980378
-
+- [ ] As a web user, I can access http only versions of websites
+  for each listed domain
+  - install nginx and generate directories
 
 ### In Progress
 
-- [ ] As a web user, I can access http only versions of websites
-  for each listed domain
+- [ ] As a site owner, I can specify host specific variables that live outside the repo
+  - On the first ansible run, copy this to `/etc/ansible/host_vars/<hostname>`
 
 ### Done
 

@@ -63,7 +63,9 @@ create email accounts.
 - Install `git` and `ansible` packages with the following command
   - `apt get install git ansible`
 
-- SSH into the server and clone this repo
+- Clone this repo
+
+- Copy the variable template file to `/etc/variables/host_vars/`
 
 - Inside the repo, modify the vars file and set the servers hostname
   to `myplatform.xxx.yy` or whatever name you chose as your

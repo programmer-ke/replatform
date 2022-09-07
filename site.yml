@@ -27,6 +27,11 @@
     - include_tasks: unattended_upgrades.yml
     - include_tasks: reboot_required_check.yml
 
+    - pause:
+        prompt: "Hello from {{ inventory_hostname }}
+
+          Press <ENTER> to proceed."
+
   handlers:
     - name: restart networking
       service:

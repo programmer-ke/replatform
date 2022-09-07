@@ -4,8 +4,8 @@
   register: reboot_required_file
 
 - name: Notify user that a reboot is required
-  debug:
-    msg: "A recent update requires a reboot of the server for the
+  pause:
+    prompt: "A recent update requires a reboot of the server for the
       updates to be applied.
 
       Run the following command
@@ -13,5 +13,7 @@
       $ reboot
 
       After the reboot, feel free to run the playbook again to check
-      that everthing works as expected"
+      that everthing works as expected.
+
+      Press <ENTER> to proceed"
   when: reboot_required_file.stat.exists == true
