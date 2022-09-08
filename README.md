@@ -77,8 +77,9 @@ create email accounts.
   the `ansible-vault` command.
 
 - Run the playbook command again to continue with setting up.
-  `ansible-playbook site.yml` If you encrypted above, add the option
-  `--ask-vault-pass` and enter the encryption password when prompted.
+  `ansible-playbook site.yml` If you encrypted the file above, add the
+  option `--ask-vault-pass` and enter the encryption password when
+  prompted.
 
 ## Guiding Principles
 - Simplicity is a feature; easy for non-tech persons
