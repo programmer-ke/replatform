@@ -1,0 +1,16 @@
+---
+# Server details
+# Set server_hostname to the value you set
+# on DNS MX records
+server_hostname: myplatform.xxx.yyy
+
+# IPv4 is required. Set this as the external IPv4 address of the server
+# Only set the external IPv6 address if available
+ipv4_address: ""
+ipv6_address: ""
+
+# List of domains to host on the server
+# A web hosting location will be configured for each of this
+domains:
+  - example1.com
+  - example2.com

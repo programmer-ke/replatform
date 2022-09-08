@@ -1,0 +1,34 @@
+---
+- name: Ensure host vars directory exists
+  file: path="/etc/ansible/host_vars" state=directory
+
+- name: Copy template to host vars location
+  copy:
+    src: host_vars.template
+    dest: "/etc/ansible/host_vars/{{ inventory_hostname }}"
+    mode: "0600"
+  register: host_vars_template
+
+- block:
+    - name: Notify user to update host vars file
+      pause:
+        prompt: "A file has been placed at the following location:
+
+
+            /etc/ansible/host_vars/{{ inventory_hostname }}
+
+
+            Please update it with the correct values e.g. hostnames,
+            IP addresses, accounts
+
+
+            After it has been updated, run the playbook again.
+            Remember to keep this file confidential.
+
+
+            Press <ENTER> to proceed
+            "
+    - name: End playbook
+      meta: end_host
+
+  when: host_vars_template.changed
