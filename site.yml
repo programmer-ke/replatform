@@ -5,7 +5,17 @@
   vars_files:
     - vars.yml
 
+  vars:
+    - host_vars_path: "/etc/ansible/host_vars/{{ inventory_hostname }}"
+
   pre_tasks:
+
+    - name: Check that we have our local variables file in correct location
+      stat: path="{{ host_vars_path }}"
+      register: host_vars_file
+
+    - include_tasks: host_vars_file.yml
+      when: not host_vars_file.stat.exists
 
     - include_tasks: hostname.yml
 

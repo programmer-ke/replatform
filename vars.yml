@@ -1,9 +1,4 @@
 ---
-# Server details
-server_hostname: myplatform.dataengineering.co.ke
-ipv4_address: "107.173.41.151"
-ipv6_address: ""
-
 # Controls when the server will reboot after automatically installing
 # security updates. 'now' will reboot immediately
 # Specify a particular time in 24 hr hh:mm format e.g "17:30" to reboot

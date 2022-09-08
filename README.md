@@ -43,9 +43,9 @@ create email accounts.
   responsible for handling mail for the domain `example.com`.
   Priority can be set to any number, usually 10 by default.
 
-# On the server
+# Configure the server
 
-- Generate your ssh key and copy it to the server
+- Generate the ssh key on your local device and copy it to the server
   - It is recommended to add a passphrase to the key
   - Copy with `ssh-copy-id root@<ip_address>`
 
@@ -65,15 +65,20 @@ create email accounts.
 
 - Clone this repo
 
-- Copy the variable template file to `/etc/variables/host_vars/`
+- Run the following ansible command to setup the server
+  `ansible-playbook site.yml`. The first time you run this, it will
+  place a yaml file in the following location on the server: `/etc/ansible/host_vars/myplatform`
+  and exit
 
-- Inside the repo, modify the vars file and set the servers hostname
-  to `myplatform.xxx.yy` or whatever name you chose as your
-  hostname.
-- Set values for `ipv4_address` and `ipv6_address` (if you have one)
-  
-- Run the following command to setup the server via ansible
-  `ansible-playbook site.yml`
+- Edit this file with the correct variables such as the server hostname
+  (The value you set for `myplatform.xxx.yyy` above), the external ipv4 address,
+  ipv6 address if you have one, the domains you want to host, etc.
+  Due to the sensitive nature of this file, you can encrypt it with
+  the `ansible-vault` command.
+
+- Run the playbook command again to continue with setting up.
+  `ansible-playbook site.yml` If you encrypted above, add the option
+  `--ask-vault-pass` and enter the encryption password when prompted.
 
 ## Guiding Principles
 - Simplicity is a feature; easy for non-tech persons

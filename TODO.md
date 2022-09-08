@@ -18,7 +18,8 @@
 ### In Progress
 
 - [ ] As a site owner, I can specify host specific variables that live outside the repo
-  - On the first ansible run, copy this to `/etc/ansible/host_vars/<hostname>`
+  - [x] On the first ansible run, copy this to `/etc/ansible/host_vars/<hostname>`
+  - [ ] Test this set up with both self- and remote-provisioning
 
 ### Done
 
