@@ -6,16 +6,24 @@
     - vars.yml
 
   vars:
-    - host_vars_path: "/etc/ansible/host_vars/{{ inventory_hostname }}"
+    - private_vars_location: "/root/private_vars"
 
   pre_tasks:
 
-    - name: Check that we have our local variables file in correct location
-      stat: path="{{ host_vars_path }}"
-      register: host_vars_file
+    - block:
+      - name: Check that we have our private variables file in correct location
+        stat: path="{{ private_vars_location }}/vars.yml"
+        register: private_vars_file
 
-    - include_tasks: host_vars_file.yml
-      when: not host_vars_file.stat.exists
+      - name: Include private vars
+        include_vars: "{{ private_vars_location }}/vars.yml"
+        when: private_vars_file.stat.exists
+
+      - name: Create private vars template
+        include_tasks: private_vars_template.yml
+        when: not private_vars_file.stat.exists
+
+      delegate_to: 127.0.0.1
 
     - include_tasks: hostname.yml
 
