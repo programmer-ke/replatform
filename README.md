@@ -63,12 +63,12 @@ create email accounts.
 - Install `git` and `ansible` packages with the following command
   - `apt get install git ansible`
 
-- Clone this repo
+- Clone this repo and cd into it
 
 - Run the following ansible command to setup the server
   `ansible-playbook site.yml`. The first time you run this, it will
-  place a yaml file in the following location on the server: `/etc/ansible/host_vars/myplatform`
-  and exit
+  place a variables file in the following location on the server:
+  `/root/private_vars/vars.yml` and exit
 
 - Edit this file with the correct variables such as the server hostname
   (The value you set for `myplatform.xxx.yyy` above), the external ipv4 address,

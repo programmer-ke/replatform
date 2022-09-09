@@ -17,12 +17,11 @@
 
 ### In Progress
 
-- [ ] As a site owner, I can specify host specific variables that live outside the repo
-  - [x] On the first ansible run, copy this to `/etc/ansible/host_vars/<hostname>`
-  - [ ] Test this set up with both self- and remote-provisioning
-
 ### Done
 
+- [x] As a site owner, I can specify private variables that live outside the repo
+  for sensitive variable that should not be shared
+  - On the first ansible run, copy this to `/root/private_vars/vars.yml`
 - [x] As a site owner, I should be able to restart networking after
   hostname changes before running subsequent tasks
 - [x] As a site owner, I can lock down SSH access
