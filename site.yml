@@ -43,6 +43,7 @@
 
     - include_tasks: ssh.yml
     - include_tasks: unattended_upgrades.yml
+    - include_tasks: webserver_setup.yml
     - include_tasks: reboot_required_check.yml
 
   handlers:
