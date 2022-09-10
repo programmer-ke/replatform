@@ -14,16 +14,15 @@
 
 ### In Progress
 
-- [ ] As a web user, I can access http only versions of websites
+### Done
+
+- [x] As a web user, I can access http only versions of websites
   for each listed domain
   - install nginx
   - remove default site
   - For each listed domain:
     - create site config
 	- enable site
-
-### Done
-
 - [x] As a site owner, I can specify private variables that live outside the repo
   for sensitive variable that should not be shared
   - On the first ansible run, copy this to `/root/private_vars/vars.yml`
