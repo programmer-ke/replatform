@@ -9,8 +9,11 @@ server_hostname: myplatform.xxx.yyy
 ipv4_address: ""
 ipv6_address: ""
 
-# List of domains to host on the server
-# A web hosting location will be configured for each of this
-domains:
+# List of domains to host websites for on the server
+# A web hosting location will be configured for each of these.
+#
+# Do not specify the www prefix e.g. www.example.com because
+# it will be automatically configured
+web_domains:
   - example1.com
   - example2.com

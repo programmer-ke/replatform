@@ -1,0 +1,22 @@
+---
+- name: Create the serving directory
+  file: path=/var/www/{{ domain }} state=directory
+
+- name: Add config to sites-available
+  template:
+    src: "templates/nginx_site.j2"
+    dest: "/etc/nginx/sites-available/{{ domain }}"
+  notify: reload nginx
+
+- name: Enable the site on nginx
+  file:
+    src: "/etc/nginx/sites-available/{{ domain }}"
+    dest: "/etc/nginx/sites-enabled/{{ domain }}"
+    state: link
+  notify: reload nginx
+
+- name: Create website index if none exists
+  template:
+    src: "templates/default_index.html.j2"
+    dest: "/var/www/{{ domain }}/index.html"
+    force: no
