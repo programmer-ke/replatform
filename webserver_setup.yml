@@ -4,3 +4,7 @@
 
 - name: Ensure that nginx is running and starts on reboot
   service: name=nginx state=started enabled=yes
+
+- name: Disable the default nginx site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify: restart nginx
