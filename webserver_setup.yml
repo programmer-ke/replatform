@@ -1,0 +1,6 @@
+---
+- name: Check that we have nginx installed
+  apt: name=nginx state=present
+
+- name: Ensure that nginx is running and starts on reboot
+  service: name=nginx state=started enabled=yes
