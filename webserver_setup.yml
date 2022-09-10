@@ -11,6 +11,6 @@
 
 - name: Configure for website per domain
   include_tasks: configure_website.yml
-  loop: {{ web_domains }}
+  loop: "{{ web_domains }}"
   loop_control:
     loop_var: domain

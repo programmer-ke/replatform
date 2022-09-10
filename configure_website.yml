@@ -1,6 +1,6 @@
 ---
 - name: Create the serving directory
-  file: path=/var/www/{{ domain }} state=directory
+  file: "path=/var/www/{{ domain }} state=directory"
 
 - name: Add config to sites-available
   template:
