@@ -33,10 +33,10 @@
       certbot certonly --standalone --non-interactive --agree-tos
       --email {{ cert_admin_email }} --cert-name {{ server_hostname }}
       {% for domain in web_domains %}
-      -d {{ domain }}
+      -d {{ domain }} -d www.{{ domain }}
       {% endfor %}
       -d {{ server_hostname }}
       --pre-hook /etc/letsencrypt/renewal-hooks/pre/stop_services
       --post-hook /etc/letsencrypt/renewal-hooks/post/start_services
   register: certbot_command_result
-  changed_when: '"Running post-hook command" in certbot_command_result.stdout'
+  changed_when: '"Running post-hook command" in certbot_command_result.stderr'
