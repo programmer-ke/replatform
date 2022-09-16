@@ -38,5 +38,7 @@
       -d {{ server_hostname }}
       --pre-hook /etc/letsencrypt/renewal-hooks/pre/stop_services
       --post-hook /etc/letsencrypt/renewal-hooks/post/start_services
-  register: certbot_command
-  changed_when: '"Running post-hook command" in certbot_command.stdout'
+  register: certbot_output
+  # changed_when: '"Running post-hook command" in certbot_command.stdout'
+
+- debug: "msg={{ certbot_output }}"
