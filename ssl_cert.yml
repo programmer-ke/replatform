@@ -35,7 +35,7 @@
       {% for domain in web_domains %}
       -d {{ domain }} -d www.{{ domain }}
       {% endfor %}
-      -d {{ server_hostname }} -d www.{{ server_hostname }}
+      -d {{ server_hostname }}
       --pre-hook /etc/letsencrypt/renewal-hooks/pre/stop_services
       --post-hook /etc/letsencrypt/renewal-hooks/post/start_services
   register: certbot_command_result
