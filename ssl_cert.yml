@@ -2,4 +2,29 @@
 - name: Ensure certbot-nginx is installed
   apt: pkg=python3-certbot-nginx state=present
 
-- name: Generate certificate
+- name: Ensure pre and post hook folders exist
+  file:
+    path: "/etc/letsencrypt/renewal-hooks/{{ item }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+  with_items:
+    - pre
+    - post
+
+- name: create pre and post hooks to stop/start services during creation/renewal
+  template:
+    src: "templates/{{ item.template }}.j2"
+    dest: "/etc/letsencrypt/renewal-hooks/{{ item.hook }}/{{ item.template }}"
+    owner: root
+    group: root
+    mode: 0750
+  with_items:
+    - template: stop_services
+      hook: pre
+    - template: start_services
+      hook: post
+
+- name: Generate cert via certbot command
+  debug: msg=todo
