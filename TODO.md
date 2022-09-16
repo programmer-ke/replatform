@@ -18,7 +18,10 @@
   - Detection of changes: https://stackoverflow.com/q/65238096
   - https://www.howtoforge.com/tutorial/install-letsencrypt-and-secure-nginx-in-debian-9/
   - https://github.com/geerlingguy/ansible-role-certbot
-  
+  - steps:
+    - create pre/post hooks
+	- create cert
+    - add renewal cron job
 
 ### Done
 
