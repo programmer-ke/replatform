@@ -6,7 +6,7 @@ server_hostname: myplatform.xxx.yyy
 
 # IPv4 is required. Set this as the external IPv4 address of the server
 # Only set the external IPv6 address if available
-ipv4_address: ""
+ipv4_address: "xx.xxx.xx.xx"
 ipv6_address: ""
 
 # List of domains to host websites for on the server
@@ -17,3 +17,8 @@ ipv6_address: ""
 web_domains:
   - example1.com
   - example2.com
+
+# The email used by certbot for SSL certificate creation.
+# Note that it has to be a working email address otherwise certificte
+# creation will fail
+cert_admin_email: myemail@somedomain.com

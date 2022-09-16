@@ -26,5 +26,17 @@
     - template: start_services
       hook: post
 
-- name: Generate cert via certbot command
-  debug: msg=todo
+- name: Generate cert via the certbot command
+  command: "{{ certbot_command }}"
+  vars:
+    certbot_command: >-
+      certbot certonly --standalone --non-interactive --agree-tos
+      --email {{ cert_admin_email }} --cert-name {{ server_hostname }}
+      {% for domain in web_domains %}
+      -d {{ domain }} -d www.{{ domain }}
+      {% endfor %}
+      -d {{ server_hostname }}
+      --pre-hook /etc/letsencrypt/renewal-hooks/pre/stop_services
+      --post-hook /etc/letsencrypt/renewal-hooks/post/start_services
+  register: certbot_command
+  changed_when: '"Running post-hook command" in certbot_command.stdout'
