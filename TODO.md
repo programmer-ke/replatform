@@ -1,8 +1,4 @@
 ### Todo
-- [ ] As a web user, I can only access https versions of websites for
-  each domains listed
-  - https://www.howtoforge.com/tutorial/install-letsencrypt-and-secure-nginx-in-debian-9/
-  - https://github.com/geerlingguy/ansible-role-certbot
 - [ ] As a site owner, I can install email server packages
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
@@ -13,6 +9,16 @@
   - https://serverfault.com/q/815054/980378
 
 ### In Progress
+
+- [ ] As a web user, I can only access https versions of websites for
+  each domains listed
+  - use standalone certonly
+	- https://eff-certbot.readthedocs.io/en/stable/using.html#standalone
+  - Add documentation link to: https://letsencrypt.org/docs/rate-limits/
+  - Detection of changes: https://stackoverflow.com/q/65238096
+  - https://www.howtoforge.com/tutorial/install-letsencrypt-and-secure-nginx-in-debian-9/
+  - https://github.com/geerlingguy/ansible-role-certbot
+  
 
 ### Done
 

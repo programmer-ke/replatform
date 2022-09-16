@@ -1,0 +1,5 @@
+---
+- name: Ensure certbot-nginx is installed
+  apt: pkg=python3-certbot-nginx state=present
+
+- name: Generate certificate
