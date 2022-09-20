@@ -40,3 +40,8 @@
       --post-hook /etc/letsencrypt/renewal-hooks/post/start_services
   register: certbot_command_result
   changed_when: '"Running post-hook command" in certbot_command_result.stderr'
+
+- name: Ensure that we have our local dhparam file for ssl
+  get_url:
+    url: "https://ssl-config.mozilla.org/ffdhe2048.txt"
+    dest: /etc/letsencrypt/ssl-dhparams.pem

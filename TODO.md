@@ -22,6 +22,11 @@
     - create pre/post hooks
 	- create cert
     - add renewal cron job
+	- Add nginx ssl configs/redirections
+      - recommended by certbot: https://ssl-config.mozilla.org/#server=nginx&version=1.18.0&config=intermediate&openssl=1.1.1n&guideline=5.6
+	  - https://security.stackexchange.com/questions/149811/why-is-mozilla-recommending-predefined-dhe-groups
+	  - https://eff-certbot.readthedocs.io/en/stable/ciphers.html#introduction
+	  - https://nginx.org/en/docs/http/configuring_https_servers.html
 
 ### Done
 
