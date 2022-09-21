@@ -80,13 +80,16 @@ create email accounts.
   external ipv4 address, ipv6 address if you have one, the domains you
   want to host, etc. Be careful not to share this file as it has
   sensitive information. You can even encrypt it if you're a more
-  advanced user of ansible. Read about it
+  advanced user of ansible. Read about that
   [here][1]
 
   [1]: https://docs.ansible.com/ansible/latest/user_guide/vault.html
 
 - Run the playbook command again to continue with setting up.
-  `ansible-playbook site.yml` If you encrypted the file above, add the
+
+  - `ansible-playbook site.yml`
+
+  If you encrypted the file above, add the
   option `--ask-vault-pass` and enter the encryption password when
   prompted.
 
@@ -95,7 +98,7 @@ create email accounts.
   page.  If you check in the server at the location `/var/www` you'll
   see a directory for each domain, and a file named `index.html` in
   each of these directories. This is the placeholder that is created
-  to server as the landing page for your domain. To publish your
+  to serve as the landing page for each domain. To publish your
   websites, upload the collection of pages that make up your websites
   into these locations.  The only requirement is that there should be
   a page named `index.html` that serves as the landing page
