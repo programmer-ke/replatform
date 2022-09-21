@@ -82,6 +82,7 @@ create email accounts.
   sensitive information. You can even encrypt it if you're a more
   advanced user of ansible. Read about it
   [here][1]
+
   [1]: https://docs.ansible.com/ansible/latest/user_guide/vault.html
 
 - Run the playbook command again to continue with setting up.
