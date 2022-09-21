@@ -44,7 +44,7 @@ create email accounts.
 	10 by default. Since we're only specifying a single mail server,
 	priority doesnt matter.
 
-# Configure the server
+### Configure the server
 
 - Generate an ssh key pair on your local device if you do not already
   have one (passphrase recommended) and copy the public key to the
