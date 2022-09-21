@@ -1,11 +1,13 @@
 ---
+# The values provided below are placeholders that need to be replaced.
+
 # Server details
 # Set server_hostname to the value you set
 # on DNS MX records
-server_hostname: myplatform.xxx.yyy
+server_hostname: myplatform.xxx.yy
 
 # IPv4 is required. Set this as the external IPv4 address of the server
-# Only set the external IPv6 address if available
+# IPv6 is optional. Set it if you have one.
 ipv4_address: "xx.xxx.xx.xx"
 ipv6_address: ""
 
@@ -14,6 +16,10 @@ ipv6_address: ""
 #
 # Do not specify the www prefix e.g. www.example.com because
 # it will be automatically configured
+# Add or reduce domains as required, but be careful to follow the
+# required format including the identation.
+# Read more about the format expected (YAML) below if unsure: 
+#  http://thomasloven.com/blog/2018/08/YAML-For-Nonprogrammers/
 web_domains:
   - example1.com
   - example2.com

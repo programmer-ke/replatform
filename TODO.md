@@ -1,4 +1,5 @@
 ### Todo
+- [ ] As a site owner, I can find all the info on the README I need to set up websites
 - [ ] As a site owner, I can install email server packages
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
@@ -10,7 +11,9 @@
 
 ### In Progress
 
-- [ ] As a web user, I can only access https versions of websites for
+### Done
+
+- [x] As a web user, I can only access https versions of websites for
   each domains listed
   - use standalone certonly
 	- https://eff-certbot.readthedocs.io/en/stable/using.html#standalone
@@ -27,9 +30,6 @@
 	  - https://security.stackexchange.com/questions/149811/why-is-mozilla-recommending-predefined-dhe-groups
 	  - https://eff-certbot.readthedocs.io/en/stable/ciphers.html#introduction
 	  - https://nginx.org/en/docs/http/configuring_https_servers.html
-
-### Done
-
 - [x] As a web user, I can access http only versions of websites
   for each listed domain
   - install nginx
