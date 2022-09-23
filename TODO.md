@@ -1,6 +1,8 @@
 ### Todo
-- [ ] As a site owner, I can find all the info on the README I need to set up websites
+
 - [ ] As a site owner, I can install email server packages
+- [ ] As a site owner, I can successfully configure postfix for virtual
+  users
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
 - [ ] As a site owner, I am notified of automated upgrades
@@ -13,6 +15,7 @@
 
 ### Done
 
+- [x] As a site owner, I can find all the info on the README I need to set up websites
 - [x] As a web user, I can only access https versions of websites for
   each domains listed
   - use standalone certonly
