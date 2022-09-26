@@ -1,5 +1,6 @@
 ### Todo
 
+- [ ] Set default timezone to UTC
 - [ ] As a site owner, I can successfully configure postfix for virtual
   users
   - https://www.postfix.org/BASIC_CONFIGURATION_README.html#syntax
