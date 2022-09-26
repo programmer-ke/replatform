@@ -12,10 +12,11 @@
   - https://serverfault.com/q/815054/980378
 
 ### In Progress
-- [ ] As a site owner, I can install email server packages
+
 
 ### Done
 
+- [x] As a site owner, I can install email server packages
 - [x] As a site owner, I can find all the info on the README I need to set up websites
 - [x] As a web user, I can only access https versions of websites for
   each domains listed
