@@ -1,8 +1,5 @@
 ### Todo
 
-- [ ] As a site owner, I can successfully configure postfix for virtual
-  users
-  - https://www.postfix.org/BASIC_CONFIGURATION_README.html#syntax
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
 - [ ] As a site owner, I am notified of automated upgrades
@@ -13,6 +10,10 @@
 
 ### In Progress
 
+- [ ] As a site owner, I can successfully configure postfix for virtual
+  addresses
+  - https://www.postfix.org/BASIC_CONFIGURATION_README.html#syntax
+  - http://www.postfix.org/VIRTUAL_README.html
 
 ### Done
 
