@@ -1,0 +1,3 @@
+---
+- name: Ensure that we have postfix installed
+  apt: name=postfix state=present

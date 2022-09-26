@@ -1,6 +1,5 @@
 ### Todo
 
-- [ ] As a site owner, I can install email server packages
 - [ ] As a site owner, I can successfully configure postfix for virtual
   users
   - https://www.postfix.org/BASIC_CONFIGURATION_README.html#syntax
@@ -13,6 +12,7 @@
   - https://serverfault.com/q/815054/980378
 
 ### In Progress
+- [ ] As a site owner, I can install email server packages
 
 ### Done
 
