@@ -1,3 +1,6 @@
 ---
 - name: Ensure that we have postfix installed
   apt: name=postfix state=present
+
+- name: Ensure that postfix is running and starts at boot
+  service: name=postfix state=started enabled=yes
