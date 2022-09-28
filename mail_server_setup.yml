@@ -4,3 +4,39 @@
 
 - name: Ensure that postfix is running and starts at boot
   service: name=postfix state=started enabled=yes
+
+- name: Ensure that mailname is set to the hostname
+  template:
+    src: templates/etc_mailname.j2
+    dest: /etc/mailname
+
+- name: Update postfix configs in /etc/postfix/main.cf
+  lineinfile:
+    dest: "/etc/postfix/main.cf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    mode: 0644
+    backup: yes
+  with_items:
+    - regexp: "^myorigin"
+      line: "myorigin = /etc/mailname"
+
+    - regexp: "^mydestination"
+      line: "mydestination = $myhostname, myplatform.dataengineering.co.ke, localhost.dataengineering.co.ke, localhost"
+
+    - regexp: "^mynetworks"  # Relay mail from host only
+      line: "mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128"
+
+    - regexp: "^relayhost"  # delivery mail directly to the internet
+      line: "relayhost ="
+
+    - regexp: "^virtual_mailbox_domains" # todo continue with config
+      line: >-
+        virtual_mailbox_domains =
+        {% for domain in mail_domains %}
+        {{ domain }}
+        {% endfor %}
+  notify: reload postfix
+
+# todo: figure out redirection of postmaster email

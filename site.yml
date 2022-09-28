@@ -63,3 +63,6 @@
 
     - name: reload nginx
       service: name=nginx state=reloaded
+
+    - name: reload postfix
+      service: name=postfix state=reloaded
