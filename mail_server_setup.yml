@@ -34,19 +34,36 @@
     - regexp: "^relayhost"  # delivery mail directly to the internet
       line: "relayhost ="
 
-    - regexp: "^virtual_mailbox_domains"  # list of domains being hosted
+    - regexp: "^virtual_mailbox_domains"  # list of virtual domains being hosted
       line: >-
         virtual_mailbox_domains =
         {% for domain in mail_domains %}
         {{ domain }}
         {% endfor %}
 
-#    - regexp: "^virtual_mailbox_base"
-#      line: "/var/mail/vhosts"
-#
+    # Settings to communicate with dovecot via SASL
+    # Dovecot authenticates clients who're sending mail
+    # ---
+    - regexp: "^smtpd_sasl_auth_enable"
+      line: "smtpd_sasl_auth_enable = yes"
+
+    - regexp: "^smtpd_sasl_type"
+      line: "smtpd_sasl_type = dovecot"
+
+    # communication socket relative to the queue directory
+    - regexp: "^smtpd_sasl_path"
+      line: "smtpd_sasl_path = private/auth"
+
+    - regexp: "^broken_sasl_auth_clients"  # cater for non-compliant clients
+      line: "broken_sasl_auth_clients = yes"
+
+    # limit sending ability to my network and sasl authenticated only
+    - regexp: "^smtpd_relay_restrictions"
+      line: "smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated reject_unauth_destination"
+
+    # todo: configure SASL on dovecot
 #    - regexp: "^virtual_mailbox_maps"
 #      line: "hash:/etc/postfix/vmailbox"
-
 
   notify: reload postfix
 
