@@ -34,7 +34,8 @@
     - regexp: "^relayhost"  # delivery mail directly to the internet
       line: "relayhost ="
 
-    - regexp: "^virtual_mailbox_domains"  # list of virtual domains being hosted
+    # list of virtual domains being hosted
+    - regexp: "^virtual_mailbox_domains"
       line: >-
         virtual_mailbox_domains =
         {% for domain in mail_domains %}
