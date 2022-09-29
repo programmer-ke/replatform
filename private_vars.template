@@ -33,7 +33,14 @@ web_domains:
 cert_admin_email: myusername@somedomain.com
 
 # List of mail domains and accounts to host email for.
-# todo: explain config
+# For each domain, we list a mapping of an email account to a password.
+# Make sure each domain's MX record is configured correctly to have
+# this server as its mail server.
+#
+# *Warning*
+# Do not share this file in public as your passwords will be exposed
+# Consider using `ansible-vault` to encrypt it
+
 mail_domains:
   example1.com:
     info: somesecretpasswd1

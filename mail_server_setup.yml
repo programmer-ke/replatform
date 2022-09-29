@@ -1,6 +1,9 @@
 ---
-- name: Ensure that we have postfix installed
+- name: Ensure that we have mail server packages installed
   apt: name=postfix state=present
+  loop:
+    - postfix
+    - dovecot-imapd
 
 - name: Ensure that postfix is running and starts at boot
   service: name=postfix state=started enabled=yes
@@ -31,12 +34,20 @@
     - regexp: "^relayhost"  # delivery mail directly to the internet
       line: "relayhost ="
 
-    - regexp: "^virtual_mailbox_domains" # todo continue with config
+    - regexp: "^virtual_mailbox_domains"  # list of domains being hosted
       line: >-
         virtual_mailbox_domains =
         {% for domain in mail_domains %}
         {{ domain }}
         {% endfor %}
+
+#    - regexp: "^virtual_mailbox_base"
+#      line: "/var/mail/vhosts"
+#
+#    - regexp: "^virtual_mailbox_maps"
+#      line: "hash:/etc/postfix/vmailbox"
+
+
   notify: reload postfix
 
 # todo: figure out redirection of postmaster email
