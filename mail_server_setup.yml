@@ -1,6 +1,6 @@
 ---
 - name: Ensure that we have mail server packages installed
-  apt: name=postfix state=present
+  apt: "name={{ item }} state=present"
   loop:
     - postfix
     - dovecot-imapd
