@@ -14,6 +14,12 @@
   addresses
   - https://www.postfix.org/BASIC_CONFIGURATION_README.html#syntax
   - http://www.postfix.org/VIRTUAL_README.html
+  - https://gist.github.com/Anime4000/59ade3017f1e743069f4e8c6dc032681
+  - https://scaron.info/blog/debian-mail-postfix-dovecot.html
+  - https://doc.dovecot.org/configuration_manual/howto/postfix_and_dovecot_sasl/
+  - https://wiki.debian.org/Postfix
+  - http://www.postfix.org/OVERVIEW.html
+  - https://wiki.dovecot.org/LDA/Postfix
 
 ### Done
 
