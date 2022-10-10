@@ -4,6 +4,10 @@
   loop:
     - postfix
     - dovecot-imapd
+    - opendkim
+    - opendkim-tools
+    - spamass-milter
+    - clamav-milter
 
 - name: Ensure that postfix is running and starts at boot
   service: name=postfix state=started enabled=yes

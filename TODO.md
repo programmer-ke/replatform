@@ -20,6 +20,11 @@
   - https://wiki.debian.org/Postfix
   - http://www.postfix.org/OVERVIEW.html
   - https://wiki.dovecot.org/LDA/Postfix
+  - https://serverfault.com/questions/605715/postfix-smtps-and-submission-confusion
+  - https://old.reddit.com/r/debian/comments/gcmo5r/looking_for_complete_debian_mail_server_tutorial/
+  - https://www.postfix.org/MILTER_README.html
+  - figure out spamassassin milter vs rspamd vs ..
+    - https://lelutin.ca/posts/installing_postfix_-_clamav_-_spamassassin_-_dovecot_-_postfixadmin_on_debian_squeeze/
 
 ### Done
 
