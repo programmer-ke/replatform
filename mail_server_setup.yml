@@ -26,7 +26,7 @@
     mode: 0644
     backup: yes
   with_items:
-    - regexp: "^smtp\s+inet\s+"  # The smtpd daemon listening at port 25
+    - regexp: '^smtp\s+inet\s+'  # The smtpd daemon listening at port 25
       line: "smtp      inet  n       -       y       -       -       smtpd"
 
   notify: reload postfix
