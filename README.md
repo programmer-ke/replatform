@@ -103,6 +103,15 @@ create email accounts.
   into these locations.  The only requirement is that there should be
   a page named `index.html` that serves as the landing page
 
+## Overview of how it works
+
+### Recieving mail
+
+The number in brackets indicates the port process is listening on
+
+Outside Network -> smptd(25) -> Postfix Queue -> Dovecot lmtp (via unix pipe) -> Virtual boxes or User boxes
+
+
 ## Guiding Principles
 - Simplicity is a feature; easy for non-tech persons
   - use root user rather than separate user with sudo and passwd

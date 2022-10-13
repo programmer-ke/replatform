@@ -17,6 +17,20 @@
     src: templates/etc_mailname.j2
     dest: /etc/mailname
 
+- name: Update postfix configs in /etc/postfix/master.cf
+  lineinfile:
+    dest: "/etc/postfix/master.cf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    mode: 0644
+    backup: yes
+  with_items:
+    - regexp: "^smtp\s+inet\s+"  # The smtpd daemon listening at port 25
+      line: "smtp      inet  n       -       y       -       -       smtpd"
+
+  notify: reload postfix
+
 - name: Update postfix configs in /etc/postfix/main.cf
   lineinfile:
     dest: "/etc/postfix/main.cf"

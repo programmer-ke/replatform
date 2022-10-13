@@ -1,6 +1,9 @@
 ### Todo
 
+- [ ] As a site owner, I can configure the retrieve mail flow
+- [ ] As a site owner, I can configure the send mail flow
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
+- [ ] As a site owner, I can configure milters
   to ipv4
 - [ ] As a site owner, I am notified of automated upgrades
   - Configure notification email for unattended-upgrades
@@ -10,8 +13,11 @@
 
 ### In Progress
 
-- [ ] As a site owner, I can successfully configure postfix for virtual
-  addresses
+- [ ] As a site owner, I can configure the receive mail flow
+
+### Done
+
+- [x] Research on how to took up all the mail packages together
   - https://www.postfix.org/BASIC_CONFIGURATION_README.html#syntax
   - http://www.postfix.org/VIRTUAL_README.html
   - https://gist.github.com/Anime4000/59ade3017f1e743069f4e8c6dc032681
@@ -25,9 +31,6 @@
   - https://www.postfix.org/MILTER_README.html
   - figure out spamassassin milter vs rspamd vs ..
     - https://lelutin.ca/posts/installing_postfix_-_clamav_-_spamassassin_-_dovecot_-_postfixadmin_on_debian_squeeze/
-
-### Done
-
 - [x] As a site owner, I can install email server packages
 - [x] As a site owner, I can find all the info on the README I need to set up websites
 - [x] As a web user, I can only access https versions of websites for
