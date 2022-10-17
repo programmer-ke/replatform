@@ -4,13 +4,18 @@
   loop:
     - postfix
     - dovecot-imapd
+    - dovecot-pop3d
+    - dovecot-lmtpd
     - opendkim
     - opendkim-tools
     - spamass-milter
     - clamav-milter
 
-- name: Ensure that postfix is running and starts at boot
-  service: name=postfix state=started enabled=yes
+- name: Ensure that mail system servers are running and start at boot
+  service: "name={{ item }} state=started enabled=yes"
+  loop:
+    - postfix
+    - dovecot
 
 - name: Ensure that mailname is set to the hostname
   template:
