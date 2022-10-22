@@ -1,0 +1,34 @@
+# /etc/dovecot/dovecot.conf
+mail_location = mbox:~/mail:INBOX=/var/mail/%u
+mail_privileged_group = mail
+namespace inbox {
+  inbox = yes
+  location = 
+  mailbox Drafts {
+    special_use = \Drafts
+  }
+  mailbox Junk {
+    special_use = \Junk
+  }
+  mailbox Sent {
+    special_use = \Sent
+  }
+  mailbox "Sent Messages" {
+    special_use = \Sent
+  }
+  mailbox Trash {
+    special_use = \Trash
+  }
+  prefix = 
+}
+passdb {
+  driver = pam
+}
+protocols = " imap lmtp pop3"
+ssl_cert = </etc/dovecot/private/dovecot.pem
+ssl_client_ca_dir = /etc/ssl/certs
+ssl_dh = </usr/share/dovecot/dh.pem
+ssl_key = </etc/dovecot/private/dovecot.key
+userdb {
+  driver = passwd
+}

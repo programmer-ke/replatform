@@ -2,6 +2,7 @@
 
 - [ ] As a site owner, I can configure the retrieve mail flow
 - [ ] As a site owner, I can configure the send mail flow
+- [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
 - [ ] As a site owner, I can configure milters
   to ipv4
@@ -13,7 +14,7 @@
 
 ### In Progress
 
-- [ ] As a site owner, I can configure the receive mail flow
+- [ ] As a site owner, I can configure the receipt mail flow
 
 ### Done
 
