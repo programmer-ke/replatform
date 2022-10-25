@@ -5,6 +5,10 @@
 - [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
 - [ ] As a site owner, I can configure milters
+- [ ] As a site owner, I can configure sieves
+- [ ] As a site owner, I can configure Dynamic address verification with LMTP
+  https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
+ 
   to ipv4
 - [ ] As a site owner, I am notified of automated upgrades
   - Configure notification email for unattended-upgrades
@@ -15,6 +19,7 @@
 ### In Progress
 
 - [ ] As a site owner, I can configure the receipt mail flow
+  - https://wiki.dovecot.org/HowTo/SimpleVirtualInstall
 
 ### Done
 

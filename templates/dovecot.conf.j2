@@ -1,4 +1,19 @@
 # /etc/dovecot/dovecot.conf
+protocols = " imap lmtp pop3"
+
+service lmtp {
+ # postfix communicates via unix socket
+ unix_listener /var/spool/postfix/private/dovecot-lmtp {
+   group = postfix
+   mode = 0600
+   user = postfix
+  }
+}
+
+protocol lmtp {
+  postmaster_address = postmaster@myplatform.dataengineering.co.ke
+}
+
 mail_location = mbox:~/mail:INBOX=/var/mail/%u
 mail_privileged_group = mail
 namespace inbox {
@@ -24,7 +39,6 @@ namespace inbox {
 passdb {
   driver = pam
 }
-protocols = " imap lmtp pop3"
 ssl_cert = </etc/dovecot/private/dovecot.pem
 ssl_client_ca_dir = /etc/ssl/certs
 ssl_dh = </usr/share/dovecot/dh.pem
