@@ -103,3 +103,4 @@
     src: templates/dovecot.conf.j2
     dest: /etc/dovecot/dovecot.conf
     backup: yes
+  notify: reload dovecot
