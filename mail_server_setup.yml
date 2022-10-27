@@ -100,11 +100,11 @@
 
   notify: reload postfix
 
+- name: Create vmail group to be used by vmail user
+  group: name=vmail state=present
+
 - name: Create vmail user for virtual mail domain hosting
-  user:
-    name: vmail
-    group: vmail
-    home: /home/vmail
+  user: name=vmail group=vmail create_home=yes
 
 - name: Update dovecot configs in /etc/dovecot/dovecot.conf
   template:
