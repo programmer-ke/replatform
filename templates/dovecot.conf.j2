@@ -14,9 +14,40 @@ protocol lmtp {
   postmaster_address = postmaster@myplatform.dataengineering.co.ke
 }
 
+mail_location = maildir:~/Maildir  # use maildir format
+
+# use IMAP’s UIDVALIDITY and UID values
+# to track downloaded messages
+pop3_uidl_format = %08Xu%08Xv
+
+# Authentication configuration:
+# ---
+auth_verbose = yes  # log reason for failures
+auth_mechanisms = plain login # password sent in plain text over ssl
+
+# Try authenticate via virtual user password file
+passdb {
+  driver = passwd-file
+  args = /etc/dovecot/passwd
+}
+# Fall back to PAM (for system users)
+passdb {
+  driver = pam
+}
+# Use static info for virtual users
+userdb {
+  driver = static
+  args = uid=vmail gid=vmail home=/home/vmail/%d/%n
+}
+# Fall back to /etc/passwd (for system users)
+userdb {
+  driver = passwd
+}
+
+
 # all below are default
-mail_location = mbox:~/mail:INBOX=/var/mail/%u
 mail_privileged_group = mail
+
 namespace inbox {
   inbox = yes
   location = 
@@ -37,13 +68,7 @@ namespace inbox {
   }
   prefix = 
 }
-passdb {
-  driver = pam
-}
 ssl_cert = </etc/dovecot/private/dovecot.pem
 ssl_client_ca_dir = /etc/ssl/certs
 ssl_dh = </usr/share/dovecot/dh.pem
 ssl_key = </etc/dovecot/private/dovecot.key
-userdb {
-  driver = passwd
-}

@@ -1,0 +1,5 @@
+{% for domain, info in mail_domains.items() %}
+{% for username, passwd in info.items() %}
+{{ username }}@{{ domain }}:{PLAIN}{{ passwd }}::::::
+{% endfor %}   
+{% endfor %}
