@@ -25,6 +25,11 @@ pop3_uidl_format = %08Xu%08Xv
 auth_verbose = yes  # log reason for failures
 auth_mechanisms = plain login # password sent in plain text over ssl
 
+# If the domain is hostname/localhost, use only the name component
+# to map to system user
+# See: https://serverfault.com/a/1062274/980378
+auth_username_format=%{if;%d;eq;{{ server_hostname }};%Ln;%Lu}
+
 # Try authenticate via virtual user password file
 passdb {
   driver = passwd-file
