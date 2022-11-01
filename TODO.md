@@ -18,12 +18,13 @@
 
 ### In Progress
 
-- [ ] As a site owner, I can configure the receipt mail flow
-  - https://wiki.dovecot.org/HowTo/SimpleVirtualInstall
-  - todo: debug delivery to root user
+
 
 ### Done
 
+- [x] As a site owner, I can configure the receipt mail flow
+  - https://wiki.dovecot.org/HowTo/SimpleVirtualInstall
+  - mail now successfully lands into user mailboxes for both system and virtual users
 - [x] Research on how to took up all the mail packages together
   - https://www.postfix.org/BASIC_CONFIGURATION_README.html#syntax
   - http://www.postfix.org/VIRTUAL_README.html
