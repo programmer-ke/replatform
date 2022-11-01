@@ -69,3 +69,6 @@
 
     - name: reload dovecot
       service: name=dovecot state=reloaded
+
+    - name: update aliases db
+      command: newaliases

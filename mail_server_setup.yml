@@ -106,6 +106,9 @@
 - name: Create vmail user for virtual mail domain hosting
   user: name=vmail group=vmail create_home=yes
 
+- name: Create admin user for administrative emails
+  user: name=admin create_home=yes
+
 - name: Update dovecot configs in /etc/dovecot/dovecot.conf
   template:
     src: templates/dovecot.conf.j2
@@ -117,3 +120,11 @@
   template:
     src: templates/etc_dovecot_passwd.j2
     dest: /etc/dovecot/passwd
+
+- name: Redirect mail meant for root to admin user
+  lineinfile:
+    dest: "/etc/aliases"
+    regexp: "^root:"
+    line: "root: admin"
+    state: present
+  notify: update aliases db

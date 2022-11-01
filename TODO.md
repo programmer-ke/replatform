@@ -20,7 +20,7 @@
 
 - [ ] As a site owner, I can configure the receipt mail flow
   - https://wiki.dovecot.org/HowTo/SimpleVirtualInstall
-  - todo: debug mail delivery to local account
+  - todo: debug delivery to root user
 
 ### Done
 
