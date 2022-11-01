@@ -1,6 +1,130 @@
 ---
-- name: Ensure that we have postfix installed
-  apt: name=postfix state=present
+- name: Ensure that we have mail server packages installed
+  apt: "name={{ item }} state=present"
+  loop:
+    - postfix
+    - dovecot-imapd
+    - dovecot-pop3d
+    - dovecot-lmtpd
+    - opendkim
+    - opendkim-tools
+    - spamass-milter
+    - clamav-milter
 
-- name: Ensure that postfix is running and starts at boot
-  service: name=postfix state=started enabled=yes
+- name: Ensure that mail system servers are running and start at boot
+  service: "name={{ item }} state=started enabled=yes"
+  loop:
+    - postfix
+    - dovecot
+
+- name: Ensure that mailname is set to the hostname
+  template:
+    src: templates/etc_mailname.j2
+    dest: /etc/mailname
+
+- name: Update postfix configs in /etc/postfix/master.cf
+  lineinfile:
+    dest: "/etc/postfix/master.cf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    mode: 0644
+    backup: yes
+  with_items:
+    - regexp: '^smtp\s+inet\s+'  # The smtpd daemon listening at port 25
+      line: "smtp      inet  n       -       y       -       -       smtpd"
+
+  notify: reload postfix
+
+- name: Update postfix configs in /etc/postfix/main.cf
+  lineinfile:
+    dest: "/etc/postfix/main.cf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    mode: 0644
+    backup: yes
+  with_items:
+    - regexp: "^myorigin"
+      line: "myorigin = /etc/mailname"
+
+    - regexp: "^mydestination"
+      line: "mydestination = $myhostname, myplatform.dataengineering.co.ke, localhost.dataengineering.co.ke, localhost"
+
+    - regexp: "^mynetworks"  # Relay mail from host only
+      line: "mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128"
+
+    - regexp: "^relayhost"  # delivery mail directly to the internet
+      line: "relayhost ="
+
+    # use dovecot lmtp as virtual transport
+    - regexp: "^virtual_transport"
+      line: "virtual_transport = lmtp:unix:private/dovecot-lmtp"
+
+    - regexp: "^mailbox_transport"
+      line: "mailbox_transport = lmtp:unix:private/dovecot-lmtp"
+
+
+
+    # list of virtual domains being hosted
+    - regexp: "^virtual_mailbox_domains"
+      line: >-
+        virtual_mailbox_domains =
+        {% for domain in mail_domains %}
+        {{ domain }}
+        {% endfor %}
+
+    # Settings to communicate with dovecot via SASL
+    # Dovecot authenticates clients who're sending mail
+    # ---
+    - regexp: "^smtpd_sasl_auth_enable"
+      line: "smtpd_sasl_auth_enable = yes"
+
+    - regexp: "^smtpd_sasl_type"
+      line: "smtpd_sasl_type = dovecot"
+
+    # communication socket relative to the queue directory
+    - regexp: "^smtpd_sasl_path"
+      line: "smtpd_sasl_path = private/auth"
+
+    - regexp: "^broken_sasl_auth_clients"  # cater for non-compliant clients
+      line: "broken_sasl_auth_clients = yes"
+
+    # limit sending ability to my network and sasl authenticated only
+    - regexp: "^smtpd_relay_restrictions"
+      line: "smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated reject_unauth_destination"
+
+    # todo: configure SASL on dovecot
+#    - regexp: "^virtual_mailbox_maps"
+#      line: "hash:/etc/postfix/vmailbox"
+
+  notify: reload postfix
+
+- name: Create vmail group to be used by vmail user
+  group: name=vmail state=present
+
+- name: Create vmail user for virtual mail domain hosting
+  user: name=vmail group=vmail create_home=yes
+
+- name: Create admin user for administrative emails
+  user: name=admin create_home=yes
+
+- name: Update dovecot configs in /etc/dovecot/dovecot.conf
+  template:
+    src: templates/dovecot.conf.j2
+    dest: /etc/dovecot/dovecot.conf
+    backup: yes
+  notify: reload dovecot
+
+- name: Create virtual accounts password file
+  template:
+    src: templates/etc_dovecot_passwd.j2
+    dest: /etc/dovecot/passwd
+
+- name: Redirect mail meant for root to admin user
+  lineinfile:
+    dest: "/etc/aliases"
+    regexp: "^root:"
+    line: "root: admin"
+    state: present
+  notify: update aliases db

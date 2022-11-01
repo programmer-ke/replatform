@@ -63,3 +63,12 @@
 
     - name: reload nginx
       service: name=nginx state=reloaded
+
+    - name: reload postfix
+      service: name=postfix state=reloaded
+
+    - name: reload dovecot
+      service: name=dovecot state=reloaded
+
+    - name: update aliases db
+      command: newaliases

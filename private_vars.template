@@ -11,15 +11,18 @@ server_hostname: myplatform.xxx.yy
 ipv4_address: "xx.xxx.xx.xx"
 ipv6_address: ""
 
-# List of domains to host websites for on the server
-# A web hosting location will be configured for each of these.
+# List of domains to host websites for on the server.
+# A web hosting location on the server will be configured for each of
+# these.
 #
 # Do not specify the www prefix e.g. www.example.com because
 # it will be automatically configured
-# Add or reduce domains as required, but be careful to follow the
+# Add or remove domains as required, but be careful to follow the
 # required format including the identation.
 # Read more about the format expected (YAML) below if unsure: 
 #  http://thomasloven.com/blog/2018/08/YAML-For-Nonprogrammers/
+#
+# Make sure the domains are configured as required at the DNS provider
 web_domains:
   - example1.com
   - example2.com
@@ -27,4 +30,21 @@ web_domains:
 # The email used by certbot for SSL certificate creation.
 # Note that it has to be a working email address otherwise certificte
 # creation will fail
-cert_admin_email: myemail@somedomain.com
+cert_admin_email: myusername@somedomain.com
+
+# List of mail domains and accounts to host email for.
+# For each domain, we list a mapping of an email account to a password.
+# Make sure each domain's MX record is configured correctly to have
+# this server as its mail server.
+#
+# *Warning*
+# Do not share this file in public as your passwords will be exposed
+# Consider using `ansible-vault` to encrypt it
+
+mail_domains:
+  example1.com:
+    info: somesecretpasswd1
+    jane: somesecretpasswd2
+  example2.com:
+    jane: somesecretpasswd3
+    john: somesecretpasswd4

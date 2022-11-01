@@ -1,10 +1,15 @@
 ### Todo
 
 - [ ] Set default timezone to UTC
-- [ ] As a site owner, I can successfully configure postfix for virtual
-  users
-  - https://www.postfix.org/BASIC_CONFIGURATION_README.html#syntax
+- [ ] As a site owner, I can configure the retrieve mail flow
+- [ ] As a site owner, I can configure the send mail flow
+- [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
+- [ ] As a site owner, I can configure milters
+- [ ] As a site owner, I can configure sieves
+- [ ] As a site owner, I can configure Dynamic address verification with LMTP
+  https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
+ 
   to ipv4
 - [ ] As a site owner, I am notified of automated upgrades
   - Configure notification email for unattended-upgrades
@@ -15,8 +20,26 @@
 ### In Progress
 
 
+
 ### Done
 
+- [x] As a site owner, I can configure the receipt mail flow
+  - https://wiki.dovecot.org/HowTo/SimpleVirtualInstall
+  - mail now successfully lands into user mailboxes for both system and virtual users
+- [x] Research on how to took up all the mail packages together
+  - https://www.postfix.org/BASIC_CONFIGURATION_README.html#syntax
+  - http://www.postfix.org/VIRTUAL_README.html
+  - https://gist.github.com/Anime4000/59ade3017f1e743069f4e8c6dc032681
+  - https://scaron.info/blog/debian-mail-postfix-dovecot.html
+  - https://doc.dovecot.org/configuration_manual/howto/postfix_and_dovecot_sasl/
+  - https://wiki.debian.org/Postfix
+  - http://www.postfix.org/OVERVIEW.html
+  - https://wiki.dovecot.org/LDA/Postfix
+  - https://serverfault.com/questions/605715/postfix-smtps-and-submission-confusion
+  - https://old.reddit.com/r/debian/comments/gcmo5r/looking_for_complete_debian_mail_server_tutorial/
+  - https://www.postfix.org/MILTER_README.html
+  - figure out spamassassin milter vs rspamd vs ..
+    - https://lelutin.ca/posts/installing_postfix_-_clamav_-_spamassassin_-_dovecot_-_postfixadmin_on_debian_squeeze/
 - [x] As a site owner, I can install email server packages
 - [x] As a site owner, I can find all the info on the README I need to set up websites
 - [x] As a web user, I can only access https versions of websites for
