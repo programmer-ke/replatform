@@ -105,11 +105,15 @@ create email accounts.
 
 ## Overview of how it works
 
-### Recieving mail
+### Recieving mail into inbox
 
 The number in brackets indicates the port process is listening on
 
 Outside Network -> smptd(25) -> Postfix Queue -> Dovecot lmtp (via unix pipe) -> Virtual boxes or User boxes
+
+### Retrieving mail by mail client
+
+todo: solve ssl issue then document flow
 
 
 ## Guiding Principles
