@@ -1,14 +1,15 @@
 ### Todo
 
 - [ ] Set default timezone to UTC
-- [ ] As a site owner, I can configure the retrieve mail flow
 - [ ] As a site owner, I can configure the send mail flow
+  - Ensure SASL is properly configured
+    - http://www.postfix.org/SASL_README.html#server_sasl_enable
 - [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
 - [ ] As a site owner, I can configure milters
 - [ ] As a site owner, I can configure sieves
 - [ ] As a site owner, I can configure Dynamic address verification with LMTP
-  https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
+    - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
  
   to ipv4
 - [ ] As a site owner, I am notified of automated upgrades
@@ -19,7 +20,10 @@
 
 ### In Progress
 
-
+- [ ] As a site owner, I can configure the retrieve mail flow
+  - debug logs in /var/log/mail.log
+	- Nov  3 09:28:45 myplatform postfix/smtpd[43671]: warning: SASL: Connect to private/auth failed: No such file or directory
+      Nov  3 09:28:45 myplatform postfix/smtpd[43671]: fatal: no SASL authentication mechanisms
 
 ### Done
 

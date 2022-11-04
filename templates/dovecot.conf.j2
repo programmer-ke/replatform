@@ -2,11 +2,20 @@
 protocols = " imap lmtp pop3"
 
 service lmtp {
- # postfix communicates via unix socket
+ # postfix <--> dovecot unix socket for lmtp
  unix_listener /var/spool/postfix/private/dovecot-lmtp {
-   group = postfix
    mode = 0600
    user = postfix
+   group = postfix
+  }
+}
+
+service auth {
+ # postfix <--> dovecot unix socket for SASL
+  unix_listener /var/spool/postfix/private/auth {
+    mode = 0660
+    user = postfix
+    group = postfix
   }
 }
 
