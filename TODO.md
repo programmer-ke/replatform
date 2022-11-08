@@ -11,8 +11,6 @@
 - [ ] As a site owner, I can configure sieves
 - [ ] As a site owner, I can configure Dynamic address verification with LMTP
     - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
-- [ ] As a site owner, I have correctly configured SSL for mail
-    - clients e.g. thunderbird should not ask for SSL exceptions
 - [ ] As a site owner, I am notified of automated upgrades
   - Configure notification email for unattended-upgrades
 - [ ] As a site owner, I know how to properly configure rDNS
@@ -20,6 +18,12 @@
   - https://serverfault.com/q/815054/980378
 
 ### In Progress
+
+- [ ] As a site owner, I have correctly configured SSL for mail
+    - clients e.g. thunderbird should not ask for SSL exceptions
+	- configure postfix and dovecot with letsencrypt cert
+    - Set recommended ciphers
+    - manually configure thunderbird (do not use default imap.* and smtp.*)
 
 
 ### Done

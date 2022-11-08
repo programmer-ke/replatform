@@ -94,7 +94,14 @@
     - regexp: "^smtpd_relay_restrictions"
       line: "smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated reject_unauth_destination"
 
-    # todo: configure SASL on dovecot
+    # SSL configuration
+    # ---
+    - regexp: "^smtpd_tls_key_file"
+      line: "smtpd_tls_key_file = /etc/letsencrypt/live/{{ server_hostname }}/privkey.pem"
+
+    - regexp: "^smtpd_tls_cert_file"
+      line: "smtpd_tls_cert_file = /etc/letsencrypt/live/{{ server_hostname }}/fullchain.pem"
+
 #    - regexp: "^virtual_mailbox_maps"
 #      line: "hash:/etc/postfix/vmailbox"
 

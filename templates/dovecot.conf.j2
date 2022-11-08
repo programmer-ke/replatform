@@ -82,7 +82,9 @@ namespace inbox {
   }
   prefix = 
 }
-ssl_cert = </etc/dovecot/private/dovecot.pem
+ssl = required
+ssl_cert = </etc/letsencrypt/live/{{ server_hostname }}/fullchain.pem
+ssl_key = <smtpd_tls_key_file = /etc/letsencrypt/live/{{ server_hostname }}/privkey.pem
 ssl_client_ca_dir = /etc/ssl/certs
 ssl_dh = </usr/share/dovecot/dh.pem
-ssl_key = </etc/dovecot/private/dovecot.key
+

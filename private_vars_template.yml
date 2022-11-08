@@ -25,6 +25,7 @@
             After it has been updated, run the playbook again.
             Remember to keep this file confidential.
 
+            This file can only be read and edited by the root user.
 
             Press <ENTER> to proceed"
 
