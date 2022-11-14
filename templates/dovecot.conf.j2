@@ -56,8 +56,11 @@ userdb {
 # Fall back to /etc/passwd (for system users)
 userdb {
   driver = passwd
+  override_fields = mail=maildir:/home/%n/Maildir
 }
 
+# todo: remove after debugging
+mail_debug = yes
 
 # all below are default
 mail_privileged_group = mail

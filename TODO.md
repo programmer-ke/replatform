@@ -1,6 +1,7 @@
 ### Todo
 
 - [ ] Set default timezone to UTC
+- [ ] As site owner, I can configure admin mail password
 - [ ] As a site owner, I can configure the send mail flow
   - Ensure SASL is properly configured
     - http://www.postfix.org/SASL_README.html#server_sasl_enable
