@@ -48,15 +48,16 @@ passdb {
 passdb {
   driver = pam
 }
-# Use static info for virtual users
+
+# Get user info from /etc/passwd (for system users)
+userdb {
+  driver = passwd
+}
+
+# Fallback to static info for virtual users
 userdb {
   driver = static
   args = uid=vmail gid=vmail home=/home/vmail/%d/%n
-}
-# Fall back to /etc/passwd (for system users)
-userdb {
-  driver = passwd
-  override_fields = mail=maildir:/home/%n/Maildir
 }
 
 # todo: remove after debugging
