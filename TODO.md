@@ -24,12 +24,6 @@
     - clients e.g. thunderbird should not ask for SSL exceptions
 	- configure postfix and dovecot with letsencrypt cert
     - Set recommended ciphers
-    - manually configure thunderbird (do not use default imap.* and smtp.*)
-	  - todo: debugging delivery to system users
-        - Issue, system users using static userdb information
-	    - Possible reason, cannot fall back to passwd userdb after static
-		  - option1, set userdb passwd config above static
-	      - option2, store mail for both system and virtual users under vmail
 
 ### Done
 

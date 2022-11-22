@@ -102,6 +102,13 @@
     - regexp: "^smtpd_tls_cert_file"
       line: "smtpd_tls_cert_file = /etc/letsencrypt/live/{{ server_hostname }}/fullchain.pem"
 
+    # enable logging of tls connections
+    - regexp: "^smtpd_tls_loglevel"
+      line: "smtpd_tls_loglevel = 2"
+
+    - regexp: "^smtp_tls_loglevel"
+      line: "smtp_tls_loglevel = 2"
+
 #    - regexp: "^virtual_mailbox_maps"
 #      line: "hash:/etc/postfix/vmailbox"
 
