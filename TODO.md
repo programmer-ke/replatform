@@ -23,7 +23,8 @@
 - [ ] As a site owner, I have correctly configured SSL for mail
     - clients e.g. thunderbird should not ask for SSL exceptions
 	- configure postfix and dovecot with letsencrypt cert
-    - Set recommended ciphers
+    - Set recommended SSL params
+	  - https://ssl-config.mozilla.org/
 
 ### Done
 

@@ -121,3 +121,8 @@ todo: solve ssl issue then document flow
   - use root user rather than separate user with sudo and passwd
   - run ansible from within server, removes the need of having to
     install own computer
+
+## Resources
+- SSL
+  - https://github.com/drwetter/testssl.sh
+  - https://www.immuniweb.com
