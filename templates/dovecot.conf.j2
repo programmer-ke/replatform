@@ -63,7 +63,6 @@ userdb {
 # todo: remove after debugging
 mail_debug = yes
 
-# all below are default
 mail_privileged_group = mail
 
 namespace inbox {
@@ -86,9 +85,15 @@ namespace inbox {
   }
   prefix = 
 }
-ssl = required
+
+# generated 2022-11-26, Mozilla Guideline v5.6, Dovecot 2.3.13, OpenSSL 1.1.1n, intermediate configuration
+# https://ssl-config.mozilla.org/#server=dovecot&version=2.3.13&config=intermediate&openssl=1.1.1n&guideline=5.6
+ssl = required  # use ssl for everything
 ssl_cert = </etc/letsencrypt/live/{{ server_hostname }}/fullchain.pem
 ssl_key = </etc/letsencrypt/live/{{ server_hostname }}/privkey.pem
+ssl_min_protocol = TLSv1.2
+ssl_cipher_list = ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
+ssl_prefer_server_ciphers = no  # do not prioritize server ciphers and their order
+
 ssl_client_ca_dir = /etc/ssl/certs
 ssl_dh = </usr/share/dovecot/dh.pem
-
