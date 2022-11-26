@@ -20,14 +20,13 @@
 
 ### In Progress
 
-- [ ] As a site owner, I have correctly configured SSL for mail
+### Done
+
+- [x] As a site owner, I have correctly configured SSL for mail
     - clients e.g. thunderbird should not ask for SSL exceptions
 	- configure postfix and dovecot with letsencrypt cert
     - Set recommended SSL params
 	  - https://ssl-config.mozilla.org/
-
-### Done
-
 - [x] As a site owner, I can configure the retrieve mail flow
 - [x] As a site owner, I can configure the receipt mail flow
   - https://wiki.dovecot.org/HowTo/SimpleVirtualInstall
