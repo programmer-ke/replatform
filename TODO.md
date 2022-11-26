@@ -1,10 +1,6 @@
 ### Todo
 
-- [ ] Set default timezone to UTC
 - [ ] As site owner, I can configure admin mail password
-- [ ] As a site owner, I can configure the send mail flow
-  - Ensure SASL is properly configured
-    - http://www.postfix.org/SASL_README.html#server_sasl_enable
 - [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
@@ -17,8 +13,15 @@
 - [ ] As a site owner, I know how to properly configure rDNS
   - https://serverfault.com/q/24943/980378
   - https://serverfault.com/q/815054/980378
+- [ ] Set default timezone to UTC
+  - ansible module: https://docs.ansible.com/ansible/latest/collections/community/general/timezone_module.html
+  - services to restart: https://serverfault.com/q/322852/980378
 
 ### In Progress
+
+- [ ] As a site owner, I can configure the send mail flow
+  - Ensure SASL is properly configured
+    - http://www.postfix.org/SASL_README.html#server_sasl_enable
 
 ### Done
 
