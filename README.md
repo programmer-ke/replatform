@@ -114,6 +114,7 @@ Outside Network -> smptd(25) -> Postfix Queue -> Dovecot lmtp (via unix pipe) ->
 ### Retrieving mail by mail client
 
 Email client -> dovecot-imapd(143) -> Virtual or system user mailbox
+
 Email client -> dovecot-pop3d(110) -> Virtual or system user mailbox
 
 ## Guiding Principles

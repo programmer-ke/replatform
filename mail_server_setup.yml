@@ -34,6 +34,12 @@
     - regexp: '^smtp\s+inet\s+'  # The smtpd daemon listening at port 25
       line: "smtp      inet  n       -       y       -       -       smtpd"
 
+    - regexp: '^smtps\s+inet\s+'  # mail submission via implicit tls on port 465
+      line: "smtps      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/smtps -o smtpd_tls_wrappermode=yes"
+
+    - regexp: '^submission\s+inet\s+'  # mail submission via starttls on port 587
+      line: "submission      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_security_level=encrypt"
+
   notify: reload postfix
 
 - name: Update postfix configs in /etc/postfix/main.cf
