@@ -117,6 +117,12 @@ Email client -> dovecot-imapd(143) -> Virtual or system user mailbox
 
 Email client -> dovecot-pop3d(110) -> Virtual or system user mailbox
 
+### Submitting outgoing mail to server from mail client
+
+Email client -> smtpd(465) (implicit tls) -> postfix queue -> smtp client -> destination network
+
+Email client -> smtpd(587) (starttls) -> postfix queue -> smtp client -> destination network
+
 ## Guiding Principles
 - Simplicity is a feature; easy for non-tech persons
   - use root user rather than separate user with sudo and passwd
