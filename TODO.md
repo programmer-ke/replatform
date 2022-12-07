@@ -4,7 +4,8 @@
 - [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
-- [ ] As a site owner, I can configure milters
+- [ ] As a site owner, I can configure the clamav milter
+- [ ] As a site owner, I can configure the opendkim milter
 - [ ] As a site owner, I can configure sieves
 - [ ] As a site owner, I can configure Dynamic address verification with LMTP
     - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
@@ -18,6 +19,8 @@
   - services to restart: https://serverfault.com/q/322852/980378
 
 ### In Progress
+
+- [ ] As a site owner, I can configure the spamassasin milter
 
 ### Done
 
