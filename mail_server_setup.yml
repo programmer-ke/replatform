@@ -16,7 +16,7 @@
   loop:
     - postfix
     - dovecot
-    - spamassasin
+    - spamassassin
     - spamass-milter
 
 - name: Ensure that mailname is set to the hostname
