@@ -17,10 +17,13 @@
 - [ ] Set default timezone to UTC
   - ansible module: https://docs.ansible.com/ansible/latest/collections/community/general/timezone_module.html
   - services to restart: https://serverfault.com/q/322852/980378
+- [ ] Move data files to single directory hierarchy (for ease of migration)
+- [ ] Check cert expiry
 
 ### In Progress
 
 - [ ] As a site owner, I can configure the spamassasin milter
+  - https://lelutin.ca/posts/installing_postfix_-_clamav_-_spamassassin_-_dovecot_-_postfixadmin_on_debian_squeeze/
 
 ### Done
 

@@ -16,6 +16,8 @@
   loop:
     - postfix
     - dovecot
+    - spamassasin
+    - spamass-milter
 
 - name: Ensure that mailname is set to the hostname
   template:
@@ -160,6 +162,10 @@
     - regexp: "^smtp_tls_loglevel"
       line: "smtp_tls_loglevel = 2"
 
+    # configure milters
+    - regexp: "^smtpd_milters"
+      line: "smtpd_milters = unix:/spamass/spamass.sock"
+
   notify: reload postfix
 
 - name: Create vmail group to be used by vmail user
@@ -190,3 +196,44 @@
     line: "root: admin"
     state: present
   notify: update aliases db
+
+- name: Configure spamass-milter
+  lineinfile:
+    dest: "/etc/default/spamass-milter"
+    regexp: "^OPTIONS=.+-u spamass-milter"
+    # ignore localhost, don't change subject header,
+    # reject flagged messages, ignore mail by logged in users
+    line: 'OPTIONS="-u spamass-milter -i 127.0.0.1 -m -r -1 -I"'
+    state: present
+  notify: restart spamass-milter
+
+- name: Create a user for the spamd daemon with disabled login and password
+  user:
+    name: spamd
+    shell: /sbin/nologin
+    home: /var/lib/spamassassin
+    password: "!"
+
+- name: Create a directory for the spamd pidfile
+  file:
+    path: /var/run/spamd
+    state: directory
+    owner: spamd
+    group: spamd
+
+- name: Configure spamd via /etc/default/spamassassin
+  lineinfile:
+    dest: "/etc/default/spamassassin"
+    state: present
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - regexp: "^CRON="  # Update spam rules nightly
+      line: "CRON=1"
+
+    - regexp: "^OPTIONS="  # run spamd with non-root user
+      line: 'OPTIONS="--create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin -u spamd -g spamd -x"'
+      
+    - regexp: "^PIDFILE="  # Update spam rules nightly
+      line: "PIDFILE=/var/run/spamd/spamd.pid"
+  notify: restart spamassassin daemon

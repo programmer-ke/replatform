@@ -72,3 +72,9 @@
 
     - name: update aliases db
       command: newaliases
+
+    - name: restart spamass-milter
+      service: name=spamass-milter state=restarted
+
+    - name: restart spamassassin daemon
+      service: name=spamassassin state=restarted
