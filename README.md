@@ -133,3 +133,7 @@ Email client -> smtpd(587) (starttls) -> postfix queue -> smtp client -> destina
 - SSL
   - https://github.com/drwetter/testssl.sh
   - https://www.immuniweb.com
+
+- Testing
+  - http://www.jetmore.org/john/code/swaks/
+  - https://spamassassin.apache.org/gtube/

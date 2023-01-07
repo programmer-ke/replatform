@@ -4,7 +4,7 @@
 - [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
-- [ ] As a site owner, I can configure the clamav milter
+
 - [ ] As a site owner, I can configure the opendkim milter
 - [ ] As a site owner, I can configure sieves
 - [ ] As a site owner, I can configure Dynamic address verification with LMTP
@@ -22,10 +22,13 @@
 
 ### In Progress
 
-- [ ] As a site owner, I can configure the spamassasin milter
+- [ ] As a site owner, I can configure the clamav milter
   - https://lelutin.ca/posts/installing_postfix_-_clamav_-_spamassassin_-_dovecot_-_postfixadmin_on_debian_squeeze/
 
 ### Done
+
+- [x] As a site owner, I can configure the spamassasin milter
+  - https://lelutin.ca/posts/installing_postfix_-_clamav_-_spamassassin_-_dovecot_-_postfixadmin_on_debian_squeeze/
 
 - [x] As a site owner, I can configure the send mail flow
   - Ensure SASL is properly configured
