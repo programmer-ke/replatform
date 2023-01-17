@@ -167,7 +167,7 @@
 
     # configure milters
     - regexp: "^smtpd_milters"
-      line: "smtpd_milters = unix:/spamass/spamass.sock"
+      line: "smtpd_milters = unix:/clamav/clamav-milter.ctl, unix:/spamass/spamass.sock"
 
   notify: reload postfix
 
@@ -231,3 +231,35 @@
       line: 'OPTIONS="--create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin -u spamd -g spamd -x"'
       
   notify: restart spamassassin daemon
+
+- name: Create directory for postfix communication with clamav-milter
+  file:
+    state: directory
+    path: /var/spool/postfix/clamav
+    owner: clamav
+
+- name: Configure clamav-milter
+  lineinfile:
+    dest: "/etc/clamav/clamav-milter.conf"
+    state: present
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - regexp: "^MilterSocketGroup"  # Allow postfix to read milter socket
+      line: "MilterSocketGroup postfix"
+
+    - regexp: "^MilterSocketMode"
+      line: "MilterSocketMode 660"
+
+    - regexp: "^MilterSocket"  # set socket inside chrooted postfix dir
+      line: "MilterSocket /var/spool/postfix/clamav/clamav-milter.ctl"
+
+    - regexp: "^LogInfected"  # log basic message about infected email
+      line: "LogInfected Basic"
+
+    - regexp: "^SupportMultipleRecipients"  # scan multiple recipients in message separately
+      line: "SupportMultipleRecipients true"
+
+    - regexp: "^RejectMsg"  # log virus name
+      line: "RejectMsg Rejecting harmful email: %v found."
+  notify: restart clamav-milter
