@@ -214,13 +214,6 @@
     home: /var/lib/spamassassin
     password: "!"
 
-- name: Create a directory for the spamd pidfile
-  file:
-    path: /var/run/spamd
-    state: directory
-    owner: spamd
-    group: spamd
-
 - name: Configure spamd via /etc/default/spamassassin
   lineinfile:
     dest: "/etc/default/spamassassin"
@@ -234,6 +227,4 @@
     - regexp: "^OPTIONS="  # run spamd with non-root user
       line: 'OPTIONS="--create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin -u spamd -g spamd -x"'
       
-    - regexp: "^PIDFILE="  # Update spam rules nightly
-      line: "PIDFILE=/var/run/spamd/spamd.pid"
   notify: restart spamassassin daemon
