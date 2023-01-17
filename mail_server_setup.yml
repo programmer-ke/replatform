@@ -10,6 +10,7 @@
     - opendkim-tools
     - spamass-milter
     - clamav-milter
+    - clamav-unofficial-sigs
 
 - name: Ensure that mail system servers are running and start at boot
   service: "name={{ item }} state=started enabled=yes"
@@ -18,6 +19,8 @@
     - dovecot
     - spamassassin
     - spamass-milter
+    - clamav-daemon
+    - clamav-milter
 
 - name: Ensure that mailname is set to the hostname
   template:
