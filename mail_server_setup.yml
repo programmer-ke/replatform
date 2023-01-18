@@ -165,9 +165,13 @@
     - regexp: "^smtp_tls_loglevel"
       line: "smtp_tls_loglevel = 2"
 
-    # configure milters
+    # Milter Configuration
+    # --------------------
     - regexp: "^smtpd_milters"
       line: "smtpd_milters = unix:/clamav/clamav-milter.ctl, unix:/spamass/spamass.sock"
+
+    - regexp: "^milter_default_action"  # in case a milter fails, accept the message
+      line: "milter_default_action = accept"
 
   notify: reload postfix
 
