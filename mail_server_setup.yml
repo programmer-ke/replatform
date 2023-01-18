@@ -249,21 +249,21 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
-    - regexp: "^MilterSocketGroup"  # Allow postfix to read milter socket
+    - regexp: "^MilterSocketGroup\s"  # Allow postfix to read milter socket
       line: "MilterSocketGroup postfix"
 
-    - regexp: "^MilterSocketMode"
+    - regexp: "^MilterSocketMode\s"
       line: "MilterSocketMode 660"
 
-    - regexp: "^MilterSocket"  # set socket inside chrooted postfix dir
+    - regexp: "^MilterSocket\s"  # set socket inside chrooted postfix dir
       line: "MilterSocket /var/spool/postfix/clamav/clamav-milter.ctl"
 
-    - regexp: "^LogInfected"  # log basic message about infected email
+    - regexp: "^LogInfected\s"  # log basic message about infected email
       line: "LogInfected Basic"
 
-    - regexp: "^SupportMultipleRecipients"  # scan multiple recipients in message separately
+    - regexp: "^SupportMultipleRecipients\s"  # scan multiple recipients in message separately
       line: "SupportMultipleRecipients true"
 
-    - regexp: "^RejectMsg"  # log virus name
+    - regexp: "^RejectMsg\s"  # log virus name
       line: "RejectMsg Rejecting harmful email: %v found."
   notify: restart clamav-milter
