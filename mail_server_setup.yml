@@ -10,12 +10,6 @@
     - opendkim-tools
     - spamass-milter
 
-- name: Remove clamav packages
-  apt: "name={{ item }} state=absent"
-  loop:
-    - clamav-milter
-    - clamav-unofficial-sigs
-
 - name: Ensure that mail system servers are running and start at boot
   service: "name={{ item }} state=started enabled=yes"
   loop:
@@ -237,13 +231,3 @@
       line: 'OPTIONS="--create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin -u spamd -g spamd -x"'
       
   notify: restart spamassassin daemon
-
-- name: Remove directory for postfix communication with clamav-milter
-  file:
-    state: absent
-    path: /var/spool/postfix/clamav
-
-- name: clamav-milter configuration absent
-  file:
-    path: "/etc/clamav/clamav-milter.conf"
-    state: absent
