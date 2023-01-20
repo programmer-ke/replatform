@@ -24,7 +24,9 @@
 
 - [ ] As a site owner, I can configure the clamav milter
   - https://lelutin.ca/posts/installing_postfix_-_clamav_-_spamassassin_-_dovecot_-_postfixadmin_on_debian_squeeze/
-    - test virus pre and post deployment
+    - test virus pre and post deployment, verify behaviour
+	- abort clamav because of memory usage (=~ 800MB)
+- https://betatim.github.io/posts/clamav-memory-usage
 
 ### Done
 

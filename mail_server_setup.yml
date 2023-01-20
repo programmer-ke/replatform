@@ -9,6 +9,10 @@
     - opendkim
     - opendkim-tools
     - spamass-milter
+
+- name: Remove clamav packages
+  apt: "name={{ item }} state=absent"
+  loop:
     - clamav-milter
     - clamav-unofficial-sigs
 
@@ -19,8 +23,6 @@
     - dovecot
     - spamassassin
     - spamass-milter
-    - clamav-daemon
-    - clamav-milter
 
 - name: Ensure that mailname is set to the hostname
   template:
@@ -168,7 +170,7 @@
     # Milter Configuration
     # --------------------
     - regexp: "^smtpd_milters"
-      line: "smtpd_milters = unix:/clamav/clamav-milter.ctl, unix:/spamass/spamass.sock"
+      line: "smtpd_milters = unix:/spamass/spamass.sock"
 
     - regexp: "^milter_default_action"  # in case a milter fails, accept the message
       line: "milter_default_action = accept"
@@ -236,34 +238,12 @@
       
   notify: restart spamassassin daemon
 
-- name: Create directory for postfix communication with clamav-milter
+- name: Remove directory for postfix communication with clamav-milter
   file:
-    state: directory
+    state: absent
     path: /var/spool/postfix/clamav
-    owner: clamav
 
-- name: Configure clamav-milter
-  lineinfile:
-    dest: "/etc/clamav/clamav-milter.conf"
-    state: present
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-  with_items:
-    - regexp: '^MilterSocketGroup\s'  # Allow postfix to read milter socket
-      line: 'MilterSocketGroup postfix'
-
-    - regexp: '^MilterSocketMode\s'
-      line: 'MilterSocketMode 660'
-
-    - regexp: '^MilterSocket\s'  # set socket inside chrooted postfix dir
-      line: 'MilterSocket /var/spool/postfix/clamav/clamav-milter.ctl'
-
-    - regexp: '^LogInfected\s'  # log basic message about infected email
-      line: 'LogInfected Basic'
-
-    - regexp: '^SupportMultipleRecipients\s'  # scan multiple recipients in message separately
-      line: 'SupportMultipleRecipients true'
-
-    - regexp: '^RejectMsg\s'  # log virus name
-      line: 'RejectMsg Rejecting harmful email: %v found.'
-  notify: restart clamav-milter
+- name: clamav-milter configuration absent
+  file:
+    path: "/etc/clamav/clamav-milter.conf"
+    state: absent

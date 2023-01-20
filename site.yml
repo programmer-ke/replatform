@@ -78,6 +78,3 @@
 
     - name: restart spamassassin daemon
       service: name=spamassassin state=restarted
-
-    - name: restart clamav-milter
-      service: name=clamav-milter state=restarted
