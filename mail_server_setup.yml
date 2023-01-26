@@ -247,7 +247,8 @@
   become: yes
   become_user: opendkim
   become_method: su
-  command:
+  shell:
     cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item.key }} -d {{ item.key }} -s default"
     creates: "/etc/dkimkeys/{{ item.key }}/default.private"
+    executable: "/usr/bin/bash"
   loop: "{{ mail_domains | dict2items }}"
