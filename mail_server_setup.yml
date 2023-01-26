@@ -263,6 +263,7 @@
     paths: /etc/dkimkeys
     file_type: file
     patterns: "*.private"
+    recurse: true
   register: keys_list
 
 - name: Change key permissions
