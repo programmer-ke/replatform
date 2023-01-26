@@ -257,3 +257,19 @@
     cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item.key }} -d {{ item.key }} -s default"
     creates: "/etc/dkimkeys/{{ item.key }}/default.private"
   loop: "{{ mail_domains | dict2items }}"
+
+- name: Lookup all keys generated
+  find:
+    paths: /etc/dkimkeys
+    file_type: file
+    patterns: "*.private"
+  register: keys_list
+
+- name: Change key permissions
+  file:
+    path: "{{ item.path }}"
+    state: file
+    owner: opendkim
+    group: opendkim
+    mode: 0600
+  with_items: "{{ keys_list.files }}"
