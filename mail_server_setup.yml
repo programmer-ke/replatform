@@ -244,16 +244,16 @@
 # ---
 
 - name: Ensure we have dkim directories for each domain
- file:
-   path: "/etc/dkimkeys/{{ item.key }}"
-   state: directory
-   mode: 0700
-   owner: opendkim
-   group: opendkim
+  file:
+    path: "/etc/dkimkeys/{{ item.key }}"
+    state: directory
+    mode: 0700
+    owner: opendkim
+    group: opendkim
   loop: "{{ mail_domains | dict2items }}"
 
 - name: Generate opendkim keys for each domain
- shell:
-   cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item.key }} -d {{ item.key }} -s default"
-   creates: "/etc/dkimkeys/{{ item.key }}/default.private"
-   loop: "{{ mail_domains | dict2items }}"
+  shell:
+    cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item.key }} -d {{ item.key }} -s default"
+    creates: "/etc/dkimkeys/{{ item.key }}/default.private"
+    loop: "{{ mail_domains | dict2items }}"
