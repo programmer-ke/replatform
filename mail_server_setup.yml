@@ -243,12 +243,19 @@
 # OpenDKIM configuration
 # ---
 
-- name: Generate opendkim keys for each domain
-  become: yes
-  become_user: opendkim
-  become_method: su
-  shell:
-    cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item.key }} -d {{ item.key }} -s default"
-    creates: "/etc/dkimkeys/{{ item.key }}/default.private"
-    executable: "/usr/bin/bash"
+- block:
+
+  - name: Ensure we have dkim directories for each domain
+    file:
+      path: "/etc/dkimkeys/{{ item.key }}"
+      state: directory
+      mode: 0700
+      owner: opendkim
+      group: opendkim
+
+  - name: Generate opendkim keys for each domain
+    shell:
+      cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item.key }} -d {{ item.key }} -s default"
+      creates: "/etc/dkimkeys/{{ item.key }}/default.private"
+
   loop: "{{ mail_domains | dict2items }}"
