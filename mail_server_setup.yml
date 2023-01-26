@@ -23,6 +23,9 @@
     src: templates/etc_mailname.j2
     dest: /etc/mailname
 
+
+# Postfix configuration
+# ---
 - name: Update postfix configs in /etc/postfix/master.cf
   lineinfile:
     dest: "/etc/postfix/master.cf"
@@ -180,6 +183,8 @@
 - name: Create admin user for administrative emails
   user: name=admin create_home=yes
 
+# Dovecot configuration
+# ---
 - name: Update dovecot configs in /etc/dovecot/dovecot.conf
   template:
     src: templates/dovecot.conf.j2
@@ -200,6 +205,8 @@
     state: present
   notify: update aliases db
 
+# Spamassasin configuration
+# ---
 - name: Configure spamass-milter
   lineinfile:
     dest: "/etc/default/spamass-milter"
@@ -231,3 +238,15 @@
       line: 'OPTIONS="--create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin -u spamd -g spamd -x"'
       
   notify: restart spamassassin daemon
+
+
+# OpenDKIM configuration
+# ---
+
+- name: Generate opendkim keys for each domain
+  become: yes
+  become_user: opendkim
+  command:
+    cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item.key }} -d {{ item.key }} -s default"
+    creates: "/etc/dkimkeys/{{ item.key }}/default.private"
+  loop: "{{ mail_domains | dict2items }}"
