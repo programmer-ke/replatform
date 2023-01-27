@@ -243,6 +243,10 @@
 # OpenDKIM configuration
 # ---
 
+- name: Combine all mail domains
+  set_fact:
+    all_mail_domains: "{{ mail_domains.keys() | list + [server_hostname] }}"
+
 - name: Ensure we have dkim directories for each domain
   file:
     path: "/etc/dkimkeys/{{ item.key }}"
@@ -250,13 +254,13 @@
     mode: 0700
     owner: opendkim
     group: opendkim
-  loop: "{{ mail_domains | dict2items }}"
+  loop: "{{ all_mail_domains }}"
 
 - name: Generate opendkim keys for each domain
   shell:
     cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item.key }} -d {{ item.key }} -s default"
     creates: "/etc/dkimkeys/{{ item.key }}/default.private"
-  loop: "{{ mail_domains | dict2items }}"
+  loop: "{{ all_mail_domains }}"
 
 - name: Lookup all keys generated
   find:

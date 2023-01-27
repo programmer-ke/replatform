@@ -23,6 +23,7 @@
 - [ ] As a site owner, I can configure the opendkim milter
   - https://serverfault.com/questions/296492/how-do-i-use-opendkim-with-multiple-domain-names-on-a-single-server
   - https://web.archive.org/web/20100924174500/http://stevejenkins.com/blog/2010/09/how-to-get-dkim-domainkeys-identified-mail-working-on-centos-5-5-and-postfix-using-opendkim
+	- configure post key generation
 
 ### Done
 
