@@ -1,0 +1,2 @@
+{ % for domain in all_mail_domains %}default._domainkey.{{ domain }} {{ domain }}:default:/etc/dkimkeys/{{ domain }}/default.private
+{ % endfor % }

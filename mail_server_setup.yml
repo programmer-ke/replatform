@@ -278,3 +278,13 @@
     group: opendkim
     mode: 0600
   with_items: "{{ keys_list.files }}"
+
+- name: Create dkim configs directory
+  file:
+    path: "/etc/mail/dkim"
+    state: directory
+
+- name: Create the dkim KeyTables file
+  template:
+    src: templates/dkim_keytable.j2
+    dest: /etc/mail/dkim/KeyTable
