@@ -249,7 +249,7 @@
 
 - name: Ensure we have dkim directories for each domain
   file:
-    path: "/etc/dkimkeys/{{ item.key }}"
+    path: "/etc/dkimkeys/{{ item }}"
     state: directory
     mode: 0700
     owner: opendkim
@@ -258,8 +258,8 @@
 
 - name: Generate opendkim keys for each domain
   shell:
-    cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item.key }} -d {{ item.key }} -s default"
-    creates: "/etc/dkimkeys/{{ item.key }}/default.private"
+    cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item }} -d {{ item }} -s default"
+    creates: "/etc/dkimkeys/{{ item }}/default.private"
   loop: "{{ all_mail_domains }}"
 
 - name: Lookup all keys generated
