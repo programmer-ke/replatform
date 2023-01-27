@@ -288,3 +288,8 @@
   template:
     src: templates/dkim_keytable.j2
     dest: /etc/mail/dkim/KeyTable
+
+- name: Create the dkim SigningTable file
+  template:
+    src: templates/dkim_signingtable.j2
+    dest: /etc/mail/dkim/SigningTable

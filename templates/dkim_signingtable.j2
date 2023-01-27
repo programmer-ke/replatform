@@ -1,0 +1,3 @@
+{% for domain in all_mail_domains %}
+*@{{ domain }} default._domainkey.{{ domain }}
+{% endfor %}
