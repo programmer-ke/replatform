@@ -167,7 +167,10 @@
     # Milter Configuration
     # --------------------
     - regexp: "^smtpd_milters"
-      line: "smtpd_milters = unix:/spamass/spamass.sock"
+      line: "smtpd_milters = unix:/spamass/spamass.sock unix:/opendkim/opendkim.sock"
+
+    - regexp: "^non_smtpd_milters"
+      line: "non_smtpd_milters = unix:/opendkim/opendkim.sock"
 
     - regexp: "^milter_default_action"  # in case a milter fails, accept the message
       line: "milter_default_action = accept"
@@ -308,4 +311,20 @@
     - regexp: '^SigningTable\s'  # Link to signing table regex file
       line: "SigningTable         refile:/etc/mail/dkim/SigningTable"
 
+    - regexp: '^Socket\s'  # Specify unix domain socket for postfix comms
+      line: "Socket         local:/var/spool/postfix/opendkim/opendkim.sock"
+
   notify: restart opendkim
+
+- name: Create postfix socket directory
+  file:
+    path: "/var/spool/postfix/opendkim"
+    state: directory
+    owner: opendkim
+    group: opendkim
+
+- name: Add postfix user to opendkim group
+  user:
+    name: postfix
+    groups: opendkim
+    append: true
