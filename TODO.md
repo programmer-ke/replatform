@@ -1,5 +1,7 @@
 ### Todo
 
+- [ ] As a site owner, I can setup dmarc
+- [ ] As a site owner, I can setup spf
 - [ ] As site owner, I can configure admin mail password
 - [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
@@ -20,12 +22,13 @@
 
 ### In Progress
 
-- [ ] As a site owner, I can configure the opendkim milter
+### Done
+
+- [x] As a site owner, I can configure the opendkim milter
   - https://serverfault.com/questions/296492/how-do-i-use-opendkim-with-multiple-domain-names-on-a-single-server
   - https://web.archive.org/web/20100924174500/http://stevejenkins.com/blog/2010/09/how-to-get-dkim-domainkeys-identified-mail-working-on-centos-5-5-and-postfix-using-opendkim
+  - https://wiki.debian.org/opendkim
 	- configure post key generation
-
-### Done
 
 - [x] (discarded) As a site owner, I can configure the clamav milter
   - https://lelutin.ca/posts/installing_postfix_-_clamav_-_spamassassin_-_dovecot_-_postfixadmin_on_debian_squeeze/
