@@ -300,11 +300,12 @@
     state: present
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
+
   with_items:
-    - regexp: "^KeyTable\s"  # Link to keytable file
+    - regexp: '^KeyTable\s'  # Link to keytable file
       line: "KeyTable         file:/etc/mail/dkim/KeyTable"
 
-    - regexp: "^SigningTable\s"  # Link to signing table regex file
+    - regexp: '^SigningTable\s'  # Link to signing table regex file
       line: "SigningTable         refile:/etc/mail/dkim/SigningTable"
 
   notify: restart opendkim
