@@ -1,0 +1,83 @@
+---
+- name: Combine all mail domains
+  set_fact:
+    all_mail_domains: "{{ mail_domains.keys() | list + [server_hostname] }}"
+
+- name: Ensure we have dkim directories for each domain
+  file:
+    path: "/etc/dkimkeys/{{ item }}"
+    state: directory
+    mode: 0700
+    owner: opendkim
+    group: opendkim
+  loop: "{{ all_mail_domains }}"
+
+- name: Generate opendkim keys for each domain
+  shell:
+    cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item }} -d {{ item }} -s default"
+    creates: "/etc/dkimkeys/{{ item }}/default.private"
+  loop: "{{ all_mail_domains }}"
+
+- name: Lookup all keys generated
+  find:
+    paths: /etc/dkimkeys
+    file_type: file
+    patterns: "*.private"
+    recurse: true
+  register: keys_list
+
+- name: Change key permissions
+  file:
+    path: "{{ item.path }}"
+    state: file
+    owner: opendkim
+    group: opendkim
+    mode: 0600
+  with_items: "{{ keys_list.files }}"
+
+- name: Create dkim configs directory
+  file:
+    path: "/etc/mail/dkim"
+    state: directory
+
+- name: Create the dkim KeyTables file
+  template:
+    src: templates/dkim_keytable.j2
+    dest: /etc/mail/dkim/KeyTable
+
+- name: Create the dkim SigningTable file
+  template:
+    src: templates/dkim_signingtable.j2
+    dest: /etc/mail/dkim/SigningTable
+
+- name: Configure /etc/opendkim.conf
+  lineinfile:
+    dest: "/etc/opendkim.conf"
+    state: present
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+
+  with_items:
+    - regexp: '^KeyTable\s'  # Link to keytable file
+      line: "KeyTable         file:/etc/mail/dkim/KeyTable"
+
+    - regexp: '^SigningTable\s'  # Link to signing table regex file
+      line: "SigningTable         refile:/etc/mail/dkim/SigningTable"
+
+    - regexp: '^Socket\s'  # Specify unix domain socket for postfix comms
+      line: "Socket         local:/var/spool/postfix/opendkim/opendkim.sock"
+
+  notify: restart opendkim
+
+- name: Create postfix socket directory
+  file:
+    path: "/var/spool/postfix/opendkim"
+    state: directory
+    owner: opendkim
+    group: opendkim
+
+- name: Add postfix user to opendkim group
+  user:
+    name: postfix
+    groups: opendkim
+    append: true

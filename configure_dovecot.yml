@@ -1,0 +1,18 @@
+---
+- name: Create vmail group to be used by vmail user
+  group: name=vmail state=present
+
+- name: Create vmail user for virtual mail domain hosting
+  user: name=vmail group=vmail create_home=yes
+
+- name: Update dovecot configs in /etc/dovecot/dovecot.conf
+  template:
+    src: templates/dovecot.conf.j2
+    dest: /etc/dovecot/dovecot.conf
+    backup: yes
+  notify: reload dovecot
+
+- name: Create virtual accounts password file
+  template:
+    src: templates/etc_dovecot_passwd.j2
+    dest: /etc/dovecot/passwd

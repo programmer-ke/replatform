@@ -44,8 +44,12 @@
     - include_tasks: ssh.yml
     - include_tasks: unattended_upgrades.yml
     - include_tasks: ssl_cert.yml
-    - include_tasks: webserver_setup.yml
+    - include_tasks: web_server_setup.yml
+      tags:
+        - web_server
     - include_tasks: mail_server_setup.yml
+      tags:
+        - mail_server
     # last set of tasks      
     - include_tasks: reboot_required_check.yml
 

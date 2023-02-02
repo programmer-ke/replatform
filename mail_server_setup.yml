@@ -23,182 +23,28 @@
     src: templates/etc_mailname.j2
     dest: /etc/mailname
 
+- name: Configure postfix
+  include_tasks: configure_postfix.yml
+  tags:
+    - postfix
 
-# Postfix configuration
-# ---
-- name: Update postfix configs in /etc/postfix/master.cf
-  lineinfile:
-    dest: "/etc/postfix/master.cf"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
-    mode: 0644
-    backup: yes
-  with_items:
-    - regexp: '^smtp\s+inet\s+'  # The smtpd daemon listening at port 25
-      line: "smtp      inet  n       -       y       -       -       smtpd"
+- name: Configure dovecot
+  include_tasks: configure_dovecot.yml
+  tags:
+    - dovecot
 
-    - regexp: '^smtps\s+inet\s+'  # mail submission via implicit tls on port 465
-      line: "smtps      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/smtps -o smtpd_tls_wrappermode=yes"
+- name: Configure spamassasin
+  include_tasks: configure_spamassassin.yml
+  tags:
+    - spamassassin
 
-    - regexp: '^submission\s+inet\s+'  # mail submission via starttls on port 587
-      line: "submission      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_security_level=encrypt"
-
-  notify: reload postfix
-
-- name: Update postfix configs in /etc/postfix/main.cf
-  lineinfile:
-    dest: "/etc/postfix/main.cf"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
-    mode: 0644
-    backup: yes
-  with_items:
-    - regexp: "^myorigin"
-      line: "myorigin = /etc/mailname"
-
-    - regexp: "^mydestination"
-      line: "mydestination = $myhostname, myplatform.dataengineering.co.ke, localhost.dataengineering.co.ke, localhost"
-
-    - regexp: "^mynetworks"  # Relay mail from host only
-      line: "mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128"
-
-    - regexp: "^relayhost"  # delivery mail directly to the internet
-      line: "relayhost ="
-
-    # use dovecot lmtp as virtual transport
-    - regexp: "^virtual_transport"
-      line: "virtual_transport = lmtp:unix:private/dovecot-lmtp"
-
-    - regexp: "^mailbox_transport"
-      line: "mailbox_transport = lmtp:unix:private/dovecot-lmtp"
-
-
-
-    # list of virtual domains being hosted
-    - regexp: "^virtual_mailbox_domains"
-      line: >-
-        virtual_mailbox_domains =
-        {% for domain in mail_domains %}
-        {{ domain }}
-        {% endfor %}
-
-    # Settings to communicate with dovecot via SASL
-    # Dovecot authenticates clients who're sending mail
-    # ---
-    - regexp: "^smtpd_sasl_auth_enable"
-      line: "smtpd_sasl_auth_enable = yes"
-
-    - regexp: "^smtpd_sasl_type"
-      line: "smtpd_sasl_type = dovecot"
-
-    # communication socket relative to the queue directory
-    - regexp: "^smtpd_sasl_path"
-      line: "smtpd_sasl_path = private/auth"
-
-    - regexp: "^broken_sasl_auth_clients"  # cater for non-compliant clients
-      line: "broken_sasl_auth_clients = yes"
-
-    # limit sending ability to my network and sasl authenticated only
-    - regexp: "^smtpd_relay_restrictions"
-      line: "smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated reject_unauth_destination"
-
-    # disable anonymous auth and plaintext auth in non-tls sessions
-    - regexp: "^smtpd_sasl_security_options"
-      line: "smtpd_sasl_security_options = noanonymous, noplaintext"
-
-    - regexp: "^smtpd_sasl_tls_security_options"
-      line: "smtpd_sasl_tls_security_options = noanonymous"
-
-    # SSL configuration
-    # ---
-    # https://ssl-config.mozilla.org/#server=postfix&version=3.5.13&config=intermediate&openssl=1.1.1n&guideline=5.6
-    # generated 2022-11-23, Mozilla Guideline v5.6, Postfix 3.5.13, OpenSSL 1.1.1n, intermediate configuration
-    - regexp: "^smtpd_tls_key_file"
-      line: "smtpd_tls_key_file = /etc/letsencrypt/live/{{ server_hostname }}/privkey.pem"
-
-    - regexp: "^smtpd_tls_cert_file"
-      line: "smtpd_tls_cert_file = /etc/letsencrypt/live/{{ server_hostname }}/fullchain.pem"
-
-    # announce STARTTLS but do not require it
-    - regexp: "^smtpd_tls_security_level"
-      line: "smtpd_tls_security_level = may"
-
-    # Use ssl if possible with remote SMTP servers
-    - regexp: "^smtp_tls_security_level"
-      line: "smtp_tls_security_level = may"
-
-    # only authenticate through tls
-    - regexp: "^smtpd_tls_auth_only"
-      line: "smtpd_tls_auth_only = yes"
-
-    # exclude older ssl/tls versions with mandatory tls
-    - regexp: "^smtpd_tls_mandatory_protocols"
-      line: "smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1"
-
-    # exclude older ssl/tls versions with opportunistic tls
-    - regexp: "^smtpd_tls_protocols"
-      line: "smtpd_tls_protocols = !SSLv2, !SSLv3, !TLSv1, !TLSv1.1"
-
-    # use 128-bit or longer symmetric bulk-encryption keys
-    - regexp: "^smtpd_tls_mandatory_ciphers"
-      line: "smtpd_tls_mandatory_ciphers = medium"
-
-    # medium cipher list to use with above setting
-    - regexp: "^tls_medium_cipherlist"
-      line: "tls_medium_cipherlist = ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
-
-    # do not preempt cipher list order preferred by client
-    - regexp: "^tls_preempt_cipherlist"
-      line: "tls_preempt_cipherlist = no"
-
-    # Use dhparams set up with the letsencrypt cert
-    - regexp: "^smtpd_tls_dh1024_param_file"
-      line: "smtpd_tls_dh1024_param_file = /etc/letsencrypt/ssl-dhparams.pem"
-
-    # enable logging of tls connections
-    - regexp: "^smtpd_tls_loglevel"
-      line: "smtpd_tls_loglevel = 2"
-
-    - regexp: "^smtp_tls_loglevel"
-      line: "smtp_tls_loglevel = 2"
-
-    # Milter Configuration
-    # --------------------
-    - regexp: "^smtpd_milters"
-      line: "smtpd_milters = unix:/spamass/spamass.sock unix:/opendkim/opendkim.sock"
-
-    - regexp: "^non_smtpd_milters"
-      line: "non_smtpd_milters = unix:/opendkim/opendkim.sock"
-
-    - regexp: "^milter_default_action"  # in case a milter fails, accept the message
-      line: "milter_default_action = accept"
-
-  notify: reload postfix
-
-- name: Create vmail group to be used by vmail user
-  group: name=vmail state=present
-
-- name: Create vmail user for virtual mail domain hosting
-  user: name=vmail group=vmail create_home=yes
+- name: Configure DKIM
+  include_tasks: configure_dkim.yml
+  tags:
+    - dkim
 
 - name: Create admin user for administrative emails
   user: name=admin create_home=yes
-
-# Dovecot configuration
-# ---
-- name: Update dovecot configs in /etc/dovecot/dovecot.conf
-  template:
-    src: templates/dovecot.conf.j2
-    dest: /etc/dovecot/dovecot.conf
-    backup: yes
-  notify: reload dovecot
-
-- name: Create virtual accounts password file
-  template:
-    src: templates/etc_dovecot_passwd.j2
-    dest: /etc/dovecot/passwd
 
 - name: Redirect mail meant for root to admin user
   lineinfile:
@@ -208,123 +54,5 @@
     state: present
   notify: update aliases db
 
-# Spamassasin configuration
-# ---
-- name: Configure spamass-milter
-  lineinfile:
-    dest: "/etc/default/spamass-milter"
-    regexp: "^OPTIONS=.+-u spamass-milter"
-    # ignore localhost, don't change subject header,
-    # reject flagged messages, ignore mail by logged in users
-    line: 'OPTIONS="-u spamass-milter -i 127.0.0.1 -m -r -1 -I"'
-    state: present
-  notify: restart spamass-milter
-
-- name: Create a user for the spamd daemon with disabled login and password
-  user:
-    name: spamd
-    shell: /sbin/nologin
-    home: /var/lib/spamassassin
-    password: "!"
-
-- name: Configure spamd via /etc/default/spamassassin
-  lineinfile:
-    dest: "/etc/default/spamassassin"
-    state: present
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-  with_items:
-    - regexp: "^CRON="  # Update spam rules nightly
-      line: "CRON=1"
-
-    - regexp: "^OPTIONS="  # run spamd with non-root user
-      line: 'OPTIONS="--create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin -u spamd -g spamd -x"'
-      
-  notify: restart spamassassin daemon
 
 
-# OpenDKIM configuration
-# ---
-
-- name: Combine all mail domains
-  set_fact:
-    all_mail_domains: "{{ mail_domains.keys() | list + [server_hostname] }}"
-
-- name: Ensure we have dkim directories for each domain
-  file:
-    path: "/etc/dkimkeys/{{ item }}"
-    state: directory
-    mode: 0700
-    owner: opendkim
-    group: opendkim
-  loop: "{{ all_mail_domains }}"
-
-- name: Generate opendkim keys for each domain
-  shell:
-    cmd: "opendkim-genkey -D /etc/dkimkeys/{{ item }} -d {{ item }} -s default"
-    creates: "/etc/dkimkeys/{{ item }}/default.private"
-  loop: "{{ all_mail_domains }}"
-
-- name: Lookup all keys generated
-  find:
-    paths: /etc/dkimkeys
-    file_type: file
-    patterns: "*.private"
-    recurse: true
-  register: keys_list
-
-- name: Change key permissions
-  file:
-    path: "{{ item.path }}"
-    state: file
-    owner: opendkim
-    group: opendkim
-    mode: 0600
-  with_items: "{{ keys_list.files }}"
-
-- name: Create dkim configs directory
-  file:
-    path: "/etc/mail/dkim"
-    state: directory
-
-- name: Create the dkim KeyTables file
-  template:
-    src: templates/dkim_keytable.j2
-    dest: /etc/mail/dkim/KeyTable
-
-- name: Create the dkim SigningTable file
-  template:
-    src: templates/dkim_signingtable.j2
-    dest: /etc/mail/dkim/SigningTable
-
-- name: Configure /etc/opendkim.conf
-  lineinfile:
-    dest: "/etc/opendkim.conf"
-    state: present
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-
-  with_items:
-    - regexp: '^KeyTable\s'  # Link to keytable file
-      line: "KeyTable         file:/etc/mail/dkim/KeyTable"
-
-    - regexp: '^SigningTable\s'  # Link to signing table regex file
-      line: "SigningTable         refile:/etc/mail/dkim/SigningTable"
-
-    - regexp: '^Socket\s'  # Specify unix domain socket for postfix comms
-      line: "Socket         local:/var/spool/postfix/opendkim/opendkim.sock"
-
-  notify: restart opendkim
-
-- name: Create postfix socket directory
-  file:
-    path: "/var/spool/postfix/opendkim"
-    state: directory
-    owner: opendkim
-    group: opendkim
-
-- name: Add postfix user to opendkim group
-  user:
-    name: postfix
-    groups: opendkim
-    append: true
