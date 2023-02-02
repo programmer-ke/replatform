@@ -6,7 +6,6 @@
 - [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
-- [ ] As a site owner, I can configure sieves
 - [ ] As a site owner, I can configure Dynamic address verification with LMTP
     - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
 - [ ] As a site owner, I am notified of automated upgrades
@@ -21,6 +20,19 @@
 - [ ] Check cert expiry
 
 ### In Progress
+
+- [ ] As a site owner, I can configure dovecot sieves
+  - https://doc.dovecot.org/configuration_manual/sieve/configuration/
+   - consider task on single directory hierarchy as prerequisite
+   - does the milter mark email headers, or simply rejects spam?
+     - depends on setting -r nn. See /etc/default/spamass-filter
+       - see: https://mailtrap.io/blog/spamassassin-score/
+       - see man spamassassin
+   - plan:
+     - modify mail directory structure
+       - see: https://doc.dovecot.org/admin_manual/mailbox_formats/maildir/#directory-structure
+     - allow lowly scored message through
+     - add relevant dovecot sieve to redirect spam to 'junk' folder
 
 ### Done
 

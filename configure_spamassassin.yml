@@ -3,8 +3,10 @@
   lineinfile:
     dest: "/etc/default/spamass-milter"
     regexp: "^OPTIONS=.+-u spamass-milter"
-    # ignore localhost, don't change subject header,
-    # reject flagged messages, ignore mail by logged in users
+    # -i 127.0.0.1: ignore localhost
+    # -m: don't change subject header
+    # -r -1: reject flagged messages
+    # -I: ignore mail by logged in users
     line: 'OPTIONS="-u spamass-milter -i 127.0.0.1 -m -r -1 -I"'
     state: present
   notify: restart spamass-milter
