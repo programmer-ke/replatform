@@ -128,6 +128,7 @@ Email client -> smtpd(587) (starttls) -> postfix queue -> smtp client -> destina
   - use root user rather than separate user with sudo and passwd
   - run ansible from within server, removes the need of having to
     install own computer
+  - use only packages maintained by debian stable
 
 ## Resources
 - SSL
