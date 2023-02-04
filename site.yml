@@ -24,6 +24,7 @@
         when: not private_vars_file.stat.exists
 
       delegate_to: 127.0.0.1
+    tags: always
 
     - include_tasks: hostname.yml
 
