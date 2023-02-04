@@ -23,7 +23,11 @@ protocol lmtp {
   postmaster_address = postmaster@myplatform.dataengineering.co.ke
 }
 
-mail_location = maildir:~/Maildir  # use maildir format
+# Override the default maildir++ layout so that e.g.
+# Maildir/.Trash becomes becomes Maildir/Trash
+# Also have the inbox path specified so that mail
+# goes to Maildir/Inbox/{new,cur,tmp} instead of Maildir/{new,cur/tmp}
+mail_location = maildir:~/Maildir:LAYOUT=fs:INBOX=~/Maildir/Inbox
 
 # use IMAP’s UIDVALIDITY and UID values
 # to track downloaded messages
