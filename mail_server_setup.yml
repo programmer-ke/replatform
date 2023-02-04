@@ -28,10 +28,10 @@
   tags:
     - postfix
 
-- name: Configure dovecot
-  include_tasks: configure_dovecot.yml
-  tags:
-    - dovecot
+- block:
+  - name: Configure dovecot
+    include_tasks: configure_dovecot.yml
+  tags: dovecot
 
 - name: Configure spamassasin
   include_tasks: configure_spamassassin.yml
