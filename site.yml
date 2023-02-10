@@ -85,3 +85,6 @@
 
     - name: restart opendkim
       service: name=opendkim state=restarted
+
+    - name: pre-compile default sieve
+      command: sievec /var/lib/dovecot/sieve/default.sieve

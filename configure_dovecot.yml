@@ -16,3 +16,14 @@
   template:
     src: templates/etc_dovecot_passwd.j2
     dest: /etc/dovecot/passwd
+
+- name: Ensure sieve directories exist
+  file:
+    path: /var/lib/dovecot/sieve/global/
+    state: directory
+
+- name: Configure default sieve for spam filtering
+  template:
+    src: templates/default.sieve.j2
+    dest: /var/lib/dovecot/sieve/default.sieve
+  notify: pre-compile default sieve
