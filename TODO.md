@@ -21,7 +21,9 @@
 
 ### In Progress
 
-- [ ] As a site owner, I can configure dovecot sieves
+### Done
+
+- [x] As a site owner, I can configure dovecot sieves
   - https://doc.dovecot.org/configuration_manual/sieve/configuration/
    - consider task on single directory hierarchy as prerequisite
    - does the milter mark email headers, or simply rejects spam?
@@ -33,11 +35,7 @@
        - see: https://doc.dovecot.org/admin_manual/mailbox_formats/maildir/#directory-structure
      - [x] allow lowly scored message through
 	   - swaks --to info@99nth.co.ke --body=~/Desktop/spam-tests/spamtext.txt
-     - add relevant dovecot sieve to redirect spam to 'junk' folder
-       
-
-### Done
-
+     - [x] add relevant dovecot sieve to redirect spam to 'junk' folder
 - [x] As a site owner, I can configure the opendkim milter
   - https://serverfault.com/questions/296492/how-do-i-use-opendkim-with-multiple-domain-names-on-a-single-server
   - https://web.archive.org/web/20100924174500/http://stevejenkins.com/blog/2010/09/how-to-get-dkim-domainkeys-identified-mail-working-on-centos-5-5-and-postfix-using-opendkim
