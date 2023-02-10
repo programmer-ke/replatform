@@ -29,10 +29,12 @@
        - see: https://mailtrap.io/blog/spamassassin-score/
        - see man spamassassin
    - plan:
-     - modify mail directory structure
+     - [x] modify mail directory structure
        - see: https://doc.dovecot.org/admin_manual/mailbox_formats/maildir/#directory-structure
-     - allow lowly scored message through
+     - [x] allow lowly scored message through
+	   - swaks --to info@99nth.co.ke --body=~/Desktop/spam-tests/spamtext.txt
      - add relevant dovecot sieve to redirect spam to 'junk' folder
+       
 
 ### Done
 

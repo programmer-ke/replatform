@@ -6,6 +6,7 @@
     - dovecot-imapd
     - dovecot-pop3d
     - dovecot-lmtpd
+    - dovecot-sieve
     - opendkim
     - opendkim-tools
     - spamass-milter

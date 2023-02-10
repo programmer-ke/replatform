@@ -21,6 +21,15 @@ service auth {
 
 protocol lmtp {
   postmaster_address = postmaster@myplatform.dataengineering.co.ke
+  mail_plugins = $mail_plugins sieve  # enable filtering via sieve scripts
+}
+
+plugin {
+  # default sieve used for users       
+  sieve_default = /var/lib/dovecot/sieve/default.sieve
+
+  # Included :global scripts reside here
+  sieve_global = /var/lib/dovecot/sieve/global/
 }
 
 # Override the default maildir++ layout so that e.g.
@@ -63,6 +72,8 @@ userdb {
   driver = static
   args = uid=vmail gid=vmail home=/home/vmail/%d/%n
 }
+
+mail_debug = yes  # todo: remember to turn off
 
 mail_privileged_group = mail
 
