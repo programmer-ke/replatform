@@ -12,6 +12,12 @@
     backup: yes
   notify: reload dovecot
 
+- name: Ensure we have packages for generating the encrypted passwords
+  apt: "name={{ item }} state=present"
+  loop:
+    - python3-passlib
+    - python3-bcrypt
+
 - name: Create virtual accounts password file
   template:
     src: templates/etc_dovecot_passwd.j2
