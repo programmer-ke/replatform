@@ -18,17 +18,10 @@
     - python3-passlib
     - python3-bcrypt
 
-- name: Generate random salt to use for encryption
-  shell:
-    cmd: "tr -dc A-Za-z0-9 </dev/urandom | head -c 22 > /etc/dovecot/salt"
-    creates: /etc/dovecot/salt
-
 - name: Create virtual accounts password file
   template:
     src: templates/etc_dovecot_passwd.j2
     dest: /etc/dovecot/passwd
-  vars:
-    salt: "{{ lookup('file', '/etc/dovecot/salt') }}"
 
 - name: Ensure sieve directories exist
   file:
