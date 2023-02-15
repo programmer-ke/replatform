@@ -6,8 +6,10 @@
 - [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
-- [ ] As a site owner, I can configure Dynamic address verification with LMTP
+- [ ] Optimization 
+  - [ ] As a site owner, I can configure Dynamic address verification with LMTP
     - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
+  - [ ] Backscatter: http://www.postfix.org/BACKSCATTER_README.html
 - [ ] As a site owner, I am notified of automated upgrades
   - Configure notification email for unattended-upgrades
 - [ ] As a site owner, I know how to properly configure rDNS
@@ -18,8 +20,11 @@
   - services to restart: https://serverfault.com/q/322852/980378
 - [ ] Move data files to single directory hierarchy (for ease of migration)
 - [ ] Check cert expiry
+- [ ] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993
 
 ### In Progress
+- [ ] Figure out password encryption in for virtual users
+  - how does it work with system users in ansible?
 
 ### Done
 

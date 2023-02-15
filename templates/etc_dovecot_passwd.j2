@@ -1,5 +1,5 @@
 {% for domain, info in mail_domains.items() %}
 {% for username, passwd in info.items() %}
-{{ username }}@{{ domain }}:{PLAIN}{{ passwd }}::::::
+{{ username }}@{{ domain }}:{BLF-CRYPT}{{ passwd | password_hash('blowfish', 2**32 | random(seed=inventory_hostname) | string) }}::::::
 {% endfor %}
 {% endfor %}
