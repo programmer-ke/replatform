@@ -1,5 +1,5 @@
 {% for domain, info in mail_domains.items() %}
 {% for username, passwd in info.items() %}
-{{ username }}@{{ domain }}:{BLF-CRYPT}{{ passwd | password_hash('blowfish', ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890' | shuffle(seed=inventory_hostname) | join)[:21] + ('Oeu' | shuffle(seed=inventory_hostname) | join)[1], rounds=11) }}::::::
+{{ username }}@{{ domain }}:{BLF-CRYPT}{{ passwd | password_hash('blowfish', ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890' | shuffle(seed=server_hostname) | join)[:21] + ('Oeu' | shuffle(seed=server_hostname) | join)[1], rounds=11) }}::::::
 {% endfor %}
 {% endfor %}
