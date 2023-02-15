@@ -2,7 +2,7 @@
 
 - [ ] As a site owner, I can setup dmarc
 - [ ] As a site owner, I can setup spf
-- [ ] As site owner, I can configure admin mail password
+
 - [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
@@ -23,11 +23,14 @@
 - [ ] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993
 
 ### In Progress
-- [ ] Figure out password encryption in for virtual users
-  - how does it work with system users in ansible?
+
+- [ ] As site owner, I can configure admin mail password
 
 ### Done
 
+- [x] Figure out password encryption in for virtual users
+  - how does it work with system users in ansible?
+    - one can provided a hashed password. 
 - [x] As a site owner, I can configure dovecot sieves
   - https://doc.dovecot.org/configuration_manual/sieve/configuration/
    - consider task on single directory hierarchy as prerequisite
