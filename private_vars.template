@@ -43,8 +43,19 @@ cert_admin_email: myusername@somedomain.com
 
 mail_domains:
   example1.com:
-    info: somesecretpasswd1
-    jane: somesecretpasswd2
+    info: "somesecretpasswd1"
+    jane: "somesecretpasswd2"
   example2.com:
-    jane: somesecretpasswd3
-    john: somesecretpasswd4
+    jane: "somesecretpasswd3"
+    john: "somesecretpasswd4"
+
+# Mail password for the administrative email address that will be
+# created as `admin@<server_hostname>`.
+#
+# All administrative email e.g. alerts from the server will be
+# sent to this address.
+#
+# For each of the hosted domains, mail to postmaster@<domain> will also
+# be directed to this address as well, so problems to do with email
+# deliverability will be sent here as well.
+admin_mail_password: "some super secret password"

@@ -1,12 +1,13 @@
 ### Todo
 
+
 - [ ] As a site owner, I can setup dmarc
 - [ ] As a site owner, I can setup spf
 
 - [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
-- [ ] Optimization 
+- [ ] Optimization
   - [ ] As a site owner, I can configure Dynamic address verification with LMTP
     - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
   - [ ] Backscatter: http://www.postfix.org/BACKSCATTER_README.html
@@ -27,7 +28,8 @@
 - [ ] As site owner, I can configure admin mail password
 
 ### Done
-
+- [x] Fix issue with fs layout (send folder not found)
+  - Need to manually mv e.g. .Sent to Sent, for existing accounts
 - [x] Figure out password encryption in for virtual users
   - how does it work with system users in ansible?
     - one can provided a hashed password. 

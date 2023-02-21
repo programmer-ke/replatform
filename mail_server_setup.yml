@@ -45,7 +45,10 @@
     - dkim
 
 - name: Create admin user for administrative emails
-  user: name=admin create_home=yes
+  user:
+    name: admin
+    create_home: yes
+    password: "{{ admin_mail_password | password_hash('blowfish', ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890' | shuffle(seed=server_hostname) | join)[:21] + ('Oeu' | shuffle(seed=server_hostname) | join)[1], rounds=11) }}"
 
 - name: Redirect mail meant for root to admin user
   lineinfile:
