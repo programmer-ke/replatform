@@ -62,11 +62,20 @@
     state: present
   notify: update aliases db
 
-- name: Redirect sent to postfix for all domains to admin user
+- name: Redirect mail sent to local postfix user to admin user
   lineinfile:
     dest: "/etc/aliases"
-    regexp: "^postmaster@{{ item }}:"
-    line: "postmaster@{{ item }}: admin"
+    regexp: "^postmaster:"
+    line: "postmaster: admin"
     state: present
   notify: update aliases db
+
+- name: Redirect mail sent to postfix for all domains to local postfix user
+  lineinfile:
+    dest: "/etc/postfix/virtual"
+    create: true
+    regexp: '^postmaster@{{ item }}\s'
+    line: "postmaster@{{ item }} postmaster"
+    state: present
+  notify: update virtual alias maps db
   with_items: "{{ all_mail_domains }}"

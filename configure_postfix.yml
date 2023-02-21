@@ -57,6 +57,10 @@
         {{ domain }}
         {% endfor %}
 
+    # configure aliases lookup table for virtual addresses
+    - regexp: "^virtual_alias_maps"
+      line: "virtual_alias_maps = hash:/etc/postfix/virtual"
+
     # Settings to communicate with dovecot via SASL
     # Dovecot authenticates clients who're sending mail
     # ---

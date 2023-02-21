@@ -77,6 +77,9 @@
     - name: update aliases db
       command: newaliases
 
+    - name: update virtual alias maps db
+      command: postmap /etc/postfix/virtual
+
     - name: restart spamass-milter
       service: name=spamass-milter state=restarted
 
