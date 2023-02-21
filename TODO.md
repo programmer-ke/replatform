@@ -3,16 +3,12 @@
 
 - [ ] As a site owner, I can setup dmarc
 - [ ] As a site owner, I can setup spf
-
-
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
 - [ ] Optimization
   - [ ] As a site owner, I can configure Dynamic address verification with LMTP
     - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
   - [ ] Backscatter: http://www.postfix.org/BACKSCATTER_README.html
-- [ ] As a site owner, I am notified of automated upgrades
-  - Configure notification email for unattended-upgrades
 - [ ] As a site owner, I know how to properly configure rDNS
   - https://serverfault.com/q/24943/980378
   - https://serverfault.com/q/815054/980378
@@ -24,9 +20,11 @@
 - [ ] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993
 
 ### In Progress
-- [ ] As a site owner, I can appropriately redirect mail meant for postmaster
+- [ ] As a site owner, I am notified of automated upgrades
+  - Configure notification email for unattended-upgrades
 
 ### Done
+- [x] As a site owner, I can appropriately redirect mail meant for postmaster
 - [x] As site owner, I can configure admin mail password
 - [x] Fix issue with fs layout (send folder not found)
   - Need to manually mv e.g. .Sent to Sent, for existing accounts
