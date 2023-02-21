@@ -20,7 +20,7 @@ service auth {
 }
 
 protocol lmtp {
-  postmaster_address = postmaster@myplatform.dataengineering.co.ke
+  postmaster_address = postmaster@{{ server_hostname }}
   mail_plugins = $mail_plugins sieve  # enable filtering via sieve scripts
 }
 
