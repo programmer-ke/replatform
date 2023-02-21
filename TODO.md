@@ -4,7 +4,7 @@
 - [ ] As a site owner, I can setup dmarc
 - [ ] As a site owner, I can setup spf
 
-- [ ] As a site owner, I can appropriately redirect mail meant for postmaster
+
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
 - [ ] Optimization
@@ -24,10 +24,10 @@
 - [ ] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993
 
 ### In Progress
-
-- [ ] As site owner, I can configure admin mail password
+- [ ] As a site owner, I can appropriately redirect mail meant for postmaster
 
 ### Done
+- [x] As site owner, I can configure admin mail password
 - [x] Fix issue with fs layout (send folder not found)
   - Need to manually mv e.g. .Sent to Sent, for existing accounts
 - [x] Figure out password encryption in for virtual users

@@ -19,6 +19,10 @@
     - spamassassin
     - spamass-milter
 
+- name: Combine all mail domains
+  set_fact:
+    all_mail_domains: "{{ mail_domains.keys() | list + [server_hostname] }}"
+
 - name: Ensure that mailname is set to the hostname
   template:
     src: templates/etc_mailname.j2
@@ -57,3 +61,12 @@
     line: "root: admin"
     state: present
   notify: update aliases db
+
+- name: Redirect sent to postfix for all domains to admin user
+  lineinfile:
+    dest: "/etc/aliases"
+    regexp: "^postmaster@{{ item }}:"
+    line: "postmaster@{{ item }}: admin"
+    state: present
+  notify: update aliases db
+  with_items: all_mail_domains

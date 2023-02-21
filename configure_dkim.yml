@@ -1,8 +1,4 @@
 ---
-- name: Combine all mail domains
-  set_fact:
-    all_mail_domains: "{{ mail_domains.keys() | list + [server_hostname] }}"
-
 - name: Ensure we have dkim directories for each domain
   file:
     path: "/etc/dkimkeys/{{ item }}"
