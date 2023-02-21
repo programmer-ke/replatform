@@ -69,4 +69,4 @@
     line: "postmaster@{{ item }}: admin"
     state: present
   notify: update aliases db
-  with_items: all_mail_domains
+  with_items: "{{ all_mail_domains }}"
