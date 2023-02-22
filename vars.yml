@@ -4,3 +4,11 @@
 # Specify a particular time in 24 hr hh:mm format e.g "17:30" to reboot
 # at 1730hrs
 unattended_upgrade_reboot_time: "now"
+
+# mail to which information on unattended upgrades is sent
+unattended_upgrade_mail_address: "admin@{{ server_hostname }}"
+
+# Trigger for email notification
+# Set this value to one of:
+#    "always", "only-on-error" or "on-change"
+unattended_upgrade_mail_report_trigger: "on-change"

@@ -14,3 +14,9 @@ Unattended-Upgrade::Automatic-Reboot "true";
 // time instead of immediately
 //  Default: "now"
 Unattended-Upgrade::Automatic-Reboot-Time "{{ unattended_upgrade_reboot_time }}";
+
+// mail to which information on unattended upgrades is sent
+Unattended-Upgrade::Mail "{{ unattended_upgrade_mail_address }}";
+
+// Condition that triggers email report
+Unattended-Upgrade::MailReport "{{ unattended_upgrade_mail_report_trigger }}";

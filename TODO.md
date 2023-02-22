@@ -20,6 +20,7 @@
 - [ ] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993
 
 ### In Progress
+
 - [ ] As a site owner, I am notified of automated upgrades
   - Configure notification email for unattended-upgrades
 
