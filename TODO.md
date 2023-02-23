@@ -13,15 +13,16 @@
   - https://serverfault.com/q/24943/980378
   - https://serverfault.com/q/815054/980378
 
-- [ ] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993
+
 
 ### In Progress
 
-- [ ] Set default timezone to UTC
-  - ansible module: https://docs.ansible.com/ansible/latest/collections/community/general/timezone_module.html
-  - services to restart: https://serverfault.com/q/322852/980378
+- [ ] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993
 
 ### Done
+- [x] Set default timezone to UTC
+  - ansible module: https://docs.ansible.com/ansible/latest/collections/community/general/timezone_module.html
+  - services to restart: https://serverfault.com/q/322852/980378
 - [x] (discarded) Check cert expiry
 - [x] (Discarded) Move data files to single directory hierarchy (for ease of migration)
 - [x] As a site owner, I am notified of automated upgrades
