@@ -5,26 +5,27 @@
 - [ ] As a site owner, I can setup spf
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
-- [ ] Optimization
+- [ ] Optimization. Understand the following
   - [ ] As a site owner, I can configure Dynamic address verification with LMTP
     - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
   - [ ] Backscatter: http://www.postfix.org/BACKSCATTER_README.html
 - [ ] As a site owner, I know how to properly configure rDNS
   - https://serverfault.com/q/24943/980378
   - https://serverfault.com/q/815054/980378
-- [ ] Set default timezone to UTC
-  - ansible module: https://docs.ansible.com/ansible/latest/collections/community/general/timezone_module.html
-  - services to restart: https://serverfault.com/q/322852/980378
-- [ ] Move data files to single directory hierarchy (for ease of migration)
-- [ ] Check cert expiry
+
 - [ ] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993
 
 ### In Progress
 
-- [ ] As a site owner, I am notified of automated upgrades
-  - Configure notification email for unattended-upgrades
+- [ ] Set default timezone to UTC
+  - ansible module: https://docs.ansible.com/ansible/latest/collections/community/general/timezone_module.html
+  - services to restart: https://serverfault.com/q/322852/980378
 
 ### Done
+- [x] (discarded) Check cert expiry
+- [x] (Discarded) Move data files to single directory hierarchy (for ease of migration)
+- [x] As a site owner, I am notified of automated upgrades
+  - Configure notification email for unattended-upgrades
 - [x] As a site owner, I can appropriately redirect mail meant for postmaster
 - [x] As site owner, I can configure admin mail password
 - [x] Fix issue with fs layout (send folder not found)
