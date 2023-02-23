@@ -1,0 +1,11 @@
+---
+- name: Ensure the tzdata package is installed
+  apt: pkg=tzdata state=present
+
+- name: Set the timezone
+  community.general.timezone: "name={{ timezone }}"
+  register: timezone_setting
+
+- name: Signal that the server needs a reboot
+  file: dest=/var/run/reboot-required state=touch
+  when: timezone_setting is changed
