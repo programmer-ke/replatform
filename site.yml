@@ -41,6 +41,7 @@
 
   tasks:
 
+    - include_tasks: timezone.yml
     - include_tasks: ssh.yml
     - include_tasks: unattended_upgrades.yml
     - include_tasks: ssl_cert.yml

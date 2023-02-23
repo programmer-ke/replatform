@@ -12,3 +12,6 @@ unattended_upgrade_mail_address: "admin@{{ server_hostname }}"
 # Set this value to one of:
 #    "always", "only-on-error" or "on-change"
 unattended_upgrade_mail_report_trigger: "on-change"
+
+# Timezone in format provided by tzdata
+timezone: "Etc/UTC"

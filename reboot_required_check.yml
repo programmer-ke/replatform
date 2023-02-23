@@ -9,15 +9,15 @@
       updates to be applied.
 
 
-      Run the following command
+      Run the following command:
 
       
-      $ reboot
+      reboot
 
 
       After the reboot, feel free to run the playbook again to check
       that everthing works as expected.
 
 
-      Press <ENTER> to proceed"
+      Press <ENTER> on your keyboard to proceed"
   when: reboot_required_file.stat.exists
