@@ -18,6 +18,10 @@
 ### In Progress
 
 - [ ] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993
+  - install postfix-pcre
+  - specify new cleanup service name for submission daemons
+  - declare new cleanup service in master.cf with the new name
+    - pass new header check option with replacing regex
 
 ### Done
 - [x] Set default timezone to UTC

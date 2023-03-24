@@ -12,12 +12,21 @@
       line: "smtp      inet  n       -       y       -       -       smtpd"
 
     - regexp: '^smtps\s+inet\s+'  # mail submission via implicit tls on port 465
-      line: "smtps      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/smtps -o smtpd_tls_wrappermode=yes"
+      line: "smtps      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/smtps -o smtpd_tls_wrappermode=yes -o cleanup_service_name=submission_cleanup"
 
     - regexp: '^submission\s+inet\s+'  # mail submission via starttls on port 587
-      line: "submission      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_security_level=encrypt"
+      line: "submission      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_security_level=encrypt -o cleanup_service_name=submission_cleanup"
+
+    - regexp: '^submission_cleanup\s+unix\s+'  # cleanup service for mail submissions
+      line: "submission_cleanup   unix  n       -       y       -       0       cleanup -o header_checks=pcre:/etc/postfix/submission_header_checks"
 
   notify: reload postfix
+
+
+- name: Specify header checks for mail submitted via clients # https://serverfault.com/a/998993
+  template:
+    src: templates/submission_header_checks.j2
+    dest: /etc/postfix/submission_header_checks
 
 - name: Update postfix configs in /etc/postfix/main.cf
   lineinfile:

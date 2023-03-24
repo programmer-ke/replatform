@@ -3,6 +3,7 @@
   apt: "name={{ item }} state=present"
   loop:
     - postfix
+    - postfix-pcre
     - dovecot-imapd
     - dovecot-pop3d
     - dovecot-lmtpd
