@@ -5,10 +5,6 @@
 - [ ] As a site owner, I can setup spf
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
-- [ ] Optimization. Understand the following
-  - [ ] As a site owner, I can configure Dynamic address verification with LMTP
-    - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
-  - [ ] Backscatter: http://www.postfix.org/BACKSCATTER_README.html
 - [ ] As a site owner, I know how to properly configure rDNS
   - https://serverfault.com/q/24943/980378
   - https://serverfault.com/q/815054/980378
@@ -17,13 +13,18 @@
 
 ### In Progress
 
-- [ ] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993
+- [ ] Optimization. Understand the following
+  - [ ] As a site owner, I can configure Dynamic address verification with LMTP
+    - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
+  - [ ] Backscatter: http://www.postfix.org/BACKSCATTER_README.html
+
+
+### Done
+- [x] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993
   - install postfix-pcre
   - specify new cleanup service name for submission daemons
   - declare new cleanup service in master.cf with the new name
     - pass new header check option with replacing regex
-
-### Done
 - [x] Set default timezone to UTC
   - ansible module: https://docs.ansible.com/ansible/latest/collections/community/general/timezone_module.html
   - services to restart: https://serverfault.com/q/322852/980378
