@@ -8,16 +8,18 @@
 - [ ] As a site owner, I know how to properly configure rDNS
   - https://serverfault.com/q/24943/980378
   - https://serverfault.com/q/815054/980378
-
-
-
-### In Progress
-
 - [ ] Optimization. Understand the following
   - [ ] As a site owner, I can configure Dynamic address verification with LMTP
     - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
   - [ ] Backscatter: http://www.postfix.org/BACKSCATTER_README.html
 
+
+
+
+### In Progress
+
+- [ ] Fix spoofing mail as authenticated user
+  swaks --from spoofedsender@domain --to recipient@domain --auth PLAIN --auth-user authenticateduser@domain --auth-password authenticatedpasswd --server smtp.domain.tld --tls
 
 ### Done
 - [x] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993

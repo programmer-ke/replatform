@@ -161,4 +161,18 @@
     - regexp: "^milter_default_action"  # in case a milter fails, accept the message
       line: "milter_default_action = accept"
 
+    # Prevent spoofing by authenticated users
+    # ---------------------------------------
+    # https://serverfault.com/a/710235
+    - regexp: "^smtpd_sender_restrictions"
+      line: "smtpd_sender_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_sender_login_mismatch"
+
+    - regexp: "^smtpd_sender_login_maps"
+      line: "smtpd_sender_login_maps = pcre:/etc/postfix/login_maps"
+
   notify: reload postfix
+
+- name: Set login maps for mails sent  # https://serverfault.com/a/710235
+  template:
+    src: templates/login_maps.j2
+    dest: /etc/postfix/login_maps
