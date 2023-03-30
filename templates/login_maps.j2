@@ -1,5 +1,5 @@
 # ansible managed, do not edit by hand
 # envelope sender => owners (SASL login names)
-{% for domain in all_main_domains %}
+{% for domain in all_mail_domains %}
 /^(.*)@{{ domain | regex_escape() }}$/	${1}@{{ domain }}
 {% endfor %}
