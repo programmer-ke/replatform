@@ -1,4 +1,4 @@
-`--
+---
 - name: Update postfix configs in /etc/postfix/master.cf
   lineinfile:
     dest: "/etc/postfix/master.cf"
