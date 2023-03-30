@@ -1,4 +1,4 @@
----
+`--
 - name: Update postfix configs in /etc/postfix/master.cf
   lineinfile:
     dest: "/etc/postfix/master.cf"
@@ -97,6 +97,14 @@
     - regexp: "^smtpd_sasl_tls_security_options"
       line: "smtpd_sasl_tls_security_options = noanonymous"
 
+    # Prevent spoofing by authenticated users
+    # https://www.postfix.org/SASL_README.html#server_sasl_authz_envelope
+    - regexp: "^smtpd_sender_restrictions"
+      line: "smtpd_sender_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_sender_login_mismatch"
+
+    - regexp: "^smtpd_sender_login_maps"
+      line: "smtpd_sender_login_maps = pcre:/etc/postfix/login_maps"
+
     # SSL configuration
     # ---
     # https://ssl-config.mozilla.org/#server=postfix&version=3.5.13&config=intermediate&openssl=1.1.1n&guideline=5.6
@@ -161,18 +169,10 @@
     - regexp: "^milter_default_action"  # in case a milter fails, accept the message
       line: "milter_default_action = accept"
 
-    # Prevent spoofing by authenticated users
-    # ---------------------------------------
-    # https://serverfault.com/a/710235
-    - regexp: "^smtpd_sender_restrictions"
-      line: "smtpd_sender_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_sender_login_mismatch"
-
-    - regexp: "^smtpd_sender_login_maps"
-      line: "smtpd_sender_login_maps = pcre:/etc/postfix/login_maps"
-
   notify: reload postfix
 
-- name: Set login maps for mails sent  # https://serverfault.com/a/710235
+# https://www.postfix.org/SASL_README.html#server_sasl_authz_envelope
+- name: Set login maps for SASL authenticated mail senders
   template:
     src: templates/login_maps.j2
     dest: /etc/postfix/login_maps
