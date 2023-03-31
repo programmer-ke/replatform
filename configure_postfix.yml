@@ -186,4 +186,7 @@
   template:
     src: templates/login_maps.j2
     dest: /etc/postfix/login_maps
-  notify: update login maps db
+  notify:
+    - update login maps db
+    - reload postfix
+

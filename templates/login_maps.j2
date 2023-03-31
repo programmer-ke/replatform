@@ -1,7 +1,10 @@
 # ansible managed, do not edit by hand
 # envelope sender => owners (SASL login names)
+
+# virtual users
 {% for domain in mail_domains %}
 /^(.*)@{{ domain | regex_escape() }}$/ ${1}@{{ domain }}
 {% endfor %}
 
+# system users
 /^(.*)@{{ server_hostname | regex_escape() }}$/ ${1}
