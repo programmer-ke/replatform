@@ -99,8 +99,8 @@
 
     # Prevent spoofing by authenticated users
     # https://www.postfix.org/SASL_README.html#server_sasl_authz_envelope
-    - regexp: "^smtpd_sender_restrictions"
-      line: "smtpd_sender_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_sender_login_mismatch"
+    - regexp: "^smtpd_recipient_restrictions"
+      line: "smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_sender_login_mismatch"
 
     - regexp: "^smtpd_sender_login_maps"
       line: "smtpd_sender_login_maps = hash:/etc/postfix/login_maps"
