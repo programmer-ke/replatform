@@ -12,10 +12,10 @@
       line: "smtp      inet  n       -       y       -       -       smtpd"
 
     - regexp: '^smtps\s+inet\s+'  # mail submission via implicit tls on port 465
-      line: "smtps      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/smtps -o smtpd_tls_wrappermode=yes -o cleanup_service_name=submission_cleanup"
+      line: "smtps      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/smtps -o smtpd_tls_wrappermode=yes -o cleanup_service_name=submission_cleanup -o smtpd_sasl_auth_enable=yes"
 
     - regexp: '^submission\s+inet\s+'  # mail submission via starttls on port 587
-      line: "submission      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_security_level=encrypt -o cleanup_service_name=submission_cleanup"
+      line: "submission      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_security_level=encrypt -o cleanup_service_name=submission_cleanup -o smtpd_sasl_auth_enable=yes"
 
     - regexp: '^submission_cleanup\s+unix\s+'  # cleanup service for mail submissions
       line: "submission_cleanup   unix  n       -       y       -       0       cleanup -o header_checks=pcre:/etc/postfix/submission_header_checks"
@@ -73,8 +73,8 @@
     # Settings to communicate with dovecot via SASL
     # Dovecot authenticates clients who're sending mail
     # ---
-    - regexp: "^smtpd_sasl_auth_enable"
-      line: "smtpd_sasl_auth_enable = yes"
+    - regexp: "^smtpd_sasl_auth_enable"  # enabled only for submission daemons
+      line: "smtpd_sasl_auth_enable = no"
 
     - regexp: "^smtpd_sasl_type"
       line: "smtpd_sasl_type = dovecot"

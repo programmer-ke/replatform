@@ -9,6 +9,7 @@
   - https://serverfault.com/q/24943/980378
   - https://serverfault.com/q/815054/980378
 - [ ] Optimization. Understand the following
+  - [ ] spam https://serverfault.com/a/540614
   - [ ] As a site owner, I can configure Dynamic address verification with LMTP
     - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
   - [ ] Backscatter: http://www.postfix.org/BACKSCATTER_README.html
