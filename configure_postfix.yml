@@ -103,7 +103,7 @@
       line: "smtpd_sender_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_sender_login_mismatch"
 
     - regexp: "^smtpd_sender_login_maps"
-      line: "smtpd_sender_login_maps = pcre:/etc/postfix/login_maps"
+      line: "smtpd_sender_login_maps = hash:/etc/postfix/login_maps"
 
     # SSL configuration
     # ---
