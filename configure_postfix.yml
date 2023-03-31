@@ -12,10 +12,28 @@
       line: "smtp      inet  n       -       y       -       -       smtpd"
 
     - regexp: '^smtps\s+inet\s+'  # mail submission via implicit tls on port 465
-      line: "smtps      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/smtps -o smtpd_tls_wrappermode=yes -o cleanup_service_name=submission_cleanup -o smtpd_sasl_auth_enable=yes"
+      line: >-
+        smtps      inet  n       -       y       -       -       smtpd
+        -o syslog_name=postfix/smtps
+        -o smtpd_tls_wrappermode=yes
+        -o cleanup_service_name=submission_cleanup
+        -o smtpd_sasl_auth_enable=yes
+        -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+        -o smtpd_sender_login_maps=hash:/etc/postfix/login_maps
+        -o smtpd_sender_restrictions=reject_sender_login_mismatch
+        -o smtpd_recipient_restrictions=reject_non_fqdn_recipient,reject_unknown_recipient_domain,permit_sasl_authenticated
 
     - regexp: '^submission\s+inet\s+'  # mail submission via starttls on port 587
-      line: "submission      inet  n       -       y       -       -       smtpd -o syslog_name=postfix/submission -o smtpd_tls_security_level=encrypt -o cleanup_service_name=submission_cleanup -o smtpd_sasl_auth_enable=yes"
+      line: >-
+        submission      inet  n       -       y       -       -       smtpd
+        -o syslog_name=postfix/submission
+        -o smtpd_tls_security_level=encrypt
+        -o cleanup_service_name=submission_cleanup
+        -o smtpd_sasl_auth_enable=yes
+        -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+        -o smtpd_sender_login_maps=hash:/etc/postfix/login_maps
+        -o smtpd_sender_restrictions=reject_sender_login_mismatch
+        -o smtpd_recipient_restrictions=reject_non_fqdn_recipient,reject_unknown_recipient_domain,permit_sasl_authenticated
 
     - regexp: '^submission_cleanup\s+unix\s+'  # cleanup service for mail submissions
       line: "submission_cleanup   unix  n       -       y       -       0       cleanup -o header_checks=pcre:/etc/postfix/submission_header_checks"
@@ -96,14 +114,6 @@
 
     - regexp: "^smtpd_sasl_tls_security_options"
       line: "smtpd_sasl_tls_security_options = noanonymous"
-
-    # Prevent spoofing by authenticated users
-    # https://www.postfix.org/SASL_README.html#server_sasl_authz_envelope
-    - regexp: "^smtpd_recipient_restrictions"
-      line: "smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_sender_login_mismatch"
-
-    - regexp: "^smtpd_sender_login_maps"
-      line: "smtpd_sender_login_maps = hash:/etc/postfix/login_maps"
 
     # SSL configuration
     # ---
