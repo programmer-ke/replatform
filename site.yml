@@ -81,6 +81,9 @@
     - name: update virtual alias maps db
       command: postmap /etc/postfix/virtual
 
+    - name: update login maps db
+      command: postmap /etc/postfix/login_maps
+
     - name: restart spamass-milter
       service: name=spamass-milter state=restarted
 
