@@ -9,18 +9,19 @@
   - https://serverfault.com/q/24943/980378
   - https://serverfault.com/q/815054/980378
 
-- [ ] As a site owner, I can configure Dynamic address verification with LMTP
-    - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
-- [ ] Backscatter: http://www.postfix.org/BACKSCATTER_README.html
+
 - [ ] investigate thunderbird able to send via port 25
 
 
 
 ### In Progress
 
-
+- [ ] As a site owner, I can configure Dynamic address verification with LMTP
+    - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
 
 ### Done
+- [x] Backscatter: http://www.postfix.org/BACKSCATTER_README.html
+  - not an issue at the moment
 - [x] spam https://serverfault.com/a/540614
 - [x] Fix spoofing mail as authenticated user
   swaks --from spoofedsender@domain --to recipient@domain --auth PLAIN --auth-user authenticateduser@domain --auth-password authenticatedpasswd --server smtp.domain.tld --tls

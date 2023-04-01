@@ -83,6 +83,7 @@
         reject_non_fqdn_helo_hostname
         reject_unknown_sender_domain
         reject_non_fqdn_recipient
+        reject_unverified_recipient
 
     - regexp: "^smtpd_helo_required"
       line: "smtpd_helo_required = yes"
