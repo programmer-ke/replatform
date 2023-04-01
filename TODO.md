@@ -18,9 +18,10 @@
 
 ### In Progress
 
-- [ ] spam https://serverfault.com/a/540614
+
 
 ### Done
+- [x] spam https://serverfault.com/a/540614
 - [x] Fix spoofing mail as authenticated user
   swaks --from spoofedsender@domain --to recipient@domain --auth PLAIN --auth-user authenticateduser@domain --auth-password authenticatedpasswd --server smtp.domain.tld --tls
 - [x] IP address leakage issue: https://serverfault.com/questions/413533/remove-hide-client-sender-ip-from-postfix/998993#998993

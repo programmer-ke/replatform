@@ -84,6 +84,9 @@
         reject_unknown_sender_domain
         reject_non_fqdn_recipient
 
+    - regexp: "^smtpd_helo_required"
+      line: "smtpd_helo_required = yes"
+
     # list of virtual domains being hosted
     - regexp: "^virtual_mailbox_domains"
       line: >-
