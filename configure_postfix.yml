@@ -74,7 +74,15 @@
     - regexp: "^mailbox_transport"
       line: "mailbox_transport = lmtp:unix:private/dovecot-lmtp"
 
-
+    # settings to reduce spam
+    - regexp: "^smtpd_recipient_restrictions"
+      line: >-
+        smtpd_recipient_restrictions =
+        reject_non_fqdn_sender
+        reject_unauth_destination
+        reject_non_fqdn_helo_hostname
+        reject_unknown_sender_domain
+        reject_non_fqdn_recipient
 
     # list of virtual domains being hosted
     - regexp: "^virtual_mailbox_domains"
