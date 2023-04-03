@@ -1,13 +1,25 @@
 ### Todo
 
-
+- [ ] As a site owner, I can set up dkim txt records
+  - extract from generated (bind-compatible) txt record into form
+    of key and value that can be set up in on dns
 - [ ] As a site owner, I can setup dmarc
+  - format: v=DMARC1; p=reject; rua=mailto:dmarc@99nth.co.ke; fo=1
+    - "v=DMARC1" indicates the version of DMARC being used.
+    - "p=reject" specifies the DMARC policy for how to handle messages that fail DMARC checks. In this case, it is set to "reject", which means that any message that fails DMARC checks should be rejected (i.e., not delivered to the recipient).
+    - "rua=mailto:dmarc@99nth.co.ke" specifies the email address to which aggregate DMARC reports should be sent. These reports provide information on how DMARC is being used for a particular domain.
+    - "fo=1" specifies the DMARC "failure reporting option". In this case, it is set to "1", which means that only the "header from" domain should be used to evaluate DMARC alignment (i.e., the domain in the "From" header of the email).
+  
 - [ ] As a site owner, I can setup spf
+  - generate format like: v=spf1 mx a:mail.99nth.co.ke -all
+    - explanation: 
+		- "v=spf1": This specifies the version of SPF being used, which is SPF version 1.
+		- "mx": This allows the domain's MX records to be used to identify authorized IP addresses. If the domain's MX records resolve to an IP address, that IP address is authorized to send email for the domain.
+        - "a:mail.99nth.co.ke": This specifies that the IP address associated with the "mail.99nth.co.ke" subdomain is authorized to send email for the domain. This is usually used when the domain's MX records point to a subdomain, rather than the root domain.
+        - "-all": This specifies a strict policy that instructs email receivers to reject any email that does not come from an authorized IP address. The "-" indicates a hard fail, which means that any email that fails SPF checks should be treated as suspicious or illegitimate
+
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
-- [ ] As a site owner, I know how to properly configure rDNS
-  - https://serverfault.com/q/24943/980378
-  - https://serverfault.com/q/815054/980378
 
 
 - [ ] investigate thunderbird able to send via port 25
@@ -16,10 +28,20 @@
 
 ### In Progress
 
-- [ ] As a site owner, I can configure Dynamic address verification with LMTP
-    - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
 
 ### Done
+- [x] As a site owner, I know how to properly configure rDNS
+  - https://serverfault.com/q/24943/980378
+  - https://serverfault.com/q/815054/980378
+    - contact host to change rdns query to resolve to hostname
+	- Ensure that the following match
+      - hostname
+	  - rdns
+      - mx record (for hosted domains)
+  	  - HELO/EHLO
+      - SMTP greeting banner
+- [x] As a site owner, I can configure Dynamic address verification with LMTP
+    - https://wiki.dovecot.org/HowTo/PostfixDovecotLMTP
 - [x] Backscatter: http://www.postfix.org/BACKSCATTER_README.html
   - not an issue at the moment
 - [x] spam https://serverfault.com/a/540614
