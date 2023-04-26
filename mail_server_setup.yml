@@ -81,7 +81,7 @@
   notify: update virtual alias maps db
   with_items: "{{ all_mail_domains }}"
 
-- name: Generate TXT records: DKIM, DMARC, SPF
+- name: Generate TXT records for DKIM, DMARC, SPF
   include_tasks: generate_txt_records.yml
   loop: "{{ all_mail_domains }}"
   loop_control:
