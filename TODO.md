@@ -1,8 +1,5 @@
 ### Todo
 
-- [ ] As a site owner, I can set up dkim txt records
-  - extract from generated (bind-compatible) txt record into form
-    of key and value that can be set up in on dns
 - [ ] As a site owner, I can setup dmarc
   - format: v=DMARC1; p=reject; rua=mailto:dmarc@99nth.co.ke; fo=1
     - "v=DMARC1" indicates the version of DMARC being used.
@@ -27,6 +24,16 @@
 
 
 ### In Progress
+
+- [ ] As a site owner, I can set up dkim txt records
+  - extract from generated (bind-compatible) txt record into form
+    of key and value that can be set up in on dns
+  - http://www.opendkim.org/opendkim-README (see large keys section)
+  - need to extract section between parentheses, merge into one line and remove double quotes
+    - commands that work:
+	  - sed -n '/".*"/{s/^[^(]*(//;s/)[^"]*$//;p}' sample 
+	  - awk -F'"' '/"/{print $2}' sample
+	  - grep -Pzo '(?s)\(\s+(.+)\s+\)' sample
 
 
 ### Done
