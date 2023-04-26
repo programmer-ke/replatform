@@ -1,7 +1,7 @@
 ---
 - name: Extract dkim record value
   shell:
-    cmd: "tr -d '\n' < /etc/dkimkeys/{{ domain }}/default.txt | sed -E s/.+IN\\s+TXT\\s+// | tr -d '()\"[:blank:]' | sed -E s/\\;--.+//"
+    cmd: "tr -d '\n' < /etc/dkimkeys/{{ domain }}/default.txt | sed -E 's/.+IN\\s+TXT\\s+//' | tr -d '()\"[:blank:]' | sed -E s/\\;--.+//"
   register: extract_dkim_result
 
 - name: Print value
