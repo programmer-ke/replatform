@@ -5,5 +5,10 @@
   register: extract_dkim_result
   changed_when: false
 
-- name: Print value
-  debug: msg={{ extract_dkim_result.stdout }}
+- name: Create file to hold dkim text record
+  template:
+    src: templates/txt_record_template.j2
+    dest: "~/dns_txt_records/{{ domain }}_dkim.txt"
+  vars:
+    key: "default._domainkey.{{ domain }}"
+    value: "{{ extract_dkim_result.stdout }}"
