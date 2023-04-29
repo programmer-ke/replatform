@@ -1,11 +1,5 @@
 ### Todo
 
-- [ ] As a site owner, I can setup dmarc
-  - format: v=DMARC1; p=reject; rua=mailto:dmarc@somedomain.com; fo=1
-    - "v=DMARC1" indicates the version of DMARC being used.
-    - "p=reject" specifies the DMARC policy for how to handle messages that fail DMARC checks. In this case, it is set to "reject", which means that any message that fails DMARC checks should be rejected (i.e., not delivered to the recipient).
-    - "rua=mailto:dmarc@somedomain.com" specifies the email address to which aggregate DMARC reports should be sent. These reports provide information on how DMARC is being used for a particular domain.
-    - "fo=1" specifies the DMARC "failure reporting option". In this case, it is set to "1", which means that only the "header from" domain should be used to evaluate DMARC alignment (i.e., the domain in the "From" header of the email).
   
 
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
@@ -17,9 +11,28 @@
 
 
 ### In Progress
-- [ ] As a site owner, I can setup spf
+
+- [ ] As a site owner, I can setup dmarc
+  - format: v=DMARC1; p=reject; rua=mailto:dmarc@somedomain.com; fo=1
+  - explanation (chatgpt)
+    - "v=DMARC1" indicates the version of DMARC being used.
+    - "p=reject" specifies the DMARC policy for how to handle messages
+      that fail DMARC checks. In this case, it is set to "reject",
+      which means that any message that fails DMARC checks should be
+      rejected (i.e., not delivered to the recipient).
+    - "rua=mailto:dmarc@somedomain.com" specifies the email address to
+      which aggregate DMARC reports should be sent. These reports
+      provide information on how DMARC is being used for a particular
+      domain.
+    - "fo=1" specifies the DMARC "failure reporting option". In this
+      case, it is set to "1", which means that only the "header from"
+      domain should be used to evaluate DMARC alignment (i.e., the
+      domain in the "From" header of the email). <- this sounds wrong
+
+### Done
+- [x] As a site owner, I can setup spf
   - generate format like: v=spf1 mx a:mail.somedomain.com -all
-    - explanation: 
+    - explanation(chatgpt): 
 		- "v=spf1": This specifies the version of SPF being used,
           which is SPF version 1.
 		- "mx": This allows the domain's MX records to be used to
@@ -36,9 +49,6 @@
           authorized IP address. The "-" indicates a hard fail, which
           means that any email that fails SPF checks should be treated
           as suspicious or illegitimate
-
-
-### Done
 - [x] As a site owner, I can set up dkim txt records
   - extract from generated (bind-compatible) txt record into form
     of key and value that can be set up in on dns

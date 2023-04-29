@@ -81,6 +81,16 @@
   notify: update virtual alias maps db
   with_items: "{{ all_mail_domains }}"
 
+- name: Redirect mail sent to dmarc-reports for all domains to local postfix user
+  lineinfile:
+    dest: "/etc/postfix/virtual"
+    create: true
+    regexp: '^dmarc-reports@{{ item }}\s'
+    line: "dmarc-reports@{{ item }} postmaster"
+    state: present
+  notify: update virtual alias maps db
+  with_items: "{{ all_mail_domains }}"
+
 - name: Ensure we have a directory for txt records
   file:
     path: ~/dns_txt_records

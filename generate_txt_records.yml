@@ -20,3 +20,11 @@
   vars:
     key: "{{ domain }}"
     value: "v=spf1 mx a:{{ server_hostname }} -all"
+
+- name: Create file to hold dmarc txt record
+  template:
+    src: templates/txt_record_template.j2
+    dest: "~/dns_txt_records/{{ domain }}_dmarc.txt"
+  vars:
+    key: "_dmarc.{{ domain }}"
+    value: "v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@{{ domain }}; ruf=mailto:dmarc-reports@{{ domain }}; fo=1"
