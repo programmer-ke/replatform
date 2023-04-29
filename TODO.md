@@ -8,11 +8,13 @@
 
 - [ ] investigate thunderbird able to send via port 25
 
-
+- [ ] Set up spf, dkim, dmarc and test
 
 ### In Progress
 
-- [ ] As a site owner, I can setup dmarc
+
+### Done
+- [x] As a site owner, I can setup dmarc
   - format: v=DMARC1; p=reject; rua=mailto:dmarc@somedomain.com; fo=1
   - explanation (chatgpt)
     - "v=DMARC1" indicates the version of DMARC being used.
@@ -29,7 +31,8 @@
       domain should be used to evaluate DMARC alignment (i.e., the
       domain in the "From" header of the email). <- this sounds wrong
 
-### Done
+  - dkim, spf, dmarc guide: https://dmarcly.com/blog/how-to-implement-dmarc-dkim-spf-to-stop-email-spoofing-phishing-the-definitive-guide
+
 - [x] As a site owner, I can setup spf
   - generate format like: v=spf1 mx a:mail.somedomain.com -all
     - explanation(chatgpt): 
