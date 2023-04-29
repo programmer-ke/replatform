@@ -1,10 +1,10 @@
 ### Todo
 
 - [ ] As a site owner, I can setup dmarc
-  - format: v=DMARC1; p=reject; rua=mailto:dmarc@99nth.co.ke; fo=1
+  - format: v=DMARC1; p=reject; rua=mailto:dmarc@somedomain.com; fo=1
     - "v=DMARC1" indicates the version of DMARC being used.
     - "p=reject" specifies the DMARC policy for how to handle messages that fail DMARC checks. In this case, it is set to "reject", which means that any message that fails DMARC checks should be rejected (i.e., not delivered to the recipient).
-    - "rua=mailto:dmarc@99nth.co.ke" specifies the email address to which aggregate DMARC reports should be sent. These reports provide information on how DMARC is being used for a particular domain.
+    - "rua=mailto:dmarc@somedomain.com" specifies the email address to which aggregate DMARC reports should be sent. These reports provide information on how DMARC is being used for a particular domain.
     - "fo=1" specifies the DMARC "failure reporting option". In this case, it is set to "1", which means that only the "header from" domain should be used to evaluate DMARC alignment (i.e., the domain in the "From" header of the email).
   
 
@@ -18,12 +18,24 @@
 
 ### In Progress
 - [ ] As a site owner, I can setup spf
-  - generate format like: v=spf1 mx a:mail.99nth.co.ke -all
+  - generate format like: v=spf1 mx a:mail.somedomain.com -all
     - explanation: 
-		- "v=spf1": This specifies the version of SPF being used, which is SPF version 1.
-		- "mx": This allows the domain's MX records to be used to identify authorized IP addresses. If the domain's MX records resolve to an IP address, that IP address is authorized to send email for the domain.
-        - "a:mail.99nth.co.ke": This specifies that the IP address associated with the "mail.99nth.co.ke" subdomain is authorized to send email for the domain. This is usually used when the domain's MX records point to a subdomain, rather than the root domain.
-        - "-all": This specifies a strict policy that instructs email receivers to reject any email that does not come from an authorized IP address. The "-" indicates a hard fail, which means that any email that fails SPF checks should be treated as suspicious or illegitimate
+		- "v=spf1": This specifies the version of SPF being used,
+          which is SPF version 1.
+		- "mx": This allows the domain's MX records to be used to
+          identify authorized IP addresses. If the domain's MX records
+          resolve to an IP address, that IP address is authorized to
+          send email for the domain.
+        - "a:mail.somedomain.com": This specifies that the IP address
+          associated with the "mail.somedomain.com" subdomain is
+          authorized to send email for the domain. This is usually
+          used when the domain's MX records point to a subdomain,
+          rather than the root domain.
+        - "-all": This specifies a strict policy that instructs email
+          receivers to reject any email that does not come from an
+          authorized IP address. The "-" indicates a hard fail, which
+          means that any email that fails SPF checks should be treated
+          as suspicious or illegitimate
 
 
 ### Done
@@ -84,7 +96,7 @@
      - [x] modify mail directory structure
        - see: https://doc.dovecot.org/admin_manual/mailbox_formats/maildir/#directory-structure
      - [x] allow lowly scored message through
-	   - swaks --to info@99nth.co.ke --body=~/Desktop/spam-tests/spamtext.txt
+	   - swaks --to info@somedomain.com --body=~/Desktop/spam-tests/spamtext.txt
      - [x] add relevant dovecot sieve to redirect spam to 'junk' folder
 - [x] As a site owner, I can configure the opendkim milter
   - https://serverfault.com/questions/296492/how-do-i-use-opendkim-with-multiple-domain-names-on-a-single-server

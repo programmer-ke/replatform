@@ -5,10 +5,18 @@
   register: extract_dkim_result
   changed_when: false
 
-- name: Create file to hold dkim text record
+- name: Create file to hold dkim txt record
   template:
     src: templates/txt_record_template.j2
     dest: "~/dns_txt_records/{{ domain }}_dkim.txt"
   vars:
     key: "default._domainkey.{{ domain }}"
     value: "{{ extract_dkim_result.stdout }}"
+
+- name: Create file to hold spf txt record
+  template:
+    src: templates/txt_record_template.j2
+    dest: "~/dns_txt_records/{{ domain }}_spf.txt"
+  vars:
+    key: "{{ domain }}"
+    value: "v=spf1 mx a:{{ server_hostname }} -all"
