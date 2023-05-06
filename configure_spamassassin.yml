@@ -11,11 +11,6 @@
     state: present
   notify: restart spamass-milter
 
-- name: Remove redudant user spamd
-  user:
-    name: spamd
-    state: absent
-
 - name: Configure spamd via /etc/default/spamassassin
   lineinfile:
     dest: "/etc/default/spamassassin"
