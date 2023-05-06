@@ -28,7 +28,7 @@
     - regexp: "^CRON="  # Update spam rules nightly
       line: "CRON=1"
 
-    - regexp: "^OPTIONS="  # run spamd with non-root user
-      line: 'OPTIONS="--create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin -u spamd -g spamd -x"'
+    - regexp: "^OPTIONS="  # run spamd with non-root debian-spamd user
+      line: 'OPTIONS="--create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin -u debian-spamd -g debian-spamd -x"'
       
   notify: restart spamassassin daemon

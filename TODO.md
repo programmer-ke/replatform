@@ -1,19 +1,19 @@
 ### Todo
 
-  
-
 - [ ] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
 
 
-- [ ] investigate thunderbird able to send via port 25
-
-- [ ] Set up spf, dkim, dmarc and test
-
 ### In Progress
 
+- [ ] Debug spamassassin
+	- plugin: eval failed: bayes: (in learn) locker: safe_lock: cannot create tmp lockfile /var/lib/spamassassin/.spamassassin/bayes.lock.myplatform.dataengineering.co.ke.859 for /var/lib/spamassassin/.spamassassin/bayes.lock: Permission denied
+    - https://stackoverflow.com/q/42707466/1382495
 
 ### Done
+- [x] Set up spf, dkim, dmarc and test
+- [x] Debug mail sending issue: relay access denied
+  - Caused by incorrect configured port in mail client
 - [x] As a site owner, I can setup dmarc
   - format: v=DMARC1; p=reject; rua=mailto:dmarc@somedomain.com; fo=1
   - explanation (chatgpt)
