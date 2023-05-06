@@ -11,12 +11,10 @@
     state: present
   notify: restart spamass-milter
 
-- name: Create a user for the spamd daemon with disabled login and password
+- name: Remove redudant user spamd
   user:
     name: spamd
-    shell: /sbin/nologin
-    home: /var/lib/spamassassin
-    password: "!"
+    state: absent
 
 - name: Configure spamd via /etc/default/spamassassin
   lineinfile:
