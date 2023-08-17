@@ -17,32 +17,70 @@ create email accounts.
 
 ### DNS Setup
 
-- The first step would be to configure the server hostname. An easy
-  way is to select one of the domains you want to host on the server
-  and designate a subdomain as the server's hostname. Say you select
-  `xxx.yy`, designate the subdomain `myplatform.xxx.yy` as your
-  server's hostname.  Create an A record for the subdomain pointing to
-  ipv4 address of the server.  If your server also has an ipv6
-  address, create an AAAA record for the subdomain pointing to the
-  ipv6 address. You can use any domain/subdomain here just ensure that
-  the server hostname is consistent throughout the process below
+Let's say we want to host two domain names, `example.com` and
+`example.org` (there's no limit to the number, we just need one or
+more domain names).
 
-- Next, for each of the domains to host on the server add the
-  following (I'll use example.com for illustration purposes)
-  - An A wildcard record for its subdomains i.e `*.example.com`
-    pointing to the server's ipv4 address
-  - An A record for the root domain e.g. `example.com` pointing to the
-    server's ipv4 address
-  - If the server has an ipv6 address, add AAAA records equivalent to
-    the two above i.e. additional records for `*.example.com` and
-    `example.com` pointing to the ipv6 address
-  - Add an MX record for its root domain i.e. `example.com` pointing
-	to the subdomain `myplatform.xxx.yyy` created in the first step
-	above as the mail server.  What this means that the server
-	`myplatform.xxx.yy` is responsible for handling mail for the
-	domain `example.com`.  Priority can be set to any number, usually
-	10 by default. Since we're only specifying a single mail server,
-	priority doesnt matter.
+1) Server Hostname
+
+We'll first set up a subdomain on one of the domain names as our
+server hostname.
+
+For this example we'll use `example.org`. Add the following records to
+`example.org` to map the subdomain to the public ipv4 and ipv6
+(optional) addresses associated with the server.
+
+| name                   | type | value                    | ttl  | comments                |
+|------------------------|------|--------------------------|------|-------------------------|
+| myplatform.example.org | A    | 192.168.3.3              | 3600 | ipv4 address            |
+| myplatform.example.org | AAAA | fe80::1ff:fe23:4567:890a | 3600 | ipv6 address (optional) |
+
+You can use any name in the place of `myplatform`, but keep it
+consistent throughout the process below. The TTL value can be any
+reasonable number, the DNS provider may pre-fill it for you.
+
+Depending on the domain host's interface, you may have to add a `.`
+(dot) character after the name in the domain record.
+
+If you're not sure how to add any of the records, just search online
+how to add the type of record (A, AAAA, MX etc..) on your dns provider,
+they probably have a tutorial of that somewhere.
+
+2) Domain and subdomain mappings
+
+We then add the following records for `example.org`:
+
+| name          | type | value                    | ttl  | comments                                        |
+|---------------|------|--------------------------|------|-------------------------------------------------|
+| *.example.org | A    | 192.168.3.3              | 3600 | Map all subdomains to the server's ipv4 address |
+| *.example.org | AAAA | fe80::1ff:fe23:4567:890a | 3600 | Map all subdomains to the server's ipv6 address |
+| example.org   | A    | 192.168.3.3              | 3600 | Map root domain to server's ipv4 address        |
+| example.org   | AAAA | fe80::1ff:fe23:4567:890a | 3600 | Map root domain to server's ipv6 address        |
+
+and the same for `example.com`:
+
+| name          | type | value                    | ttl  | comments                                        |
+|---------------|------|--------------------------|------|-------------------------------------------------|
+| *.example.com | A    | 192.168.3.3              | 3600 | Map all subdomains to the server's ipv4 address |
+| *.example.com | AAAA | fe80::1ff:fe23:4567:890a | 3600 | Map all subdomains to the server's ipv6 address |
+| example.com   | A    | 192.168.3.3              | 3600 | Map root domain to server's ipv4 address        |
+| example.com   | AAAA | fe80::1ff:fe23:4567:890a | 3600 | Map root domain to server's ipv6 address        |
+
+3) Mail Exchange Records
+
+Now we need to designate the server hostname set in step 1 above as
+the mail server for each of the domains. So for `example.org` we
+add the following:
+
+| name        | type | value                  | priority | ttl  | comments                                                               |
+|-------------|------|------------------------|----------|------|------------------------------------------------------------------------|
+| example.org | MX   | myplatform.example.org | 10       | 3600 | Priority can be any value, since we're only specifying one mail server |
+
+and the same for `example.com`. Note that the value is the same in both:
+
+| name        | type | value                  | priority | ttl  | comments                                                               |
+|-------------|------|------------------------|----------|------|------------------------------------------------------------------------|
+| example.com | MX   | myplatform.example.org | 10       | 3600 | Priority can be any value, since we're only specifying one mail server |
 
 ### Configure the server
 
