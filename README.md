@@ -86,26 +86,28 @@ and the same for `example.com`. Note that the value is the same in both:
 
 - Generate an ssh key pair on your local device if you do not already
   have one (passphrase recommended) and copy the public key to the
-  server
+  server. More info [here][0]
   - Copy it to the server with `ssh-copy-id
-    root@<server_hostname>`
+    root@myplatform.example.org`
+	
+  [0]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
 - Check that you can ssh into the server without being promted for the
-  password using `ssh root@<server_hostname>`.
+  password using `ssh root@myplatform.example.org`.
 
 - Make sure the server is up-to-date by running the following commands
   - `apt update`
   - `apt full-upgrade`
 
-- Reboot the server and then SSH back in again to make sure you are
-  modifying the server from a clean slate. Type in `reboot` and after
-  a few seconds, ssh back in.
+- Reboot the server and then SSH back in again after a few seconds to make sure you are
+  modifying the server from a clean slate.
+  - `reboot`
 
 - Install `git` and `ansible` packages with the following command
-  - `apt get install git ansible`
+  - `apt install git ansible`
 
-- Clone this repo and move into it like so
-  - `git clone https://github.com/.../replatform.git`
+- Clone this repo and navigate into it like so
+  - `git clone https://github.com/programmer-ke/replatform.git`
   - `cd replatform`
 
 - Run the following ansible command to setup the server
@@ -114,16 +116,21 @@ and the same for `example.com`. Note that the value is the same in both:
   `/root/private_vars/vars.yml` and exit
 
 - Edit this file with the correct variables such as the server
-  hostname (The value you set as `myplatform.xxx.yyy` above), the
+  hostname (The value you set for `myplatform.example.org` above), the
   external ipv4 address, ipv6 address if you have one, the domains you
   want to host, etc. Be careful not to share this file as it has
   sensitive information. You can even encrypt it if you're a more
-  advanced user of ansible. Read about that
-  [here][1]
+  advanced user of ansible. Read about that [here][1]
+  
+  If you are unsure how to edit the file, use the nano[2] editor that
+  is already installed with debian.
 
   [1]: https://docs.ansible.com/ansible/latest/user_guide/vault.html
+  [2]: https://linuxize.com/post/how-to-use-nano-text-editor/
 
-- Run the playbook command again to continue with setting up.
+- Run the playbook command again in the `replatform` directory to
+  proceed with set up. If you have a fast internet connection from
+  your server it should only take a few minutes to complete.
 
   - `ansible-playbook site.yml`
 
@@ -131,15 +138,50 @@ and the same for `example.com`. Note that the value is the same in both:
   option `--ask-vault-pass` and enter the encryption password when
   prompted.
 
+### Final Steps after Server configuration
+
+Now that server configuration is complete, we need to configure
+additional domain settings with server generated values, and set up
+email client software to start receiving email.
+
+#### Configure DNS TXT records
+
+The configuration process generated some information that we need
+to add as TXT records to the configured domains. Move into the
+directory they have been placed as follows:
+
+`cd /root/dns_txt_records`
+
+Each file is named according to its domain. There are 3 kinds for each
+domain in the following pattern:
+
+- `example.org_dkim.txt` for the DKIM TXT record
+- `example.org_dmarc.txt` for the DMARC TXT record
+- `example.org_spf.txt` for the SPF TXT record.
+
+We'll add the content of each file as a TXT record to the relevant
+domain. Each has a single line...
+
+#### Configure RDNS
+
+todo
+
+#### Configure mail clients
+
+todo
+
+#### Update Website files
+
 - When the playbook completes, you'll be able to point your browser to
   each of the web domains configured and you'll see a placeholder web
   page.  If you check in the server at the location `/var/www` you'll
   see a directory for each domain, and a file named `index.html` in
   each of these directories. This is the placeholder that is created
-  to serve as the landing page for each domain. To publish your
-  websites, upload the collection of pages that make up your websites
+  as the landing page for each domain. To publish your
+  websites, upload the collection of files that make up your websites
   into these locations.  The only requirement is that there should be
-  a page named `index.html` that serves as the landing page
+  a page named `index.html` that serves as the landing page.
+  
 
 ## Overview of how it works
 

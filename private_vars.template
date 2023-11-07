@@ -4,7 +4,7 @@
 # Server details
 # Set server_hostname to the value you set
 # on DNS MX records
-server_hostname: myplatform.xxx.yy
+server_hostname: "myplatform.xxx.yy"
 
 # IPv4 is required. Set this as the external IPv4 address of the server
 # IPv6 is optional. Set it if you have one.
@@ -24,22 +24,27 @@ ipv6_address: ""
 #
 # Make sure the domains are configured as required at the DNS provider
 web_domains:
-  - example1.com
-  - example2.com
+  - "example1.com"
+  - "example2.com"
 
-# The email used by certbot for SSL certificate creation.
-# Note that it has to be a working email address otherwise certificte
-# creation will fail
-cert_admin_email: myusername@somedomain.com
+# An email address you own to be used by certbot for SSL certificate
+# creation.
+# Note that it has to be an already working email address otherwise
+# certificate creation will fail
+cert_admin_email: "myusername@somedomain.com"
 
 # List of mail domains and accounts to host email for.
-# For each domain, we list a mapping of an email account to a password.
+# For each domain, we list a mapping of an email username to a password
+# using the following format:
+# <username>: <password>
+# The full email address will be <username>@<domain> for each domain
+# the username falls under.
 # Make sure each domain's MX record is configured correctly to have
 # this server as its mail server.
 #
 # *Warning*
 # Do not share this file in public as your passwords will be exposed
-# Consider using `ansible-vault` to encrypt it
+# Consider using `ansible-vault` to encrypt it.
 
 mail_domains:
   example1.com:

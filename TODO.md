@@ -1,5 +1,6 @@
 ### Todo
 
+- [ ] do not generate server hostname prefixed txt records
 
 ### In Progress
 
