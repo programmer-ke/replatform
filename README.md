@@ -30,7 +30,7 @@ For this example we'll use `example.org`. Add the following records to
 `example.org` to map the subdomain to the public ipv4 and ipv6
 (optional) addresses associated with the server.
 
-| name                   | type | value                    | ttl  | comments                |
+| name                   | type | value                    | ttl  | remarks                |
 |------------------------|------|--------------------------|------|-------------------------|
 | myplatform.example.org | A    | 192.168.3.3              | 3600 | ipv4 address            |
 | myplatform.example.org | AAAA | fe80::1ff:fe23:4567:890a | 3600 | ipv6 address (optional) |
@@ -50,7 +50,7 @@ they probably have a tutorial of that somewhere.
 
 We then add the following records for `example.org`:
 
-| name          | type | value                    | ttl  | comments                                        |
+| name          | type | value                    | ttl  | remarks                                        |
 |---------------|------|--------------------------|------|-------------------------------------------------|
 | *.example.org | A    | 192.168.3.3              | 3600 | Map all subdomains to the server's ipv4 address |
 | *.example.org | AAAA | fe80::1ff:fe23:4567:890a | 3600 | Map all subdomains to the server's ipv6 address |
@@ -59,7 +59,7 @@ We then add the following records for `example.org`:
 
 and the same for `example.com`:
 
-| name          | type | value                    | ttl  | comments                                        |
+| name          | type | value                    | ttl  | remarks                                        |
 |---------------|------|--------------------------|------|-------------------------------------------------|
 | *.example.com | A    | 192.168.3.3              | 3600 | Map all subdomains to the server's ipv4 address |
 | *.example.com | AAAA | fe80::1ff:fe23:4567:890a | 3600 | Map all subdomains to the server's ipv6 address |
@@ -72,13 +72,13 @@ Now we need to designate the server hostname set in step 1 above as
 the mail server for each of the domains. So for `example.org` we
 add the following:
 
-| name        | type | value                  | priority | ttl  | comments                                                               |
+| name        | type | value                  | priority | ttl  | remarks                                                               |
 |-------------|------|------------------------|----------|------|------------------------------------------------------------------------|
 | example.org | MX   | myplatform.example.org | 10       | 3600 | Priority can be any value, since we're only specifying one mail server |
 
 and the same for `example.com`. Note that the value is the same in both:
 
-| name        | type | value                  | priority | ttl  | comments                                                               |
+| name        | type | value                  | priority | ttl  | remarks                                                               |
 |-------------|------|------------------------|----------|------|------------------------------------------------------------------------|
 | example.com | MX   | myplatform.example.org | 10       | 3600 | Priority can be any value, since we're only specifying one mail server |
 
@@ -146,29 +146,99 @@ email client software to start receiving email.
 
 #### Configure DNS TXT records
 
-The configuration process generated some information that we need
-to add as TXT records to the configured domains. Move into the
-directory they have been placed as follows:
+The configuration process generated some information that we need to
+add as TXT records to the configured domains.
+
+These will be useful for validating your email messages to other mail
+servers and reduce the probability of being marked as spam.
+
+Move into the directory they have been placed in:
 
 `cd /root/dns_txt_records`
 
-Each file is named according to its domain. There are 3 kinds for each
-domain in the following pattern:
+Each file name begins with the associated domain. There are 3 types
+for each domain in the following pattern:
 
 - `example.org_dkim.txt` for the DKIM TXT record
 - `example.org_dmarc.txt` for the DMARC TXT record
 - `example.org_spf.txt` for the SPF TXT record.
 
-We'll add the content of each file as a TXT record to the relevant
-domain. Each has a single line...
+We'll add the content of each file as a TXT record on the relevant
+domain. Each file has a single line that starts with the hostname,
+followed by space, then the rest of the line as the value for the TXT
+record.
 
-#### Configure RDNS
+We add them as follows for each type of TXT record
 
-todo
+| Type  | hostname                       | value                                                      |
+|-------|--------------------------------|------------------------------------------------------------|
+| DKIM  | default._domainkey.example.org | v=DKIM1;h=sha256;k=rsa;p=MIIBIjANB...DAQAB                 |
+| SPF   | example.org                    | v=spf1 mx a:myplatform.example.org -all                    |
+| DMARC | _dmarc.dataengineering.co.ke   | v=DMARC1; p=quarantine; rua=mailto:..; ruf=mailto:..; fo=1 |
+
+In some cases, the service provider may pre-fill the domain name 
+for you, so only input the prefix for the hostname value e.g.
+
+`default._domainkey` for `default._domainkey.example.org`
+
+Set the 3 TXT records for each of the configured domains.
+
+
+#### Configure Reverse DNS
+
+As part of email authentication, some receiving systems will check
+whether the ip address resolves back to the mail server hostname i.e.
+`myplatform.example.org` in our example.
+
+How this is set up varies by the server host, for example you could be
+required to name your server with the appropriate hostname
+(e.g. `myplatform.example.org`) and the record will be set up
+automatically. Other hosts may require you to reach out to support to
+have it manually configured.
+
+The requirement here is that the reverse dns lookup on the ipv4 (and
+optionally ipv6) address will resolve back the the value set as server
+hostname above.
+
+This further reduces the probability of your email messages being
+marked as spam.
 
 #### Configure mail clients
 
-todo
+Mail clients will need an incoming server configuration for receiving
+email and an outging server configuration for sending email.
+
+##### Incoming server
+
+There are two options for incoming mail:
+- IMAP
+   - Mail will be stored on the server and accessible via different
+     devices / mail clients with the correct credentials
+- POP3:
+   - Mail will be downloaded to the client and deleted from the
+     server.  Received email will be viewable only on the device /
+     client that downloads the email.
+
+###### IMAP
+
+Protocol: IMAP
+Hostname: myplatform.smalltech.dev
+Port:     993
+Connection Security: SSL/TLS
+Authentication Method: Normal Password
+Username: john.doe@example.org
+
+##### Outgoing server
+
+Hostname: myplatform.smalltech.dev
+Port: 465
+Connection Security: SSL/TLS
+Authentication method: Normal password
+Username: john.doe@example.org
+
+todo: https://help.dreamhost.com/hc/en-us/articles/215612887-Email-client-protocols-and-port-numbers
+
+(test dns records via email)
 
 #### Update Website files
 
@@ -181,6 +251,12 @@ todo
   websites, upload the collection of files that make up your websites
   into these locations.  The only requirement is that there should be
   a page named `index.html` that serves as the landing page.
+
+tutorial: https://easyhtmlcss.com/
+
+### Maintenance
+
+### 
   
 
 ## Overview of how it works
@@ -189,7 +265,8 @@ todo
 
 The number in brackets indicates the port process is listening on
 
-Outside Network -> smptd(25) -> Postfix Queue -> Dovecot lmtp (via unix pipe) -> Virtual boxes or User boxes
+Outside Network -> smptd(25) -> Postfix Queue -> Dovecot lmtp (via
+unix pipe) -> Virtual boxes or User boxes
 
 ### Retrieving mail by mail client
 
