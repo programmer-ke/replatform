@@ -1,11 +1,17 @@
 # replatform
 
-Run your own websites and email accounts. Blog and communicate using
-software you control.
+Run your own websites and email accounts using a platform you control.
 
-This project uses an ansible playbook to install and configure a server
-with one or more domains through which you can host websites and
-create email accounts.
+This project uses an ansible playbook to install and configure a
+server with an unlimited number of domains through which you can host
+an unlimited number of websites and email accounts.
+
+It allows anyone with basic unix commandline skills to quickly setup
+and easily maintain websites and email accounts on Debian Linux.
+
+All packages used are installed from Debian repositories. This makes
+it much easier to stay up to date and secure, and reduces the work
+needed to migrate to newer version of Debian.
 
 ## Prerequisites
 
@@ -311,61 +317,105 @@ email to `check-auth@verifier.port25.com` from any of the hosted mail
 accounts. This is an automated service that will reply with results
 showing that DKIM, SPF and RDNS are well set up.
 
-#### Update Website files
+For more troubleshooting if your outgoing mail is consistently being
+marked as spam, use https://mxtoolbox.com/. IP address reputation
+issues is a common problem.
+
+#### Updating Website files
 
 After the playbook completes, when you point your browser to
 each of the web domains configured and you'll see a placeholder web
-page.  If you check in the server at the location `/var/www` you'll
+page.
+
+If you check in the server at the location `/var/www` you'll
 see a directory for each domain, and a file named `index.html` in
 each of these directories. This is the placeholder that is created
-as the landing page for each domain. To publish your
-websites, upload the collection of files that make up your websites
-into these directories.  The only requirement is that there should be
-a page named `index.html` that will be the landing page.
+as the landing page for each domain.
+
+To publish your websites, upload the collection of files that make up
+your websites into these directories.  The only requirement is that
+there should be a page named `index.html` that will be the landing
+page.
 
 A basic tutorial that can get you started on HTML/CSS can be found
 [here][5].
 
 [5]: https://easyhtmlcss.com/
 
-### Maintenance
+The `scp` command can be used to transfer files to the server via SSH.
 
-### 
-  
+#### Email files in the server
 
-## Overview of how it works
+The email folders for each user are stored under
+
+`/home/vmail/<domain>/<username>/Maildir`.
+
+This may be useful if you want to backup emails to an external
+location.
+
+#### Maintenance
+
+By default, the system is set up to automatically install critical
+security updates released by the debian team and reboot if necessary.
+An email notification will be sent to the `admin@<server hostname>`
+email address whenever this happens.
+
+Spam detection rules will also be updated on a daily basis by
+spamassasin.
+
+Every time the setup command `ansible-playbook site.yml`, is run like
+we did above, all new updates will be installed and you will be
+prompted to reboot if necessary.
+
+
+## High level technical overview
 
 ### Recieving mail into inbox
 
-The number in brackets indicates the port process is listening on
+The number(s) in brackets indicates the port(s) the process is listening on.
 
 Outside Network -> smptd(25) -> Postfix Queue -> Dovecot lmtp (via
 unix pipe) -> Virtual boxes or User boxes
 
 ### Retrieving mail by mail client
 
-Email client -> dovecot-imapd(143) -> Virtual or system user mailbox
+Email client -> dovecot-imapd(993 & 143) -> Virtual or system user mailbox
 
-Email client -> dovecot-pop3d(110) -> Virtual or system user mailbox
+Email client -> dovecot-pop3d(995 & 110) -> Virtual or system user mailbox
 
 ### Submitting outgoing mail to server from mail client
 
-Email client -> smtpd(465) (implicit tls) -> postfix queue -> smtp client -> destination network
+Email client -> smtpd(465) (ssl/tls) -> postfix queue -> smtp client -> destination network
 
 Email client -> smtpd(587) (starttls) -> postfix queue -> smtp client -> destination network
 
-## Guiding Principles
-- Simplicity is a feature; easy for non-tech persons
-  - use root user rather than separate user with sudo and passwd
-  - run ansible from within server, removes the need of having to
-    install own computer
-  - use only packages maintained by debian stable
+## Technical considerations
+- While more experienced users may frown on this, we directly use the
+  root user to setup everything. Goal is to reduce friction as much as
+  possible for non-technical users.
+- For the same reason above, we run ansible directly on the server
+  instead of the typical use-case of one using a different machine as
+  the control node.
+- All packages are from the default Debian repositories. This makes it
+  much easier to stay up to date by relying on the great Debian folks
+  for updates. Consider [donating][5] to Debian if you find the system
+  useful.
+  [5]: https://www.debian.org/donations
 
-## Resources
+## Testing Resources
 - SSL
   - https://github.com/drwetter/testssl.sh
   - https://www.immuniweb.com
 
-- Testing
+- Email
   - http://www.jetmore.org/john/code/swaks/
   - https://spamassassin.apache.org/gtube/
+  - https://mxtoolbox.com/
+
+## Credits
+
+Inspired by the following projects:
+
+- Luke's emailwiz: https://github.com/LukeSmithxyz/emailwiz
+- Landchad: https://landchad.net/
+- Sovereign: https://github.com/sovereign/sovereign
