@@ -122,7 +122,7 @@ and the same for `example.com`. Note that the value is the same in both:
   sensitive information. You can even encrypt it if you're a more
   advanced user of ansible. Read about that [here][1]
   
-  If you are unsure how to edit the file, use the nano[2] editor that
+  If you are unsure how to edit the file, use the [nano][2] editor that
   is already installed with debian.
 
   [1]: https://docs.ansible.com/ansible/latest/user_guide/vault.html
@@ -208,6 +208,11 @@ marked as spam.
 Mail clients will need an incoming server configuration for receiving
 email and an outging server configuration for sending email.
 
+Below, we'll list configuration as required by [thunderbird][3], but should
+be similar on most email clients.
+
+[3]: https://www.thunderbird.net
+
 ##### Incoming server
 
 There are two options for incoming mail:
@@ -219,26 +224,81 @@ There are two options for incoming mail:
      server.  Received email will be viewable only on the device /
      client that downloads the email.
 
+Read more about SSL/TLS vs STARTTLS [here][4]
+
+[4]: https://www.mimecast.com/blog/ssl-vs-tls-vs-starttls-encryption/
+
 ###### IMAP
 
-Protocol: IMAP
-Hostname: myplatform.smalltech.dev
-Port:     993
-Connection Security: SSL/TLS
-Authentication Method: Normal Password
-Username: john.doe@example.org
+SSL/TLS (preferred):
+
+| Setting               | Value                    |
+|-----------------------|--------------------------|
+| Protocol              | IMAP                     |
+| Hostname              | myplatform.example.org   |
+| Port                  | 993                      |
+| Connection Security   | SSL/TLS                  |
+| Authentication Method | Normal Password          |
+| Username              | jane.doe@example.org     |
+
+STARTTLS:
+
+| Setting               | Value                    |
+|-----------------------|--------------------------|
+| Protocol              | IMAP                     |
+| Hostname              | myplatform.example.org   |
+| Port                  | 143                      |
+| Connection Security   | STARTTLS                 |
+| Authentication Method | Normal Password          |
+| Username              | john.doe@example.org     |
+
+###### POP3
+
+SSL/TLS (preferred):
+
+| Setting               | Value                    |
+|-----------------------|--------------------------|
+| Protocol              | POP3                     |
+| Hostname              | myplatform.example.org   |
+| Port                  | 995                      |
+| Connection Security   | SSL/TLS                  |
+| Authentication Method | Normal Password          |
+| Username              | john.doe@example.org     |
+
+STARTTLS:
+
+| Setting               | Value                    |
+|-----------------------|--------------------------|
+| Protocol              | POP3                     |
+| Hostname              | myplatform.example.org   |
+| Port                  | 110                      |
+| Connection Security   | STARTTLS                 |
+| Authentication Method | Normal Password          |
+| Username              | jane.doe@example.org     |
+
 
 ##### Outgoing server
 
-Hostname: myplatform.smalltech.dev
-Port: 465
-Connection Security: SSL/TLS
-Authentication method: Normal password
-Username: john.doe@example.org
+SSL/TLS (preferred):
 
-todo: https://help.dreamhost.com/hc/en-us/articles/215612887-Email-client-protocols-and-port-numbers
+| Setting               | Value                    |
+|-----------------------|--------------------------|
+| Hostname              | myplatform.example.org   |
+| Port                  | 465                      |
+| Connection Security   | SSL/TLS                  |
+| Authentication Method | Normal Password          |
+| Username              | john.doe@example.org     |
 
-(test dns records via email)
+STARTTLS:
+
+| Setting               | Value                    |
+|-----------------------|--------------------------|
+| Hostname              | myplatform.example.org   |
+| Port                  | 587                      |
+| Connection Security   | STARTTLS                 |
+| Authentication Method | Normal Password          |
+| Username              | jane.doe@example.org     |
+
 
 #### Update Website files
 
