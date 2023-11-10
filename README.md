@@ -398,9 +398,9 @@ Email client -> smtpd(587) (starttls) -> postfix queue -> smtp client -> destina
   the control node.
 - All packages are from the default Debian repositories. This makes it
   much easier to stay up to date by relying on the great Debian folks
-  for updates. Consider [donating][5] to Debian if you find the system
+  for updates. Consider [donating][6] to Debian if you find the system
   useful.
-  [5]: https://www.debian.org/donations
+  [6]: https://www.debian.org/donations
 
 ## Testing Resources
 - SSL
