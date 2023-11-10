@@ -92,7 +92,7 @@ and the same for `example.com`. Note that the value is the same in both:
 	
   [0]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
-- Check that you can ssh into the server without being promted for the
+- Check that you can ssh into the server without being prompted for the
   password using `ssh root@myplatform.example.org`.
 
 - Make sure the server is up-to-date by running the following commands
@@ -228,6 +228,9 @@ Read more about SSL/TLS vs STARTTLS [here][4]
 
 [4]: https://www.mimecast.com/blog/ssl-vs-tls-vs-starttls-encryption/
 
+The hostname value below is the same throughout as it is the 
+mail server hostname as `myplatform.example.org` set above.
+
 ###### IMAP
 
 SSL/TLS (preferred):
@@ -239,7 +242,7 @@ SSL/TLS (preferred):
 | Port                  | 993                      |
 | Connection Security   | SSL/TLS                  |
 | Authentication Method | Normal Password          |
-| Username              | jane.doe@example.org     |
+| Username              | jane.doe@example.com     |
 
 STARTTLS:
 
@@ -250,7 +253,7 @@ STARTTLS:
 | Port                  | 143                      |
 | Connection Security   | STARTTLS                 |
 | Authentication Method | Normal Password          |
-| Username              | john.doe@example.org     |
+| Username              | john.doe@example.com     |
 
 ###### POP3
 
@@ -263,7 +266,7 @@ SSL/TLS (preferred):
 | Port                  | 995                      |
 | Connection Security   | SSL/TLS                  |
 | Authentication Method | Normal Password          |
-| Username              | john.doe@example.org     |
+| Username              | john.doe@example.com     |
 
 STARTTLS:
 
@@ -274,8 +277,12 @@ STARTTLS:
 | Port                  | 110                      |
 | Connection Security   | STARTTLS                 |
 | Authentication Method | Normal Password          |
-| Username              | jane.doe@example.org     |
+| Username              | jane.doe@example.com     |
 
+To receive administrative email sent to the admin user, set the
+username on the email client as `admin@<server hostname>` e.g.
+`admin@myplatform.example.org`, and password will the whatever was
+specified in `/root/private_vars/vars.yml`.
 
 ##### Outgoing server
 
@@ -287,7 +294,7 @@ SSL/TLS (preferred):
 | Port                  | 465                      |
 | Connection Security   | SSL/TLS                  |
 | Authentication Method | Normal Password          |
-| Username              | john.doe@example.org     |
+| Username              | john.doe@example.com     |
 
 STARTTLS:
 
@@ -297,22 +304,29 @@ STARTTLS:
 | Port                  | 587                      |
 | Connection Security   | STARTTLS                 |
 | Authentication Method | Normal Password          |
-| Username              | jane.doe@example.org     |
+| Username              | jane.doe@example.com     |
 
+At this point, to check that email is well set up, you can send an
+email to `check-auth@verifier.port25.com` from any of the hosted mail
+accounts. This is an automated service that will reply with results
+showing that DKIM, SPF and RDNS are well set up.
 
 #### Update Website files
 
-- When the playbook completes, you'll be able to point your browser to
-  each of the web domains configured and you'll see a placeholder web
-  page.  If you check in the server at the location `/var/www` you'll
-  see a directory for each domain, and a file named `index.html` in
-  each of these directories. This is the placeholder that is created
-  as the landing page for each domain. To publish your
-  websites, upload the collection of files that make up your websites
-  into these locations.  The only requirement is that there should be
-  a page named `index.html` that serves as the landing page.
+After the playbook completes, when you point your browser to
+each of the web domains configured and you'll see a placeholder web
+page.  If you check in the server at the location `/var/www` you'll
+see a directory for each domain, and a file named `index.html` in
+each of these directories. This is the placeholder that is created
+as the landing page for each domain. To publish your
+websites, upload the collection of files that make up your websites
+into these directories.  The only requirement is that there should be
+a page named `index.html` that will be the landing page.
 
-tutorial: https://easyhtmlcss.com/
+A basic tutorial that can get you started on HTML/CSS can be found
+[here][5].
+
+[5]: https://easyhtmlcss.com/
 
 ### Maintenance
 
