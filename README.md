@@ -439,3 +439,10 @@ Inspired by the following projects:
 - Luke Smith's emailwiz: https://github.com/LukeSmithxyz/emailwiz
 - Landchad: https://landchad.net/
 - Sovereign: https://github.com/sovereign/sovereign
+
+## Looking For Affordable Servers?
+
+Checkout [Racknerd][8] (affiliate link). Lookup their specials for
+servers starting from $10 per year.
+
+[8]: https://my.racknerd.com/aff.php?aff=9677
