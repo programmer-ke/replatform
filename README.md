@@ -3,8 +3,8 @@
 Run your own websites and email accounts using a platform you control.
 
 This project uses an ansible playbook to install and configure a
-server with an unlimited number of domains in which you can host
-an unlimited number of websites and email accounts.
+server with one or multiple domains in which you can host
+websites and unlimited email accounts.
 
 It allows anyone with basic unix commandline skills to quickly setup
 and easily maintain websites and email accounts on Debian Linux.
@@ -15,10 +15,10 @@ needed to migrate to newer versions of Debian.
 
 ## Features
 
-- Supports any number of domains for email accounts and websites
+- Supports multiple domains for email accounts and websites on one server
 - Just one command to setup the entire system: `ansible-playbook site.yml`
-- Critical security updates automatically installed once the server is running
-- DKIM, SPF, DMARC configured reducing the probability of outgoing mail being marked as spam
+- Critical security updates automatically installed once the server is up and running
+- DKIM, SPF, DMARC configured reducing the probability of sent mail being marked as spam
 - Automated, free TLS certificate via [Let's Encrypt][7] to secure your websites and emails
 
 [7]: https://letsencrypt.org/
@@ -34,8 +34,7 @@ needed to migrate to newer versions of Debian.
 ### DNS Setup
 
 Let's say we want to host two domain names, `example.com` and
-`example.org` (there's no limit to the number, we just need one or
-more domain names).
+`example.org`.
 
 1) Server Hostname
 
@@ -55,7 +54,7 @@ You can use any name in the place of `myplatform`, but keep it
 consistent throughout the process below. The TTL value can be any
 reasonable number, the DNS provider may pre-fill it for you.
 
-Depending on the domain host's interface, you may have to add a `.`
+Depending on the domain host's interface, you may need to add a `.`
 (dot) character after the name in the domain record.
 
 If you're not sure how to add any of the records, just search online
