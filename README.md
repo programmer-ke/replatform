@@ -419,7 +419,7 @@ Email client -> smtpd(587) (starttls) -> postfix queue -> smtp client -> destina
   for updates. Consider [donating][6] to Debian if you appreciate
   their work.
 
-  [6]: https://www.debian.org/donations
+[6]: https://www.debian.org/donations
 
 ## Testing Resources
 - SSL
