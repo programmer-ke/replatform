@@ -332,8 +332,9 @@ STARTTLS:
 
 At this point, to check that email is well set up, you can send an
 email to `check-auth@verifier.port25.com` from any of the hosted mail
-accounts. This is an automated service that will reply with results
-showing that DKIM, SPF and RDNS are well set up.
+accounts (i.e. not including `admin@<server_hostname>`). This is an
+automated service that will reply with results showing that DKIM, SPF
+and RDNS are well set up.
 
 For more troubleshooting if your outgoing mail is consistently being
 marked as spam, use https://mxtoolbox.com/. IP address reputation

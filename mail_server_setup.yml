@@ -96,8 +96,8 @@
     path: ~/dns_txt_records
     state: directory
 
-- name: Generate TXT records for DKIM, DMARC, SPF
+- name: Generate TXT records for DKIM, DMARC, SPF for hosted domains
   include_tasks: generate_txt_records.yml
-  loop: "{{ all_mail_domains }}"
+  loop: "{{ mail_domains.keys() | list }}"
   loop_control:
     loop_var: domain
