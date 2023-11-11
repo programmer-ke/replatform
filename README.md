@@ -412,12 +412,13 @@ Email client -> smtpd(587) (starttls) -> postfix queue -> smtp client -> destina
   root user to setup everything. Goal is to reduce friction as much as
   possible for non-technical users.
 - For the same reason above, we run ansible directly on the server
-  instead of the typical use-case of one using a different machine as
+  instead of the typical use-case of using a different machine as
   the control node.
 - All packages are from the default Debian repositories. This makes it
   much easier to stay up to date by relying on the great Debian folks
-  for updates. Consider [donating][6] to Debian if you find the system
-  useful.
+  for updates. Consider [donating][6] to Debian if you appreciate
+  their work.
+
   [6]: https://www.debian.org/donations
 
 ## Testing Resources
@@ -434,6 +435,6 @@ Email client -> smtpd(587) (starttls) -> postfix queue -> smtp client -> destina
 
 Inspired by the following projects:
 
-- Luke's emailwiz: https://github.com/LukeSmithxyz/emailwiz
+- Luke Smith's emailwiz: https://github.com/LukeSmithxyz/emailwiz
 - Landchad: https://landchad.net/
 - Sovereign: https://github.com/sovereign/sovereign
