@@ -27,7 +27,8 @@ needed to migrate to newer versions of Debian.
 
 - You have your domain name(s) registered under the domain name
   provider(s) of your choice
-- You have root access to a Debian 11 linux server.
+- You have root access to a Debian 11 linux server (see bottom of page
+  for a good deal)
 
 ## Steps
 
