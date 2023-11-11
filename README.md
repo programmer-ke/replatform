@@ -3,7 +3,7 @@
 Run your own websites and email accounts using a platform you control.
 
 This project uses an ansible playbook to install and configure a
-server with an unlimited number of domains through which you can host
+server with an unlimited number of domains in which you can host
 an unlimited number of websites and email accounts.
 
 It allows anyone with basic unix commandline skills to quickly setup
@@ -11,7 +11,17 @@ and easily maintain websites and email accounts on Debian Linux.
 
 All packages used are installed from Debian repositories. This makes
 it much easier to stay up to date and secure, and reduces the work
-needed to migrate to newer version of Debian.
+needed to migrate to newer versions of Debian.
+
+## Features
+
+- Supports any number of domains for email accounts and websites
+- Just one command to setup the entire system: `ansible-playbook site.yml`
+- Critical security updates automatically installed once the server is running
+- DKIM, SPF, DMARC configured reducing the probability of outgoing mail being marked as spam
+- Automated, free TLS certificate via [Let's Encrypt][7] to secure your websites and emails
+
+[7]: https://letsencrypt.org/
 
 ## Prerequisites
 
@@ -90,16 +100,26 @@ and the same for `example.com`. Note that the value is the same in both:
 
 ### Configure the server
 
-- Generate an ssh key pair on your local device if you do not already
-  have one (passphrase recommended) and copy the public key to the
-  server. More info [here][0]
-  - Copy it to the server with `ssh-copy-id
-    root@myplatform.example.org`
-	
-  [0]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+- It is generally recommended to use an SSH key to log into the server
+  instead of a password.  The first step will therefore be setting up
+  an SSH key.
+  If you are in a situation where you cannot set up one
+  e.g. when using a shared computer, skip this step and after cloning
+  this repo below, edit [ssh.yml](ssh.yml) and set both
+  `PasswordAuthentication` and `ChallengeResponseAuthentication` to
+  `yes` instead of `no`. Otherwise, password-based authentication will be disabled
+  and without an SSH key, you'll be locked out of the server.
 
-- Check that you can ssh into the server without being prompted for the
-  password using `ssh root@myplatform.example.org`.
+  - Generate an ssh key pair on your local device if you do not already
+	have one (passphrase recommended) and copy the public key to the
+	server. More info [here][0].
+
+  - Copy it to the server with `ssh-copy-id root@myplatform.example.org`
+
+	[0]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+
+  - Check that you can ssh into the server without being prompted for the
+	password using `ssh root@myplatform.example.org`.
 
 - Make sure the server is up-to-date by running the following commands
   - `apt update`
@@ -125,7 +145,7 @@ and the same for `example.com`. Note that the value is the same in both:
   hostname (The value you set for `myplatform.example.org` above), the
   external ipv4 address, ipv6 address if you have one, the domains you
   want to host, etc. Be careful not to share this file as it has
-  sensitive information. You can even encrypt it if you're a more
+  secrets such as passwords. You can even encrypt it if you're a more
   advanced user of ansible. Read about that [here][1]
   
   If you are unsure how to edit the file, use the [nano][2] editor that
@@ -188,7 +208,6 @@ for you, so only input the prefix for the hostname value e.g.
 `default._domainkey` for `default._domainkey.example.org`
 
 Set the 3 TXT records for each of the configured domains.
-
 
 #### Configure Reverse DNS
 

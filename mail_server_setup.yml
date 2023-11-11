@@ -63,7 +63,7 @@
     state: present
   notify: update aliases db
 
-- name: Redirect mail sent to local postfix user to admin user
+- name: Redirect mail sent to local postmaster user to admin user
   lineinfile:
     dest: "/etc/aliases"
     regexp: "^postmaster:"
@@ -71,7 +71,7 @@
     state: present
   notify: update aliases db
 
-- name: Redirect mail sent to postfix for all domains to local postfix user
+- name: Redirect mail sent to postmaster for all domains to local postmaster user
   lineinfile:
     dest: "/etc/postfix/virtual"
     create: true
