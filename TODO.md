@@ -1,14 +1,15 @@
 ### Todo
 
-- [ ] do not generate server hostname prefixed txt records
+- [ ] Research server side web analytics e.g. goaccess
 
 ### In Progress
 
-- [ ] As a site owner, I can successfully set up with ipv6 in addition
-  to ipv4
-  - test possible on DO
 
 ### Done
+- [x] do not generate server hostname prefixed txt records
+- [x] As a site owner, I can successfully set up with ipv6 in addition
+  to ipv4
+  - test possible on DO
 - [x] Debug spamassassin
 	- plugin: eval failed: bayes: (in learn) locker: safe_lock: cannot create tmp lockfile /var/lib/spamassassin/.spamassassin/bayes.lock.myplatform.dataengineering.co.ke.859 for /var/lib/spamassassin/.spamassassin/bayes.lock: Permission denied
     - https://stackoverflow.com/q/42707466/1382495
