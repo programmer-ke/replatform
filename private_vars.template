@@ -62,5 +62,5 @@ mail_domains:
 #
 # For each of the hosted domains, mail to postmaster@<domain> will also
 # be directed to this address as well, so problems to do with email
-# deliverability will be sent here as well.
+# deliverability will be sent here.
 admin_mail_password: "some super secret password"
