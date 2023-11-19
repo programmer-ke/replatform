@@ -1,6 +1,7 @@
 ### Todo
 
 - [ ] Research server side web analytics e.g. goaccess
+- [ ] Allow only necessary ports via ufw
 
 ### In Progress
 

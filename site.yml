@@ -51,7 +51,10 @@
     - include_tasks: mail_server_setup.yml
       tags:
         - mail_server
-    # last set of tasks      
+
+    - name: Ensure rsync is installed
+      apt: pkg=rsync state=present
+
     - include_tasks: reboot_required_check.yml
 
   handlers:
