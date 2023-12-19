@@ -18,3 +18,9 @@
 
 - name: Ensure that we have goaccess installed
   apt: name=goaccess state=present
+
+- name: Specify custom log format for use with goaccess
+  template:
+    src: "templates/nginx_custom_log_format.conf.j2"
+    dest: "/etc/nginx/conf.d/nginx_custom_log_format.conf"
+  notify: reload nginx

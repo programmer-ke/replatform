@@ -26,16 +26,6 @@ server {
 	try_files $uri $uri/ =404;
     }
 
-    # redefine access logs to include 'virtualhost'
-    # For use with goaccess
-    # https://gist.github.com/jyap808/10570005?permalink_comment_id=2527235#gistcomment-2527235
-    log_format vcombined '$host:$server_port '
-        '$remote_addr - $remote_user [$time_local] '
-        '"$request" $status $body_bytes_sent '
-        '"$http_referer" "$http_user_agent"';
-
-    access_log /var/log/nginx/access.log vcombined;
-
     ssl_certificate /etc/letsencrypt/live/{{ server_hostname }}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/{{ server_hostname }}/privkey.pem;
     ssl_session_timeout 1d;
