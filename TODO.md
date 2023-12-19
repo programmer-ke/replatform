@@ -1,10 +1,11 @@
 ### Todo
 
-- [ ] Research server side web analytics e.g. goaccess
+
 - [ ] Allow only necessary ports via ufw
 
 ### In Progress
 
+- [ ] Research server side web analytics e.g. goaccess
 
 ### Done
 - [x] do not generate server hostname prefixed txt records
