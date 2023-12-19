@@ -1,0 +1,9 @@
+# redefine access logs to include 'virtualhost'
+# For use with goaccess
+# https://gist.github.com/jyap808/10570005?permalink_comment_id=2527235#gistcomment-2527235
+log_format vcombined '$host:$server_port '
+    '$remote_addr - $remote_user [$time_local] '
+    '"$request" $status $body_bytes_sent '
+    '"$http_referer" "$http_user_agent"';
+
+access_log /var/log/nginx/access.log vcombined;
