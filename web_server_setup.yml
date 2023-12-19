@@ -31,3 +31,4 @@
     regexp: '^\s+access_log\s+'
     state: absent
     backup: yes
+  notify: reload nginx
