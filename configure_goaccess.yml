@@ -1,0 +1,46 @@
+---
+- name: Ensure that we have goaccess installed
+  apt: name=goaccess state=present
+
+- name: Specify custom log format for use with goaccess
+  template:
+    src: "templates/nginx_custom_log_format.conf.j2"
+    dest: "/etc/nginx/conf.d/nginx_custom_log_format.conf"
+  notify: reload nginx
+
+- name: Remove the default access log declaration from main nginx config
+  lineinfile:
+    dest: "/etc/nginx/nginx.conf"
+    regexp: '^\s+access_log\s+'
+    state: absent
+    backup: yes
+  notify: reload nginx
+
+- name: Ensure goaccess db path exists
+  file:
+    path: /var/lib/goaccess
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: Configure goaccess parameters
+  lineinfile:
+    dest: "/etc/goaccess/goaccess.conf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - regexp: '^log-format\s+'
+      line: "log-format VCOMBINED"
+    - regexp: '^log-file\s+'
+      line: "log-file /var/log/nginx/access.log"
+    - regexp: '^output\s+'
+      line: "output /var/www/{{ server_hostname }}/report.html"
+    - regexp: '^anonymize-ip\s+'
+      line: "anonymize-ip true"
+    - regexp: '^db-path\s+'
+      line: "db-path /var/lib/goaccess/"
+    - regexp: '^persist\s+'
+      line: "persist true"
+    - regexp: '^restore\s+'
+      line: "restore true"

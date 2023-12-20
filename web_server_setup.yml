@@ -9,9 +9,9 @@
   file: path=/etc/nginx/sites-enabled/default state=absent
   notify: restart nginx
 
-- name: Configure for website per domain
+- name: Configure for website per domain (including server hostname)
   include_tasks: configure_website.yml
-  loop: "{{ web_domains }}"
+  loop: "{{ [server_hostname] + web_domains }}"
   loop_control:
     loop_var: domain
     extended: yes
@@ -19,16 +19,5 @@
 - name: Ensure that we have goaccess installed
   apt: name=goaccess state=present
 
-- name: Specify custom log format for use with goaccess
-  template:
-    src: "templates/nginx_custom_log_format.conf.j2"
-    dest: "/etc/nginx/conf.d/nginx_custom_log_format.conf"
-  notify: reload nginx
-
-- name: Remove the default access log declaration from main nginx config
-  lineinfile:
-    dest: "/etc/nginx/nginx.conf"
-    regexp: '^\s+access_log\s+'
-    state: absent
-    backup: yes
-  notify: reload nginx
+- name: Configure goaccess for web analytics
+  include_tasks: configure_goaccess.yml
