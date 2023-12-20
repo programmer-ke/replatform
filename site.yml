@@ -45,12 +45,15 @@
     - include_tasks: ssh.yml
     - include_tasks: unattended_upgrades.yml
     - include_tasks: ssl_cert.yml
+
+    - name: Create admin user for local administrative tasks
+      user:
+        name: admin
+        create_home: yes
+        password: "{{ admin_mail_password | password_hash('blowfish', ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890' | shuffle(seed=server_hostname) | join)[:21] + ('Oeu' | shuffle(seed=server_hostname) | join)[1], rounds=11) }}"
+
     - include_tasks: web_server_setup.yml
-      tags:
-        - web_server
     - include_tasks: mail_server_setup.yml
-      tags:
-        - mail_server
 
     - name: Ensure rsync is installed
       apt: pkg=rsync state=present

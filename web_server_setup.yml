@@ -16,8 +16,5 @@
     loop_var: domain
     extended: yes
 
-- name: Ensure that we have goaccess installed
-  apt: name=goaccess state=present
-
 - name: Configure goaccess for web analytics
   include_tasks: configure_goaccess.yml

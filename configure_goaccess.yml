@@ -20,8 +20,15 @@
   file:
     path: /var/lib/goaccess
     state: directory
-    owner: www-data
-    group: www-data
+    owner: admin
+    group: admin
+
+- name: Ensure that the admin user can write to goaccess output location
+  file:
+    path: "/var/www/{{ server_hostname }}"
+    state: directory
+    owner: admin
+    group: admin
 
 - name: Configure goaccess parameters
   lineinfile:
