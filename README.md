@@ -20,8 +20,10 @@ needed to migrate to newer versions of Debian.
 - Critical security updates automatically installed once the server is up and running
 - DKIM, SPF, DMARC configured reducing the probability of sent mail being marked as spam
 - Automated, free TLS certificate via [Let's Encrypt][7] to secure your websites and emails
+- Out of the box server side web analytics via [goaccess][9]
 
 [7]: https://letsencrypt.org/
+[9]: https://goaccess.io/
 
 ## Prerequisites
 
@@ -362,7 +364,17 @@ A basic tutorial that can get you started on HTML/CSS can be found
 
 [5]: https://easyhtmlcss.com/
 
-The `scp` command can be used to transfer files to the server via SSH.
+The `scp` or `rsync` commands can be used to transfer files to the
+server via SSH.
+
+#### Web analytics
+
+Web analytics that will be regerated every few minutes can be accessed
+on the browser at the server's hostname at `/report.html`
+e.g. `myplatform.example.org/report.html`
+
+These are generated from the web server's logs, so you can get some
+analytics without having visitors download JavaScript trackers.
 
 #### Email files in the server
 

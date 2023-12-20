@@ -5,9 +5,9 @@
 
 ### In Progress
 
-- [ ] Research server side web analytics e.g. goaccess
-
 ### Done
+
+- [x] Research server side web analytics e.g. goaccess
 - [x] do not generate server hostname prefixed txt records
 - [x] As a site owner, I can successfully set up with ipv6 in addition
   to ipv4
