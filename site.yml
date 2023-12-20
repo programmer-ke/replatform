@@ -51,6 +51,8 @@
         name: admin
         create_home: yes
         password: "{{ admin_mail_password | password_hash('blowfish', ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890' | shuffle(seed=server_hostname) | join)[:21] + ('Oeu' | shuffle(seed=server_hostname) | join)[1], rounds=11) }}"
+        groups: adm
+        append: true
 
     - include_tasks: web_server_setup.yml
     - include_tasks: mail_server_setup.yml
