@@ -51,3 +51,11 @@
       line: "persist true"
     - regexp: '^restore\s+'
       line: "restore true"
+
+- name: Ensure a cron job regenerates the report every few minutes via admin
+  cron:
+    name: "Generate goaccess report"
+    state: present
+    user: admin
+    job: goaccess
+    minute: "*/5"
