@@ -57,5 +57,5 @@
     name: "Generate goaccess report"
     state: present
     user: admin
-    job: goaccess
+    job: "goaccess > /dev/null 2>&1"
     minute: "*/5"
