@@ -2,16 +2,19 @@
 
 Run your own websites and email accounts using a platform you control.
 
-This project uses an ansible playbook to install and configure a
-server with one or multiple domains in which you can host
-websites and unlimited email accounts.
+This project allows anyone with basic unix command-line skills to
+quickly setup and easily maintain websites and email accounts on
+Debian Linux.
 
-It allows anyone with basic unix commandline skills to quickly setup
-and easily maintain websites and email accounts on Debian Linux.
+It uses an [ansible][10] playbook to install and configure a server
+with one or more domains on which you can host websites and any number
+of email accounts.
 
 All packages used are installed from Debian repositories. This makes
 it much easier to stay up to date and secure, and reduces the work
 needed to migrate to newer versions of Debian.
+
+[10]: https://docs.ansible.com/ansible/latest/getting_started/index.html
 
 ## Features
 
