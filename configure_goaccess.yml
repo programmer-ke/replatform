@@ -60,6 +60,7 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: absent
+  with_items:
     - regexp: '^geoip-database\s+'
       line: "geoip-database /usr/share/GeoIP/GeoIP.dat"
 
