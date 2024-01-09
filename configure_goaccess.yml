@@ -54,16 +54,6 @@
     - regexp: '^ignore-crawlers\s+'
       line: "ignore-crawlers true"
 
-- name: Remove goaccess parameters
-  lineinfile:
-    dest: "/etc/goaccess/goaccess.conf"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: absent
-  with_items:
-    - regexp: '^geoip-database\s+'
-      line: "geoip-database /usr/share/GeoIP/GeoIP.dat"
-
 - name: Ensure a cron job regenerates the report every few minutes via admin
   cron:
     name: "Generate goaccess report"
