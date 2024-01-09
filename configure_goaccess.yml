@@ -51,6 +51,10 @@
       line: "persist true"
     - regexp: '^restore\s+'
       line: "restore true"
+    - regexp: '^ignore-crawlers\s+'
+      line: "ignore-crawlers true"
+    - regexp: '^geoip-database\s+'
+      line: "geoip-database /usr/share/GeoIP/GeoIP.dat"
 
 - name: Ensure a cron job regenerates the report every few minutes via admin
   cron:
