@@ -1,6 +1,8 @@
 ### Todo
 
 - [ ] customize goaccess for less crawler spam
+  - https://2bits.com/apache/identifying-aggressive-crawlers-using-goaccess.html
+  - https://www.thedroneely.com/posts/tweaking-goaccess-for-analytics/
 - [ ] Allow only necessary ports via ufw
 - [ ] investigate ssl cert expiry
 
