@@ -1,7 +1,8 @@
 ### Todo
 
-
+- [ ] customize goaccess for less crawler spam
 - [ ] Allow only necessary ports via ufw
+- [ ] investigate ssl cert expiry
 
 ### In Progress
 
