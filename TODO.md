@@ -5,6 +5,7 @@
   - https://www.thedroneely.com/posts/tweaking-goaccess-for-analytics/
 - [ ] Allow only necessary ports via ufw
 - [ ] investigate ssl cert expiry
+- [ ] Add mail-tester.com to docs
 
 ### In Progress
 
