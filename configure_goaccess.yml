@@ -59,8 +59,6 @@
 - name: Set goaccess exclude-ip block
   blockinfile:
     path: "/etc/goaccess/goaccess.conf"
-    append_newline: true
-    prepend_newline: true
     marker_begin: "BEGIN_EXCLUDE_IP"
     marker_end: "END_EXCLUDE_IP"
     state: present
@@ -71,8 +69,6 @@
 - name: Set goaccess ignore-status block
   blockinfile:
     path: "/etc/goaccess/goaccess.conf"
-    append_newline: true
-    prepend_newline: true
     marker_begin: "BEGIN_IGNORE_STATUS"
     marker_end: "END_IGNORE_STATUS"
     state: present
