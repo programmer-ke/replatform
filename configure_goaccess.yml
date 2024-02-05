@@ -53,6 +53,32 @@
       line: "restore true"
     - regexp: '^ignore-crawlers\s+'
       line: "ignore-crawlers true"
+    - regexp: '^all-static-files\s+'
+      line: "all-static-files true"
+
+- name: Set goaccess exclude-ip block
+  blockinfile:
+    path: "/etc/goaccess/goaccess.conf"
+    append_newline: true
+    prepend_newline: true
+    marker_begin: "BEGIN_EXCLUDE_IP"
+    marker_end: "END_EXCLUDE_IP"
+    state: present
+    block: |
+      exclude-ip 127.0.0.1
+      exclude-ip {{ ipv4_address }}
+
+- name: Set goaccess ignore-status block
+  blockinfile:
+    path: "/etc/goaccess/goaccess.conf"
+    append_newline: true
+    prepend_newline: true
+    marker_begin: "BEGIN_IGNORE_STATUS"
+    marker_end: "END_IGNORE_STATUS"
+    state: present
+    block: |
+      ignore-status 301
+      ignore-status 404
 
 - name: Ensure a cron job regenerates the report every few minutes via admin
   cron:
