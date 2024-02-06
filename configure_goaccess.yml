@@ -55,6 +55,10 @@
       line: "ignore-crawlers true"
     - regexp: '^all-static-files\s+'
       line: "all-static-files true"
+    - regexp: '^with-output-resolver\s+'
+      line: "with-output-resolver true"
+    - regexp: '^agent-list\s+'
+      line: "agent-list true"
 
 - name: Set goaccess exclude-ip block
   blockinfile:
