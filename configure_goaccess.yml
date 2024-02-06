@@ -56,7 +56,7 @@
     - regexp: '^all-static-files\s+'
       line: "all-static-files true"
     - regexp: '^with-output-resolver\s+'
-      line: "with-output-resolver true"
+      line: "with-output-resolver false"
     - regexp: '^agent-list\s+'
       line: "agent-list true"
 

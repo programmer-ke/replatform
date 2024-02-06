@@ -6,13 +6,15 @@
 
 ### In Progress
 
-- [ ] customize goaccess for less crawler spam
-  - https://2bits.com/apache/identifying-aggressive-crawlers-using-goaccess.html
-  - https://www.thedroneely.com/posts/tweaking-goaccess-for-analytics/
 
 
 ### Done
 
+- [x] customize goaccess for less crawler spam
+  - https://2bits.com/apache/identifying-aggressive-crawlers-using-goaccess.html
+  - https://www.thedroneely.com/posts/tweaking-goaccess-for-analytics/
+  - https://github.com/Stevie-Ray/referrer-spam-blocker
+	- can revisit this with more traffic.
 - [x] Research server side web analytics e.g. goaccess
 - [x] do not generate server hostname prefixed txt records
 - [x] As a site owner, I can successfully set up with ipv6 in addition
