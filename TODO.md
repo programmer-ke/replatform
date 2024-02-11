@@ -3,6 +3,7 @@
 - [ ] Allow only necessary ports via ufw
 - [ ] investigate ssl cert expiry
 - [ ] Add mail-tester.com to docs
+- [ ] Migrate to Debian 12 (Bookworm)
 
 ### In Progress
 

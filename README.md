@@ -458,7 +458,13 @@ Inspired by the following projects:
 
 ## Looking For Affordable Servers?
 
-Checkout [Racknerd][8] (affiliate link). Lookup their specials for
-servers starting from $10 per year.
+Checkout the following offers from Racknerd:
 
-[8]: https://my.racknerd.com/aff.php?aff=9677
+- [$10.99/year][11]
+- [$16.88/year][12]
+- [$23.88/year][13]
+
+[11]: https://my.racknerd.com/aff.php?aff=9677&pid=838
+[12]: https://my.racknerd.com/aff.php?aff=9677&pid=839
+[13]: https://my.racknerd.com/aff.php?aff=9677&pid=840
+
