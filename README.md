@@ -460,9 +460,9 @@ Inspired by the following projects:
 
 Checkout the following offers from Racknerd:
 
-- [$10.99/year][11]
-- [$16.88/year][12]
-- [$23.88/year][13]
+- 1GB at [$10.99/year][11]
+- 1.5 GB at [$16.88/year][12]
+- 2.5 GB at [$23.88/year][13]
 
 [11]: https://my.racknerd.com/aff.php?aff=9677&pid=838
 [12]: https://my.racknerd.com/aff.php?aff=9677&pid=839
