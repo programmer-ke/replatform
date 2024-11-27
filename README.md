@@ -1,5 +1,7 @@
 # replatform
 
+![replatform logo](img/replatform.jpeg)
+
 Run your own websites and email accounts using a platform you control.
 
 This project allows anyone with basic unix command-line skills to
