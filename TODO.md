@@ -1,5 +1,9 @@
 ### Todo
 
+- [ ] Fix mail server reload after cert update
+  - Add to certbot post hook
+	- systemctl reload postfix
+	- systemctl reload dovecot
 - [ ] Allow only necessary ports via ufw
 - [ ] investigate ssl cert expiry
 - [ ] Add mail-tester.com to docs
