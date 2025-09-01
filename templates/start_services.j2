@@ -3,3 +3,8 @@
 
 echo "starting service nginx"
 systemctl start nginx
+
+echo "restarting mail services to reload certificates"
+systemctl restart postfix
+systemctl restart dovecot
+systemctl restart spamassassin
