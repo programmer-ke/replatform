@@ -1,5 +1,8 @@
 ### Todo
 
+- [ ] Allowing mail account users change their passwords
+- [ ] Investigate only mail hosting
+- [ ] Investigate 2fa for mail accounts
 - [ ] Allow only necessary ports via ufw
 - [ ] investigate ssl cert expiry
 - [ ] Add mail-tester.com to docs
