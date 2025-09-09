@@ -3,3 +3,7 @@
 
 echo "starting service nginx"
 systemctl start nginx
+
+echo "restarting mail services to reload certificates"
+systemctl reload postfix
+systemctl reload dovecot
