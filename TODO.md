@@ -7,11 +7,10 @@
 
 ### In Progress
 
-- [ ] Migrate to Debian 12 (Bookworm)
-
 
 ### Done
 
+- [x] Migrate to Debian 12 (Bookworm)
 - [x] Fix mail server reload after cert update
   - Add to certbot post hook
 	- systemctl reload postfix
