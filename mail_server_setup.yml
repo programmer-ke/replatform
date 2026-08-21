@@ -11,13 +11,18 @@
     - opendkim
     - opendkim-tools
     - spamass-milter
+    - spamassassin
+
+- name: Determine the SpamAssassin daemon systemd unit name for this OS
+  set_fact:
+    spamassassin_service_name: "{{ 'spamd' if ansible_distribution_major_version | int >= 12 else 'spamassassin' }}"
 
 - name: Ensure that mail system servers are running and start at boot
   service: "name={{ item }} state=started enabled=yes"
   loop:
     - postfix
     - dovecot
-    - spamassassin
+    - "{{ spamassassin_service_name }}"
     - spamass-milter
 
 - name: Combine all mail domains
@@ -90,8 +95,11 @@
     path: ~/dns_txt_records
     state: directory
 
-- name: Generate TXT records for DKIM, DMARC, SPF for hosted domains
+- name: Generate TXT records for DKIM, DMARC, SPF, MX for hosted domains
   include_tasks: generate_txt_records.yml
   loop: "{{ mail_domains.keys() | list }}"
   loop_control:
     loop_var: domain
+
+- name: Generate SPF, DKIM, A/AAAA records for the server hostname
+  include_tasks: generate_hostname_records.yml
