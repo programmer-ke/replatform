@@ -7,11 +7,10 @@
 - [ ] Allow only necessary ports via ufw
 - [ ] investigate ssl cert expiry
 - [ ] Add mail-tester.com to docs
-- [ ] Migrate to Debian 12 (Bookworm)
 - [ ] Add fail2ban to stop brute force attacks
 
 ### In Progress
-
+- [ ] Migrate to Debian 12 (Bookworm)
 
 
 ### Done
