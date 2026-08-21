@@ -7,4 +7,4 @@ systemctl start nginx
 echo "restarting mail services to reload certificates"
 systemctl restart postfix
 systemctl restart dovecot
-systemctl restart spamassassin
+systemctl restart {{ 'spamd' if ansible_distribution_major_version | int >= 12 else 'spamassassin' }}

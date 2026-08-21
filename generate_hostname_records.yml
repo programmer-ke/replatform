@@ -1,0 +1,39 @@
+---
+- name: Extract dkim record value for the server hostname
+  shell:
+    cmd: "tr -d '\n' < /etc/dkimkeys/{{ server_hostname }}/default.txt | sed -E 's/.+IN\\s+TXT\\s+//' | tr -d '()\"[:blank:]' | sed -E s/\\;--.+//"
+  register: extract_hostname_dkim_result
+  changed_when: false
+
+- name: Create file to hold dkim txt record for the server hostname
+  template:
+    src: templates/txt_record_template.j2
+    dest: "~/dns_txt_records/{{ server_hostname }}_dkim.txt"
+  vars:
+    key: "default._domainkey.{{ server_hostname }}"
+    value: "{{ extract_hostname_dkim_result.stdout }}"
+
+- name: Create file to hold spf txt record for the server hostname
+  template:
+    src: templates/txt_record_template.j2
+    dest: "~/dns_txt_records/{{ server_hostname }}_spf.txt"
+  vars:
+    key: "{{ server_hostname }}"
+    value: "v=spf1 a -all"
+
+- name: Create file to hold A record for the server hostname
+  template:
+    src: templates/txt_record_template.j2
+    dest: "~/dns_txt_records/{{ server_hostname }}_a.txt"
+  vars:
+    key: "{{ server_hostname }}"
+    value: "{{ ipv4_address }}"
+
+- name: Create file to hold AAAA record for the server hostname
+  template:
+    src: templates/txt_record_template.j2
+    dest: "~/dns_txt_records/{{ server_hostname }}_aaaa.txt"
+  vars:
+    key: "{{ server_hostname }}"
+    value: "{{ ipv6_address }}"
+  when: (ipv6_address is defined) and (ipv6_address | length > 0)
