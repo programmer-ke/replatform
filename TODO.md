@@ -1,20 +1,21 @@
 ### Todo
 
-- [ ] Fix mail server reload after cert update
-  - Add to certbot post hook
-	- systemctl reload postfix
-	- systemctl reload dovecot
 - [ ] Allow only necessary ports via ufw
 - [ ] investigate ssl cert expiry
 - [ ] Add mail-tester.com to docs
 - [ ] Add fail2ban to stop brute force attacks
 
 ### In Progress
+
 - [ ] Migrate to Debian 12 (Bookworm)
 
 
 ### Done
 
+- [x] Fix mail server reload after cert update
+  - Add to certbot post hook
+	- systemctl reload postfix
+	- systemctl reload dovecot
 - [x] customize goaccess for less crawler spam
   - https://2bits.com/apache/identifying-aggressive-crawlers-using-goaccess.html
   - https://www.thedroneely.com/posts/tweaking-goaccess-for-analytics/
