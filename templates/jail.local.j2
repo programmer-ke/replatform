@@ -31,6 +31,7 @@ bantime  = 1d
 # also excluded - it isn't running on this server.
 [dovecot]
 enabled  = true
+backend  = systemd
 port     = pop3,pop3s,imap,imaps
 maxretry = 10
 findtime = 10m
@@ -38,6 +39,7 @@ bantime  = 1h
 
 [postfix]
 enabled  = true
+backend  = systemd
 mode     = more
 maxretry = 3
 bantime  = 1h
@@ -47,6 +49,7 @@ bantime  = 1h
 # imap2/imap3, which don't belong to an SMTP jail.
 [postfix-sasl]
 enabled  = true
+backend  = systemd
 maxretry = 3
 bantime  = 6h
 
