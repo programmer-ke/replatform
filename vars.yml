@@ -15,3 +15,9 @@ unattended_upgrade_mail_report_trigger: "on-change"
 
 # Timezone in format provided by tzdata
 timezone: "Etc/UTC"
+
+# Dovecot debug output. Enable only for diagnostics: verbose auth logging
+# produces 'unknown user' lines on intermediate passdb/userdb lookups that
+# fail2ban's dovecot filter counts as failed attempts.
+dovecot_auth_verbose: 'no'
+dovecot_mail_debug: 'no'
