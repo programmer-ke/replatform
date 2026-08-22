@@ -1,0 +1,60 @@
+# /etc/fail2ban/jail.local
+#
+# This file intentionally contains ONLY the settings that differ from
+# Debian's /etc/fail2ban/jail.conf. Any section/option not listed below
+# keeps its jail.conf default - do not paste jail.conf in here.
+
+[DEFAULT]
+bantime  = 12h
+findtime = 6h
+maxretry = 5
+# ignoreip is left unset here - the jail.conf default (127.0.0.1/8 ::1)
+# is enough.
+{% if abuseipdb_api_key is defined and abuseipdb_api_key %}
+# Bans are also reported to AbuseIPDB (https://www.abuseipdb.com/) using
+# the key set in the private vars file.
+action = %(action_)s
+         %(action_abuseipdb)s[abuseipdb_apikey="{{ abuseipdb_api_key }}"]
+{% endif %}
+
+[sshd]
+enabled  = true
+maxretry = 3
+bantime  = 1d
+
+# IMAP/POP3 only. Deliberately does NOT include submission or 465: on
+# Debian those are part of this jail's default port set, so a ban
+# triggered by failed IMAP logins would also block outbound SMTP. This
+# caused a real outage - existing IMAP connections stayed open (mail
+# kept arriving) but clients could no longer send. SMTP auth failures
+# are already covered by [postfix-sasl] below. ManageSieve (4190) is
+# also excluded - it isn't running on this server.
+[dovecot]
+enabled  = true
+port     = pop3,pop3s,imap,imaps
+maxretry = 10
+findtime = 10m
+bantime  = 1h
+
+[postfix]
+enabled  = true
+mode     = more
+maxretry = 3
+bantime  = 1h
+
+# Port list is left at the jail.conf default (submission, smtps). The
+# previous jail.local here listed "submission" twice and included
+# imap2/imap3, which don't belong to an SMTP jail.
+[postfix-sasl]
+enabled  = true
+maxretry = 3
+bantime  = 6h
+
+[nginx-http-auth]
+enabled  = true
+
+[recidive]
+enabled  = true
+maxretry = 5
+findtime = 1d
+bantime  = 4w

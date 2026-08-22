@@ -21,3 +21,22 @@ timezone: "Etc/UTC"
 # fail2ban's dovecot filter counts as failed attempts.
 dovecot_auth_verbose: 'no'
 dovecot_mail_debug: 'no'
+
+# Inbound ports the firewall (ufw) must allow. ufw is reset and rebuilt
+# from this list on every playbook run, so it is the single source of
+# truth for the firewall - rules added by hand outside of Ansible will
+# not survive the next run.
+ufw_allowed_ports:
+  - { port: 22, proto: tcp }   # SSH
+  - { port: 80, proto: tcp }   # nginx (HTTP)
+  - { port: 443, proto: tcp }  # nginx (HTTPS)
+  - { port: 25, proto: tcp }   # SMTP
+  - { port: 587, proto: tcp }  # submission
+  - { port: 465, proto: tcp }  # submissions (implicit TLS)
+  - { port: 143, proto: tcp }  # IMAP
+  - { port: 993, proto: tcp }  # IMAPS
+
+# Open ManageSieve (port 4190) so users can edit their own mail filters
+# from a mail client. Server-side Sieve filtering (see default.sieve) works
+# regardless - this only controls remote rule editing.
+enable_managesieve: false

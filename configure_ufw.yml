@@ -1,0 +1,40 @@
+---
+- name: Ensure ufw is installed
+  apt: pkg=ufw state=present
+
+# ufw is reset on every run and rebuilt from ufw_allowed_ports so that
+# the firewall matches what's declared in vars.yml rather than
+# accumulating manually-added rules over time. The reset briefly
+# disables ufw; if anything fails in between, the rescue block below
+# re-enables it with a default-deny policy so the server is never left
+# without a firewall.
+- block:
+    - name: Reset ufw to a clean slate
+      command: ufw --force reset
+
+    - name: Set default policy to deny all incoming traffic
+      command: ufw default deny incoming
+
+    - name: Set default policy to allow all outgoing traffic
+      command: ufw default allow outgoing
+
+    - name: Allow required inbound ports
+      command: "ufw allow {{ item.port }}/{{ item.proto }}"
+      loop: "{{ ufw_allowed_ports }}"
+      loop_control:
+        label: "{{ item.port }}/{{ item.proto }}"
+
+    - name: Allow ManageSieve (port 4190) for remote filter editing
+      command: ufw allow 4190/tcp
+      when: enable_managesieve
+
+    - name: Enable ufw
+      command: ufw --force enable
+
+  rescue:
+    - name: Re-enable ufw after a failed run
+      command: ufw --force enable
+
+    - name: Fail with an explicit message
+      fail:
+        msg: "ufw configuration failed — firewall re-enabled, verify the rules on the server"

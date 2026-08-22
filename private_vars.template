@@ -64,3 +64,10 @@ mail_domains:
 # be directed to this address as well, so problems to do with email
 # deliverability will be sent here.
 admin_mail_password: "some super secret password"
+
+# Optional API key for AbuseIPDB (https://www.abuseipdb.com/), used to
+# report fail2ban bans so other sysadmins can see repeat offenders.
+# Leave empty to disable reporting entirely.
+# Get a free key by creating an account there, then generating one under
+# Account > API.
+abuseipdb_api_key: ""

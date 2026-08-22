@@ -57,6 +57,7 @@
 
     - include_tasks: web_server_setup.yml
     - include_tasks: mail_server_setup.yml
+    - include_tasks: security_setup.yml
 
     - name: Ensure rsync is installed
       apt: pkg=rsync state=present
@@ -104,3 +105,6 @@
 
     - name: pre-compile default sieve
       command: sievec /var/lib/dovecot/sieve/default.sieve
+
+    - name: restart fail2ban
+      service: name=fail2ban state=restarted

@@ -1,15 +1,15 @@
 ### Todo
 
-- [ ] Allow only necessary ports via ufw
 - [ ] investigate ssl cert expiry
 - [ ] Add mail-tester.com to docs
-- [ ] Add fail2ban to stop brute force attacks
 
 ### In Progress
 
 
 ### Done
 
+- [x] Allow only necessary ports via ufw
+- [x] Add fail2ban to stop brute force attacks
 - [x] Migrate to Debian 12 (Bookworm)
 - [x] Fix mail server reload after cert update
   - Add to certbot post hook
