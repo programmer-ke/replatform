@@ -12,11 +12,11 @@
     mode: 0644
     backup: yes
   with_items:
-    - regexp: "^PasswordAuthentication" # Only key based auth
-      line: "PasswordAuthentication no"
+    - regexp: "^PasswordAuthentication" # Only key based auth by default
+      line: "PasswordAuthentication {{ ssh_password_authentication }}"
 
     - regexp: "^PermitRootLogin"  # We're using root for login
-      line: "PermitRootLogin yes"
+      line: "PermitRootLogin {{ ssh_permit_root_login }}"
 
     - regexp: "^UseDNS"  # No need for reverse-dns checks on clients
       line: "UseDNS no"

@@ -40,3 +40,63 @@ ufw_allowed_ports:
 # from a mail client. Server-side Sieve filtering (see default.sieve) works
 # regardless - this only controls remote rule editing.
 enable_managesieve: false
+
+# --- SSH access -------------------------------------------------------
+#
+# WARNING: read this before your first run if you log in with a
+# password. The defaults below disable password login entirely. If you
+# have not installed an SSH key yet, running the playbook as-is will
+# lock you out of the server the next time sshd restarts.
+#
+# The safe order is: install your key first, verify it works, then run
+# the playbook.
+#
+#   1. On your own machine (not the server), create a key if you don't
+#      have one:
+#        ssh-keygen -t ed25519
+#
+#   2. Copy the public key to the server, using the password you still
+#      have. The key ends up in /root/.ssh/authorized_keys on the
+#      server - that file is the list of keys allowed to log in.
+#
+#      From your own machine:
+#        ssh-copy-id root@your.IP.server.address
+#
+#      It will ask for your password one last time. Note that only the
+#      public half of the key (~/.ssh/id_ed25519.pub) is sent; the
+#      private half (~/.ssh/id_ed25519, no .pub) stays on your machine
+#      and must never be copied anywhere.
+#
+#      If ssh-copy-id isn't available do the same thing "by hand":
+#        cat ~/.ssh/id_ed25519.pub | ssh root@your.IP.server.address \
+#          "mkdir -p ~/.ssh && chmod 700 ~/.ssh && \
+#           cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+#
+#   3. Open a SECOND terminal and confirm the key works, leaving the
+#      first one connected as a fallback:
+#        ssh root@your.IP.server.address
+#      If it lets you in without asking for a password, you're set.
+#
+#   4. Now run the playbook with the defaults below.
+#
+# If you would rather keep password login - for example while you're
+# still setting things up - set:
+#
+#   ssh_password_authentication: 'yes'
+#   ssh_permit_root_login: 'yes'
+#
+# and change them back once your key is in place. Note that fail2ban
+# slows brute-force attempts down but does not make passwords as safe
+# as keys: a weak password is still a weak password.
+#
+# Quote the values. Unquoted yes/no are parsed by YAML as booleans and
+# would be written into sshd_config as 'True'/'False', which sshd
+# rejects.
+#
+# After a run, check what sshd actually ended up with:
+#   sshd -T | grep -iE 'permitrootlogin|passwordauthentication'
+#
+ssh_password_authentication: 'no'
+ssh_permit_root_login: 'prohibit-password'
+
+
