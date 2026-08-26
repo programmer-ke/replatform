@@ -65,9 +65,8 @@ mail_domains:
 # deliverability will be sent here.
 admin_mail_password: "some super secret password"
 
-# Optional API key for AbuseIPDB (https://www.abuseipdb.com/), used to
-# report fail2ban bans so other sysadmins can see repeat offenders.
-# Leave empty to disable reporting entirely.
+# API key for AbuseIPDB (https://www.abuseipdb.com/), used to report
+# fail2ban bans so other sysadmins can see repeat offenders.
 # Get a free key by creating an account there, then generating one under
 # Account > API.
-abuseipdb_api_key: ""
+abuseipdb_api_key: "<PASTE-API-KEY>"

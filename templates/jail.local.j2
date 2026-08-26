@@ -3,61 +3,108 @@
 # This file intentionally contains ONLY the settings that differ from
 # Debian's /etc/fail2ban/jail.conf. Any section/option not listed below
 # keeps its jail.conf default - do not paste jail.conf in here.
+#
+# AbuseIPDB reporting: the API key is never set in this file. It lives in
+# /etc/fail2ban/action.d/abuseipdb.local (see abuseipdb.local.j2), which
+# fail2ban's built-in abuseipdb action reads via its own [Init] section.
+# The previous hand-edited jail.local had the key hardcoded four times
+# here, had to be revoked and regenerated because of it.
 
 [DEFAULT]
 bantime  = 12h
-findtime = 6h
+findtime = 360m
 maxretry = 5
-# ignoreip is left unset here - the jail.conf default (127.0.0.1/8 ::1)
-# is enough.
-{% if abuseipdb_api_key is defined and abuseipdb_api_key %}
-# Bans are also reported to AbuseIPDB (https://www.abuseipdb.com/) using
-# the key set in the private vars file.
+backend = auto
+usedns = warn
+destemail = root@localhost
+sender = root@{{ server_hostname }}
+mta = sendmail
+banaction = iptables-multiport
+banaction_allports = iptables-allports
+
+# No ignoreip here. Admin IPs are consumer fibre/mobile, so they're
+# dynamic - a static whitelist would age backwards and end up protecting
+# a stranger instead of us. If this box ever autobans us, the hosting
+# provider's VNC console bypasses sshd entirely, and
+# `fail2ban-client unban <ip>` clears the ban. `ignoreself` (on by
+# default) already covers the box's own local addresses.
 action = %(action_)s
-         %(action_abuseipdb)s[abuseipdb_apikey="{{ abuseipdb_api_key }}"]
-{% endif %}
+         %(action_abuseipdb)s[abuseipdb_category="11,15"]
 
 [sshd]
 enabled  = true
-maxretry = 3
-bantime  = 1d
+maxretry = {{ fail2ban_sshd_maxretry }}
+findtime = {{ fail2ban_sshd_findtime }}
+bantime  = {{ fail2ban_sshd_bantime }}
 
-# IMAP/POP3 only. Deliberately does NOT include submission or 465: on
-# Debian those are part of this jail's default port set, so a ban
-# triggered by failed IMAP logins would also block outbound SMTP. This
-# caused a real outage - existing IMAP connections stayed open (mail
-# kept arriving) but clients could no longer send. SMTP auth failures
-# are already covered by [postfix-sasl] below. ManageSieve (4190) is
-# also excluded - it isn't running on this server.
-[dovecot]
-enabled  = true
-backend  = systemd
-port     = pop3,pop3s,imap,imaps
-maxretry = 10
-findtime = 10m
-bantime  = 1h
+action = %(action_)s
+         %(action_abuseipdb)s[abuseipdb_category="18,22"]
 
 [postfix]
 enabled  = true
 backend  = systemd
 mode     = more
+# port list carries a duplicated-looking "ssmtp" entry inherited from the
+# production jail.local - unverified, not a deliberate choice, left as-is
+# per the freeze.
+port     = smtp,465,submission, ssmtp
 maxretry = 3
 bantime  = 1h
 
-# Port list is left at the jail.conf default (submission, smtps). The
-# previous jail.local here listed "submission" twice and included
-# imap2/imap3, which don't belong to an SMTP jail.
+# A jail-level ignoreip REPLACES [DEFAULT]'s, it does not add to it - this
+# is the only ignoreip in the whole file. It covers MXToolbox's
+# monitoring IPs (see fail2ban_postfix_ignoreip in vars.yml for why).
+# With mode=more this jail also matches legitimate SMTP rejects, not just
+# auth failures: MXToolbox runs recurring open relay tests, Postfix
+# correctly answers with "554 Relay access denied", and this jail counts
+# that as abuse. Banning MXToolbox would be harmless, but reporting it to
+# AbuseIPDB would file false-positive reports against a legitimate
+# service and damage our reporter reputation.
+{% if fail2ban_postfix_ignoreip %}
+ignoreip = {{ fail2ban_postfix_ignoreip | join(' ') }}
+{% endif %}
+
+action = %(action_)s
+         %(action_abuseipdb)s[abuseipdb_category="18"]
+
+[dovecot]
+enabled  = true
+backend  = systemd
+port     = pop3,pop3s,imap,imaps,sieve
+maxretry = 10
+findtime = 600
+bantime  = 3600
+
+action = %(action_)s
+         %(action_abuseipdb)s[abuseipdb_category="18"]
+
 [postfix-sasl]
 enabled  = true
 backend  = systemd
+# port list has a duplicated "submission" and non-standard imap2/imap3
+# entries inherited from the production jail.local - unverified, not a
+# deliberate choice, left as-is per the freeze.
+port     = smtp,465,submission,imap,imaps,pop3,pop3s,ssmtp,submission,imap2,imap3
 maxretry = 3
-bantime  = 6h
+bantime  = 21600
 
 [nginx-http-auth]
-enabled  = true
+enabled = true
+# port, logpath and action all come from jail.conf / [DEFAULT] - do not
+# override them here.
+{% if fail2ban_recidive_enabled %}
 
+# Re-bans IPs that have already been banned repeatedly by any jail above,
+# for longer than any single jail's own bantime (see
+# fail2ban_recidive_bantime in vars.yml). Uses banaction_allports, so a
+# client with a wrong password would eventually get blocked on
+# submission too, not just refused a retry - losing outbound mail. This
+# is accepted as the point of the escalation, not a bug.
+#
+# No backend override needed here: unlike the mail jails above, this one
+# reads /var/log/fail2ban.log, which fail2ban itself always creates, so
+# there's no rsyslog-vs-systemd log source to worry about.
 [recidive]
 enabled  = true
-maxretry = 5
-findtime = 1d
-bantime  = 4w
+bantime  = {{ fail2ban_recidive_bantime }}
+{% endif %}

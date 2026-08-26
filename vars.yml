@@ -99,4 +99,44 @@ enable_managesieve: false
 ssh_password_authentication: 'no'
 ssh_permit_root_login: 'prohibit-password'
 
+# --- fail2ban -----------------------------------------------------------
+#
+# sshd jail. bantime was previously -1 (permanent): that had produced
+# over 40,000 bans that never expired, sitting forever in fail2ban's
+# database. 1w is a normal first-offense ban; repeat offenders (across
+# any jail, not just this one) escalate to fail2ban_recidive_bantime
+# below instead of getting a longer ban here.
+fail2ban_sshd_maxretry: 2
+fail2ban_sshd_findtime: 10m
+fail2ban_sshd_bantime: 1w
+
+# recidive watches for IPs banned repeatedly across any jail and re-bans
+# them for longer. Its bantime must be the longest of any jail here so
+# the escalation actually means something - it's the value dbpurgeage
+# below is sized against. findtime and maxretry are left at jail.conf's
+# own recidive defaults (1d / 5).
+fail2ban_recidive_enabled: true
+fail2ban_recidive_bantime: 4w
+
+# Must be >= the longest bantime configured in any jail - currently
+# fail2ban_recidive_bantime above. If it's shorter, a ban's row gets
+# purged from the database before the ban itself expires, and it won't
+# survive a fail2ban restart. Debian's default is 1d.
+fail2ban_dbpurgeage: 8w
+
+# MXToolbox's monitoring IPs (not a hostname: fail2ban re-resolves
+# ignoreip DNS names on every check, and a resolution failure would
+# silently drop the exemption). They run recurring open-relay tests
+# against port 25; the [postfix] jail (mode=more) counts Postfix's
+# correct "554 Relay access denied" reply as abuse. See the comment on
+# [postfix]'s ignoreip in jail.local.j2 for why this is excluded rather
+# than left to be banned. Source of these IPs:
+# https://knowledgebase.mxtoolbox.com/home/which-ip-addresses-do-your-monitoring-servers-use-
+# Defined as a YAML list, not a string, so adding an entry is a one-line
+# diff.
+fail2ban_postfix_ignoreip:
+  - 44.194.168.193
+  - 52.55.244.91
+  - 18.205.72.90
+  - 18.209.86.113
 

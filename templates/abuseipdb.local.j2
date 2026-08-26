@@ -1,0 +1,8 @@
+# /etc/fail2ban/action.d/abuseipdb.local
+#
+# Overrides the [Init] apikey used by fail2ban's built-in abuseipdb.conf
+# action. Kept out of jail.local so the key isn't duplicated across every
+# jail that reports to AbuseIPDB.
+
+[Init]
+abuseipdb_apikey = {{ abuseipdb_api_key }}

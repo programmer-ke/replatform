@@ -1,0 +1,12 @@
+# /etc/fail2ban/fail2ban.local
+
+[Definition]
+
+# fail2ban_dbpurgeage (vars.yml) is kept >= the longest bantime configured
+# in jail.local - currently [recidive]'s escalated bantime, the longest of
+# all of them. Otherwise a ban's database row would be purged before the
+# ban itself expires, and it wouldn't survive a fail2ban restart.
+dbpurgeage = {{ fail2ban_dbpurgeage }}
+
+# Silences a warning fail2ban-client -t otherwise prints on every check.
+allowipv6 = auto
