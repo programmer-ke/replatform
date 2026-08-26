@@ -2,3 +2,4 @@
 .DS_Store
 private_vars.yml
 private_vars/
+__pycache__/
