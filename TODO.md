@@ -1,5 +1,10 @@
 ### Todo
 
+- [ ] Allowing mail account users change their passwords
+- [ ] Investigate only mail hosting
+- [ ] Investigate 2fa for mail accounts
+- [ ] Allow only necessary ports via ufw
+- [ ] investigate ssl cert expiry
 - [ ] Add mail-tester.com to docs
 
 ### In Progress
@@ -15,6 +20,7 @@
   - Add to certbot post hook
 	- systemctl reload postfix
 	- systemctl reload dovecot
+	- [PR](https://github.com/programmer-ke/replatform/pull/2)
 - [x] customize goaccess for less crawler spam
   - https://2bits.com/apache/identifying-aggressive-crawlers-using-goaccess.html
   - https://www.thedroneely.com/posts/tweaking-goaccess-for-analytics/
