@@ -1,6 +1,6 @@
 # replatform
 
-![replatform logo](img/replatform_logo.jpg)
+![replatform logo](img/Replatform_logo.png)
 
 Run your own websites and email accounts using a platform you control.
 
