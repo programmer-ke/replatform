@@ -16,11 +16,22 @@ findtime = 360m
 maxretry = 5
 backend = auto
 usedns = warn
-destemail = root@localhost
+destemail = root@localhost, {{ fail2ban_notify_email }}
 sender = root@{{ server_hostname }}
 mta = sendmail
 banaction = iptables-multiport
 banaction_allports = iptables-allports
+
+# Escalation lives here instead of in [recidive]: each jail grows its own
+# bantime the more that jail's own limit is hit, capped at bantime.maxtime.
+# overalljails=false keeps it scoped per jail on purpose - someone hammering
+# IMAP earns longer and longer IMAP bans without ever losing submission
+# (587) or the web. [recidive] below still exists for cross-jail escalation
+# but is opt-in (see fail2ban_recidive_enabled in vars.yml).
+bantime.increment = true
+bantime.factor = 2
+bantime.maxtime = 4w
+bantime.overalljails = false
 
 # No ignoreip here. Admin IPs are consumer fibre/mobile, so they're
 # dynamic - a static whitelist would age backwards and end up protecting
@@ -30,12 +41,19 @@ banaction_allports = iptables-allports
 # default) already covers the box's own local addresses.
 action = %(action_)s
          %(action_abuseipdb)s[abuseipdb_category="11,15"]
+         %(mta)s[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s"]
 
 [sshd]
 enabled  = true
 maxretry = {{ fail2ban_sshd_maxretry }}
 findtime = {{ fail2ban_sshd_findtime }}
 bantime  = {{ fail2ban_sshd_bantime }}
+
+# SSH brute-force noise is constant - keep the single default recipient
+# instead of the second address configured above, and no mail action
+# below, or that inbox would drown in alerts for something too common
+# to be actionable.
+destemail = root@localhost
 
 action = %(action_)s
          %(action_abuseipdb)s[abuseipdb_category="18,22"]
@@ -66,6 +84,7 @@ ignoreip = {{ fail2ban_postfix_ignoreip | join(' ') }}
 
 action = %(action_)s
          %(action_abuseipdb)s[abuseipdb_category="18"]
+         %(mta)s[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s"]
 
 [dovecot]
 enabled  = true
@@ -76,34 +95,38 @@ findtime = 600
 bantime  = 3600
 
 action = %(action_)s
-         %(action_abuseipdb)s[abuseipdb_category="18"]
+         %(mta)s[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s"]
 
 [postfix-sasl]
 enabled  = true
 backend  = systemd
-# port list has a duplicated "submission" and non-standard imap2/imap3
-# entries inherited from the production jail.local - unverified, not a
-# deliberate choice, left as-is per the freeze.
-port     = smtp,465,submission,imap,imaps,pop3,pop3s,ssmtp,submission,imap2,imap3
-maxretry = 3
+# Only Postfix submission ports: this jail reads postfix[mode=auth] logs,
+# the imap/pop entries in the old list were inherited noise. maxretry
+# raised from 3 to 8 - a stale phone burns 3 attempts in seconds, a real
+# SASL brute force does thousands.
+port     = smtp,465,submission
+maxretry = 8
 bantime  = 21600
+action = %(action_)s
+         %(mta)s[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s"]
 
 [nginx-http-auth]
 enabled = true
 # port, logpath and action all come from jail.conf / [DEFAULT] - do not
-# override them here.
+# override them here. That also means it inherits [DEFAULT]'s escalating
+# bantime.increment and its mail notification.
 {% if fail2ban_recidive_enabled %}
 
-# Re-bans IPs that have already been banned repeatedly by any jail above,
-# for longer than any single jail's own bantime (see
-# fail2ban_recidive_bantime in vars.yml). Uses banaction_allports, so a
-# client with a wrong password would eventually get blocked on
-# submission too, not just refused a retry - losing outbound mail. This
-# is accepted as the point of the escalation, not a bug.
-#
-# No backend override needed here: unlike the mail jails above, this one
-# reads /var/log/fail2ban.log, which fail2ban itself always creates, so
-# there's no rsyslog-vs-systemd log source to worry about.
+# Optional cross-jail escalation, off by default: [DEFAULT]'s
+# bantime.increment (above) already escalates each jail's own bantime on
+# repeat offenses, scoped to that jail. [recidive] instead watches ALL
+# jails together and re-bans an IP for even longer once it has racked up
+# repeat bans anywhere - useful if the same attacker rotates across
+# services, at the cost of a false positive in one jail lengthening bans
+# in every other jail too. Enable via fail2ban_recidive_enabled in
+# vars.yml. Its bantime must stay the longest of any jail here (see
+# fail2ban_recidive_bantime in vars.yml) and fail2ban_dbpurgeage in
+# fail2ban.local.j2 must stay >= it.
 [recidive]
 enabled  = true
 bantime  = {{ fail2ban_recidive_bantime }}

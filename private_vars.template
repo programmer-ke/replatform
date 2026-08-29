@@ -70,3 +70,9 @@ admin_mail_password: "some super secret password"
 # Get a free key by creating an account there, then generating one under
 # Account > API.
 abuseipdb_api_key: "<PASTE-API-KEY>"
+
+# A second recipient for fail2ban ban notification emails, added
+# alongside root@localhost so you can actually see bans without having to
+# read root's local mailbox on the server. Applied to every jail except
+# sshd (ssh brute-force attempts are constant and not worth alerting on).
+fail2ban_notify_email: "you@example.com"

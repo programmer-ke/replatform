@@ -103,25 +103,29 @@ ssh_permit_root_login: 'prohibit-password'
 #
 # sshd jail. bantime was previously -1 (permanent): that had produced
 # over 40,000 bans that never expired, sitting forever in fail2ban's
-# database. 1w is a normal first-offense ban; repeat offenders (across
-# any jail, not just this one) escalate to fail2ban_recidive_bantime
-# below instead of getting a longer ban here.
+# database. 1w is a normal first-offense ban; repeat offenders on sshd
+# escalate via [DEFAULT]'s bantime.increment (see jail.local.j2) instead
+# of getting a longer ban here.
 fail2ban_sshd_maxretry: 2
 fail2ban_sshd_findtime: 10m
 fail2ban_sshd_bantime: 1w
 
-# recidive watches for IPs banned repeatedly across any jail and re-bans
-# them for longer. Its bantime must be the longest of any jail here so
-# the escalation actually means something - it's the value dbpurgeage
-# below is sized against. findtime and maxretry are left at jail.conf's
-# own recidive defaults (1d / 5).
-fail2ban_recidive_enabled: true
+# [recidive] is optional cross-jail escalation, off by default now that
+# [DEFAULT]'s bantime.increment (jail.local.j2) already escalates each
+# jail's own bantime on repeat offenses within that same jail. Enable
+# this only if you also want an IP that gets banned repeatedly across
+# DIFFERENT jails to be re-banned for longer than any single jail would.
+# If enabled, its bantime must stay the longest of any jail here - it's
+# the value fail2ban_dbpurgeage below is sized against. findtime and
+# maxretry are left at jail.conf's own recidive defaults (1d / 5).
+fail2ban_recidive_enabled: false
 fail2ban_recidive_bantime: 4w
 
 # Must be >= the longest bantime configured in any jail - currently
-# fail2ban_recidive_bantime above. If it's shorter, a ban's row gets
-# purged from the database before the ban itself expires, and it won't
-# survive a fail2ban restart. Debian's default is 1d.
+# [DEFAULT]'s bantime.maxtime (jail.local.j2), or fail2ban_recidive_bantime
+# above if [recidive] is enabled and set longer. If it's shorter, a ban's
+# row gets purged from the database before the ban itself expires, and it
+# won't survive a fail2ban restart. Debian's default is 1d.
 fail2ban_dbpurgeage: 8w
 
 # MXToolbox's monitoring IPs (not a hostname: fail2ban re-resolves
