@@ -30,6 +30,7 @@
 
     - name: Enable ufw
       command: ufw --force enable
+      notify: restart fail2ban
 
   rescue:
     - name: Re-enable ufw after a failed run
