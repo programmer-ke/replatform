@@ -1,0 +1,10 @@
+---
+- name: Configure fail2ban
+  include_tasks: configure_fail2ban.yml
+  tags:
+    - fail2ban
+
+- name: Configure ufw
+  include_tasks: configure_ufw.yml
+  tags:
+    - ufw

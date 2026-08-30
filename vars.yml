@@ -15,3 +15,132 @@ unattended_upgrade_mail_report_trigger: "on-change"
 
 # Timezone in format provided by tzdata
 timezone: "Etc/UTC"
+
+# Dovecot debug output. Enable only for diagnostics: verbose auth logging
+# produces 'unknown user' lines on intermediate passdb/userdb lookups that
+# fail2ban's dovecot filter counts as failed attempts.
+dovecot_auth_verbose: 'no'
+dovecot_mail_debug: 'no'
+
+# Inbound ports the firewall (ufw) must allow. ufw is reset and rebuilt
+# from this list on every playbook run, so it is the single source of
+# truth for the firewall - rules added by hand outside of Ansible will
+# not survive the next run.
+ufw_allowed_ports:
+  - { port: 22, proto: tcp }   # SSH
+  - { port: 80, proto: tcp }   # nginx (HTTP)
+  - { port: 443, proto: tcp }  # nginx (HTTPS)
+  - { port: 25, proto: tcp }   # SMTP
+  - { port: 587, proto: tcp }  # submission
+  - { port: 465, proto: tcp }  # submissions (implicit TLS)
+  - { port: 143, proto: tcp }  # IMAP
+  - { port: 993, proto: tcp }  # IMAPS
+
+# Open ManageSieve (port 4190) so users can edit their own mail filters
+# from a mail client. Server-side Sieve filtering (see default.sieve) works
+# regardless - this only controls remote rule editing.
+enable_managesieve: false
+
+# --- SSH access -------------------------------------------------------
+#
+# WARNING: read this before your first run if you log in with a
+# password. The defaults below disable password login entirely. If you
+# have not installed an SSH key yet, running the playbook as-is will
+# lock you out of the server the next time sshd restarts.
+#
+# The safe order is: install your key first, verify it works, then run
+# the playbook.
+#
+#   1. On your own machine (not the server), create a key if you don't
+#      have one:
+#        ssh-keygen -t ed25519
+#
+#   2. Copy the public key to the server, using the password you still
+#      have. The key ends up in /root/.ssh/authorized_keys on the
+#      server - that file is the list of keys allowed to log in.
+#
+#      From your own machine:
+#        ssh-copy-id root@your.IP.server.address
+#
+#      It will ask for your password one last time. Note that only the
+#      public half of the key (~/.ssh/id_ed25519.pub) is sent; the
+#      private half (~/.ssh/id_ed25519, no .pub) stays on your machine
+#      and must never be copied anywhere.
+#
+#      If ssh-copy-id isn't available do the same thing "by hand":
+#        cat ~/.ssh/id_ed25519.pub | ssh root@your.IP.server.address \
+#          "mkdir -p ~/.ssh && chmod 700 ~/.ssh && \
+#           cat >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys"
+#
+#   3. Open a SECOND terminal and confirm the key works, leaving the
+#      first one connected as a fallback:
+#        ssh root@your.IP.server.address
+#      If it lets you in without asking for a password, you're set.
+#
+#   4. Now run the playbook with the defaults below.
+#
+# If you would rather keep password login - for example while you're
+# still setting things up - set:
+#
+#   ssh_password_authentication: 'yes'
+#   ssh_permit_root_login: 'yes'
+#
+# and change them back once your key is in place. Note that fail2ban
+# slows brute-force attempts down but does not make passwords as safe
+# as keys: a weak password is still a weak password.
+#
+# Quote the values. Unquoted yes/no are parsed by YAML as booleans and
+# would be written into sshd_config as 'True'/'False', which sshd
+# rejects.
+#
+# After a run, check what sshd actually ended up with:
+#   sshd -T | grep -iE 'permitrootlogin|passwordauthentication'
+#
+ssh_password_authentication: 'no'
+ssh_permit_root_login: 'prohibit-password'
+
+# --- fail2ban -----------------------------------------------------------
+#
+# sshd jail. bantime was previously -1 (permanent): that had produced
+# over 40,000 bans that never expired, sitting forever in fail2ban's
+# database. 1w is a normal first-offense ban; repeat offenders on sshd
+# escalate via [DEFAULT]'s bantime.increment (see jail.local.j2) instead
+# of getting a longer ban here.
+fail2ban_sshd_maxretry: 2
+fail2ban_sshd_findtime: 10m
+fail2ban_sshd_bantime: 1w
+
+# [recidive] is optional cross-jail escalation, off by default now that
+# [DEFAULT]'s bantime.increment (jail.local.j2) already escalates each
+# jail's own bantime on repeat offenses within that same jail. Enable
+# this only if you also want an IP that gets banned repeatedly across
+# DIFFERENT jails to be re-banned for longer than any single jail would.
+# If enabled, its bantime must stay the longest of any jail here - it's
+# the value fail2ban_dbpurgeage below is sized against. findtime and
+# maxretry are left at jail.conf's own recidive defaults (1d / 5).
+fail2ban_recidive_enabled: false
+fail2ban_recidive_bantime: 4w
+
+# Must be >= the longest bantime configured in any jail - currently
+# [DEFAULT]'s bantime.maxtime (jail.local.j2), or fail2ban_recidive_bantime
+# above if [recidive] is enabled and set longer. If it's shorter, a ban's
+# row gets purged from the database before the ban itself expires, and it
+# won't survive a fail2ban restart. Debian's default is 1d.
+fail2ban_dbpurgeage: 8w
+
+# MXToolbox's monitoring IPs (not a hostname: fail2ban re-resolves
+# ignoreip DNS names on every check, and a resolution failure would
+# silently drop the exemption). They run recurring open-relay tests
+# against port 25; the [postfix] jail (mode=more) counts Postfix's
+# correct "554 Relay access denied" reply as abuse. See the comment on
+# [postfix]'s ignoreip in jail.local.j2 for why this is excluded rather
+# than left to be banned. Source of these IPs:
+# https://knowledgebase.mxtoolbox.com/home/which-ip-addresses-do-your-monitoring-servers-use-
+# Defined as a YAML list, not a string, so adding an entry is a one-line
+# diff.
+fail2ban_postfix_ignoreip:
+  - 44.194.168.193
+  - 52.55.244.91
+  - 18.205.72.90
+  - 18.209.86.113
+
