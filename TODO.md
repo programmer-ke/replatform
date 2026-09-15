@@ -1,5 +1,7 @@
 ### Todo
 
+- [ ] Add note on dns propagation delays affecting setup
+- [ ] Add note on cert renewal failure on domain expiry
 - [ ] Allowing mail account users change their passwords
 - [ ] Investigate only mail hosting
 - [ ] Investigate 2fa for mail accounts
