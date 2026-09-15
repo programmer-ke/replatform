@@ -31,6 +31,7 @@
   vars:
     certbot_command: >-
       certbot certonly --standalone --non-interactive --agree-tos
+      {{ certbot_extra_args | default('') }}
       --email {{ cert_admin_email }} --cert-name {{ server_hostname }}
       {% for domain in web_domains %}
       -d {{ domain }} -d www.{{ domain }}

@@ -1,6 +1,7 @@
 ---
 - hosts: myplatform
   remote_user: root
+  force_handlers: true
 
   vars_files:
     - vars.yml
@@ -50,12 +51,13 @@
       user:
         name: admin
         create_home: yes
-        password: "{{ admin_mail_password | password_hash('blowfish', ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890' | shuffle(seed=server_hostname) | join)[:21] + ('Oeu' | shuffle(seed=server_hostname) | join)[1], rounds=11) }}"
+        password: "{{ admin_mail_password | password_hash('blowfish', rounds=11) }}"
         groups: adm
         append: true
 
     - include_tasks: web_server_setup.yml
     - include_tasks: mail_server_setup.yml
+    - include_tasks: security_setup.yml
 
     - name: Ensure rsync is installed
       apt: pkg=rsync state=present
@@ -96,10 +98,13 @@
       service: name=spamass-milter state=restarted
 
     - name: restart spamassassin daemon
-      service: name=spamassassin state=restarted
+      service: "name={{ spamassassin_service_name }} state=restarted"
 
     - name: restart opendkim
       service: name=opendkim state=restarted
 
     - name: pre-compile default sieve
       command: sievec /var/lib/dovecot/sieve/default.sieve
+
+    - name: restart fail2ban
+      service: name=fail2ban state=restarted

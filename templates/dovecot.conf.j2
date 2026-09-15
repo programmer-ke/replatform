@@ -44,7 +44,10 @@ pop3_uidl_format = %08Xu%08Xv
 
 # Authentication configuration:
 # ---
-auth_verbose = yes  # log reason for failures
+# Enable only for diagnostics. Generates "unknown user" lines on intermediate
+# passdb/userdb chain lookups, which fail2ban filters count
+# as failed attempts, resulting in legitimate clients being banned.
+auth_verbose = {{ dovecot_auth_verbose | default('no') }}
 auth_mechanisms = plain login # password sent in plain text over ssl
 
 # If the domain is hostname/localhost, use only the name component
@@ -73,7 +76,8 @@ userdb {
   args = uid=vmail gid=vmail home=/home/vmail/%d/%n
 }
 
-mail_debug = yes  # todo: remember to turn off
+# Enable for diagnostics only (see note on auth_verbose).
+mail_debug = {{ dovecot_mail_debug | default('no') }}
 
 mail_privileged_group = mail
 
@@ -82,18 +86,22 @@ namespace inbox {
   location = 
   mailbox Drafts {
     special_use = \Drafts
+    auto = subscribe
   }
   mailbox Junk {
     special_use = \Junk
+    auto = subscribe
   }
   mailbox Sent {
     special_use = \Sent
+    auto = subscribe
   }
   mailbox "Sent Messages" {
     special_use = \Sent
   }
   mailbox Trash {
     special_use = \Trash
+    auto = subscribe
   }
   prefix = 
 }

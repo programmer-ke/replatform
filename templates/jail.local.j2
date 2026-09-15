@@ -1,0 +1,133 @@
+# /etc/fail2ban/jail.local
+#
+# This file intentionally contains ONLY the settings that differ from
+# Debian's /etc/fail2ban/jail.conf. Any section/option not listed below
+# keeps its jail.conf default - do not paste jail.conf in here.
+#
+# AbuseIPDB reporting: the API key is never set in this file. It lives in
+# /etc/fail2ban/action.d/abuseipdb.local (see abuseipdb.local.j2), which
+# fail2ban's built-in abuseipdb action reads via its own [Init] section.
+# The previous hand-edited jail.local had the key hardcoded four times
+# here, had to be revoked and regenerated because of it.
+
+[DEFAULT]
+bantime  = 12h
+findtime = 360m
+maxretry = 5
+backend = auto
+usedns = warn
+destemail = root@localhost, {{ fail2ban_notify_email }}
+sender = root@{{ server_hostname }}
+mta = sendmail
+banaction = iptables-multiport
+banaction_allports = iptables-allports
+
+# Escalation lives here instead of in [recidive]: each jail grows its own
+# bantime the more that jail's own limit is hit, capped at bantime.maxtime.
+# overalljails=false keeps it scoped per jail on purpose - someone hammering
+# IMAP earns longer and longer IMAP bans without ever losing submission
+# (587) or the web. [recidive] below still exists for cross-jail escalation
+# but is opt-in (see fail2ban_recidive_enabled in vars.yml).
+bantime.increment = true
+bantime.factor = 2
+bantime.maxtime = 4w
+bantime.overalljails = false
+
+# No ignoreip here. Admin IPs are consumer fibre/mobile, so they're
+# dynamic - a static whitelist would age backwards and end up protecting
+# a stranger instead of us. If this box ever autobans us, the hosting
+# provider's VNC console bypasses sshd entirely, and
+# `fail2ban-client unban <ip>` clears the ban. `ignoreself` (on by
+# default) already covers the box's own local addresses.
+action = %(action_)s
+         %(action_abuseipdb)s[abuseipdb_category="11,15"]
+         %(mta)s[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s"]
+
+[sshd]
+enabled  = true
+maxretry = {{ fail2ban_sshd_maxretry }}
+findtime = {{ fail2ban_sshd_findtime }}
+bantime  = {{ fail2ban_sshd_bantime }}
+
+# SSH brute-force noise is constant - keep the single default recipient
+# instead of the second address configured above, and no mail action
+# below, or that inbox would drown in alerts for something too common
+# to be actionable.
+destemail = root@localhost
+
+action = %(action_)s
+         %(action_abuseipdb)s[abuseipdb_category="18,22"]
+
+[postfix]
+enabled  = true
+backend  = systemd
+mode     = more
+# port list carries a duplicated-looking "ssmtp" entry inherited from the
+# production jail.local - unverified, not a deliberate choice, left as-is
+# per the freeze.
+port     = smtp,465,submission, ssmtp
+maxretry = 3
+bantime  = 1h
+
+# A jail-level ignoreip REPLACES [DEFAULT]'s, it does not add to it - this
+# is the only ignoreip in the whole file. It covers MXToolbox's
+# monitoring IPs (see fail2ban_postfix_ignoreip in vars.yml for why).
+# With mode=more this jail also matches legitimate SMTP rejects, not just
+# auth failures: MXToolbox runs recurring open relay tests, Postfix
+# correctly answers with "554 Relay access denied", and this jail counts
+# that as abuse. Banning MXToolbox would be harmless, but reporting it to
+# AbuseIPDB would file false-positive reports against a legitimate
+# service and damage our reporter reputation.
+{% if fail2ban_postfix_ignoreip %}
+ignoreip = {{ fail2ban_postfix_ignoreip | join(' ') }}
+{% endif %}
+
+action = %(action_)s
+         %(action_abuseipdb)s[abuseipdb_category="18"]
+         %(mta)s[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s"]
+
+[dovecot]
+enabled  = true
+backend  = systemd
+port     = pop3,pop3s,imap,imaps,sieve
+maxretry = 10
+findtime = 600
+bantime  = 3600
+
+action = %(action_)s
+         %(mta)s[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s"]
+
+[postfix-sasl]
+enabled  = true
+backend  = systemd
+# Only Postfix submission ports: this jail reads postfix[mode=auth] logs,
+# the imap/pop entries in the old list were inherited noise. maxretry
+# raised from 3 to 8 - a stale phone burns 3 attempts in seconds, a real
+# SASL brute force does thousands.
+port     = smtp,465,submission
+maxretry = 8
+bantime  = 21600
+action = %(action_)s
+         %(mta)s[name=%(__name__)s, sender="%(sender)s", dest="%(destemail)s"]
+
+[nginx-http-auth]
+enabled = true
+# port, logpath and action all come from jail.conf / [DEFAULT] - do not
+# override them here. That also means it inherits [DEFAULT]'s escalating
+# bantime.increment and its mail notification.
+{% if fail2ban_recidive_enabled %}
+
+# Optional cross-jail escalation, off by default: [DEFAULT]'s
+# bantime.increment (above) already escalates each jail's own bantime on
+# repeat offenses, scoped to that jail. [recidive] instead watches ALL
+# jails together and re-bans an IP for even longer once it has racked up
+# repeat bans anywhere - useful if the same attacker rotates across
+# services, at the cost of a false positive in one jail lengthening bans
+# in every other jail too. Enable via fail2ban_recidive_enabled in
+# vars.yml. Its bantime must stay the longest of any jail here (see
+# fail2ban_recidive_bantime in vars.yml) and fail2ban_dbpurgeage in
+# fail2ban.local.j2 must stay >= it.
+[recidive]
+enabled  = true
+bantime  = {{ fail2ban_recidive_bantime }}
+{% endif %}

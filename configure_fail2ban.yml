@@ -1,0 +1,38 @@
+---
+- name: Ensure fail2ban is installed
+  apt: pkg=fail2ban state=present
+
+- name: Ensure python3-systemd is installed (required by fail2ban's systemd backend)
+  apt: pkg=python3-systemd state=present
+
+- name: Configure fail2ban jails
+  template:
+    src: templates/jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    mode: '0600'
+  notify: restart fail2ban
+
+- name: Configure fail2ban global settings
+  template:
+    src: templates/fail2ban.local.j2
+    dest: /etc/fail2ban/fail2ban.local
+    mode: '0600'
+  notify: restart fail2ban
+
+- name: Configure AbuseIPDB reporting key
+  template:
+    src: templates/abuseipdb.local.j2
+    dest: /etc/fail2ban/action.d/abuseipdb.local
+    owner: root
+    mode: '0600'
+  notify: restart fail2ban
+
+- name: Ensure fail2ban is running and starts at boot
+  service: name=fail2ban state=started enabled=yes
+
+- name: Apply pending fail2ban restart before verifying
+  meta: flush_handlers
+
+- name: Verify fail2ban is actually running
+  command: fail2ban-client ping
+  changed_when: false

@@ -22,6 +22,7 @@
   template:
     src: templates/etc_dovecot_passwd.j2
     dest: /etc/dovecot/passwd
+  notify: reload dovecot
 
 - name: Ensure sieve directories exist
   file:
