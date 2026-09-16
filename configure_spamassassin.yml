@@ -11,26 +11,16 @@
     state: present
   notify: restart spamass-milter
 
-- name: Configure spamd via /etc/default/{{ spamassassin_service_name }}
+- name: Configure spamd via /etc/default/spamd
   lineinfile:
-    dest: "/etc/default/{{ spamassassin_service_name }}"
+    dest: "/etc/default/spamd"
     state: present
     regexp: "^OPTIONS="  # run spamd with non-root debian-spamd user
     line: 'OPTIONS="--create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin -u debian-spamd -g debian-spamd -x"'
   notify: restart spamassassin daemon
 
-- name: Enable nightly spam rule updates via CRON (Bullseye only, superseded by spamassassin-maintenance.timer on Bookworm)
-  lineinfile:
-    dest: "/etc/default/{{ spamassassin_service_name }}"
-    state: present
-    regexp: "^CRON="
-    line: "CRON=1"
-  when: ansible_distribution_major_version | int < 12
-  notify: restart spamassassin daemon
-
-- name: Enable and start the systemd timer that updates spam rules nightly (Bookworm only)
+- name: Enable and start the systemd timer that updates spam rules nightly
   service:
     name: spamassassin-maintenance.timer
     state: started
     enabled: yes
-  when: ansible_distribution_major_version | int >= 12

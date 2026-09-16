@@ -51,7 +51,7 @@
       user:
         name: admin
         create_home: yes
-        password: "{{ admin_mail_password | password_hash('blowfish', rounds=11) }}"
+        password: "{{ admin_mail_password | password_hash('blowfish', ('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890' | shuffle(seed=server_hostname) | join)[:21] + ('Oeu' | shuffle(seed=server_hostname) | join)[1], rounds=11) }}"
         groups: adm
         append: true
 
@@ -97,7 +97,7 @@
       service: name=spamass-milter state=restarted
 
     - name: restart spamassassin daemon
-      service: "name={{ spamassassin_service_name }} state=restarted"
+      service: "name=spamd state=restarted"
 
     - name: restart opendkim
       service: name=opendkim state=restarted
