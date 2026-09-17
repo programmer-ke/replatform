@@ -34,7 +34,7 @@ needed to migrate to newer versions of Debian.
 
 - You have your domain name(s) registered under the domain name
   provider(s) of your choice
-- You have root access to a Debian 11 linux server (see bottom of page
+- You have root access to a Debian 12 linux server (see bottom of page
   for a good deal)
 
 ## Steps
@@ -425,6 +425,21 @@ Email client -> dovecot-pop3d(995 & 110) -> Virtual or system user mailbox
 Email client -> smtpd(465) (ssl/tls) -> postfix queue -> smtp client -> destination network
 
 Email client -> smtpd(587) (starttls) -> postfix queue -> smtp client -> destination network
+
+## Troubleshooting
+
+### No server-side analytics at <server_hostname>/report.html
+
+If there are http requests to any of your hosted sites but the report
+endpoint (e.g. `https://myplatform.example.org/report.html`) is
+missing (returns a 404), clear the existing access logs in the server
+by doing the following:
+
+- ssh into the server
+- Run the following: `> /var/log/nginx/access.log`
+
+This is because there could be some pre-existing logs that do not
+conform to the expected format.
 
 ## Technical considerations
 - While more experienced users may frown on this, we directly use the
