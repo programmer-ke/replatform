@@ -11,13 +11,14 @@
     - opendkim
     - opendkim-tools
     - spamass-milter
+    - spamassassin
 
 - name: Ensure that mail system servers are running and start at boot
   service: "name={{ item }} state=started enabled=yes"
   loop:
     - postfix
     - dovecot
-    - spamassassin
+    - spamd
     - spamass-milter
 
 - name: Combine all mail domains
@@ -92,6 +93,6 @@
 
 - name: Generate TXT records for DKIM, DMARC, SPF for hosted domains
   include_tasks: generate_txt_records.yml
-  loop: "{{ mail_domains.keys() | list }}"
+  loop: "{{ all_mail_domains }}"
   loop_control:
     loop_var: domain

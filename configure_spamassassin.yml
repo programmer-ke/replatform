@@ -11,17 +11,16 @@
     state: present
   notify: restart spamass-milter
 
-- name: Configure spamd via /etc/default/spamassassin
+- name: Configure spamd via /etc/default/spamd
   lineinfile:
-    dest: "/etc/default/spamassassin"
+    dest: "/etc/default/spamd"
     state: present
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-  with_items:
-    - regexp: "^CRON="  # Update spam rules nightly
-      line: "CRON=1"
-
-    - regexp: "^OPTIONS="  # run spamd with non-root debian-spamd user
-      line: 'OPTIONS="--create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin -u debian-spamd -g debian-spamd -x"'
-      
+    regexp: "^OPTIONS="  # run spamd with non-root debian-spamd user
+    line: 'OPTIONS="--create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin -u debian-spamd -g debian-spamd -x"'
   notify: restart spamassassin daemon
+
+- name: Enable and start the systemd timer that updates spam rules nightly
+  service:
+    name: spamassassin-maintenance.timer
+    state: started
+    enabled: yes
